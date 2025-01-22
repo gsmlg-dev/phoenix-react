@@ -1,0 +1,2 @@
+defmodule TemplateModuleName do
+end
