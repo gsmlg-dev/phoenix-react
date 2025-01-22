@@ -1,25 +1,26 @@
-defmodule TemplateModuleName.Mixfile do
+defmodule Phoenix.React.Mixfile do
   use Mix.Project
 
-  @source_url "https://github.com/gsmlg-dev/<app_otp_name>.git"
-  @version "0.0.0"
+  @source_url "https://github.com/gsmlg-dev/phoenix-react.git"
+  @version "0.1.0"
 
   def project do
     [
-      app: :<app_otp_name>,
+      app: :phoenix_react,
       version: @version,
-      elixir: "~> 1.7",
+      elixir: "~> 1.14.1 or ~> 1.15",
       config_path: "config/config.exs",
       deps: deps(),
-      name: "TemplateModuleName",
+      name: "Phoenix.React",
       description: "Description of this package",
       package: package(),
       aliases: aliases(),
+      elixirc_paths: elixirc_paths(Mix.env()),
       docs: [
         extras: ["CHANGELOG.md"],
         source_url: @source_url,
         source_ref: "v#{@version}",
-        main: "TemplateModuleName",
+        main: "Phoenix.React",
         skip_undefined_reference_warnings_on: ["CHANGELOG.md"]
       ]
     ]
@@ -32,8 +33,13 @@ defmodule TemplateModuleName.Mixfile do
     ]
   end
 
+  # Specifies which paths to compile per environment.
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_), do: ["lib"]
+
   defp deps do
     [
+      {:jason, "~> 1.2"},
       {:ex_doc, ">= 0.0.0", only: :prod, runtime: false}
     ]
   end
@@ -44,7 +50,7 @@ defmodule TemplateModuleName.Mixfile do
       licenses: ["MIT"],
       files: ~w(lib priv CHANGELOG.md LICENSE mix.exs README.md),
       links: %{
-        Changelog: "https://hexdocs.pm/<app_otp_name>/changelog.html",
+        Changelog: "https://hexdocs.pm/phoenix_react/changelog.html",
         GitHub: @source_url
       }
     ]

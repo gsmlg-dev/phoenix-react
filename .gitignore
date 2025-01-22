@@ -6,3 +6,6 @@
 /.elixir_ls
 erl_crash.dump
 *.ez
+node_modules
+package-lock.json
+/priv/tmp

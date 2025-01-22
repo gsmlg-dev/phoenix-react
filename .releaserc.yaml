@@ -1,4 +1,4 @@
-repositoryUrl: https://github.com/gsmlg-dev/<app_otp_name>.git
+repositoryUrl: https://github.com/gsmlg-dev/phoenix_react.git
 branches:
   - main
   - next
@@ -20,8 +20,7 @@ plugins:
     - 'prepareCmd' : |
         echo ${nextRelease.version};
         sed -i 's%@version "[0-9\.]\+"%@version "${nextRelease.version}"%' mix.exs;
-        mix deps.get;
         sed -i 's%"~> [0-9\.]\+"},%"~> ${nextRelease.version}"},%' README.md;
       'publishCmd' : |
-        echo pubhlish <app_otp_name> ${nextRelease.version};
+        echo pubhlish phoenix_react ${nextRelease.version};
         mix hex.publish --yes
