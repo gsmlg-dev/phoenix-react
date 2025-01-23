@@ -27,7 +27,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-      ref: ${{ github.event.inputs.git-ref }}
+      with:
+        ref: ${{ github.event.inputs.git-ref }}
 
     - uses: oven-sh/setup-bun@v2
       with:
@@ -92,7 +93,8 @@ jobs:
 
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
-        ref: ${{ github.event.inputs.git-ref }}
+        with:
+          ref: ${{ github.event.inputs.git-ref }}
 
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
