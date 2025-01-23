@@ -11,6 +11,9 @@ on:
         description: 'The git revison of repo, branch, tag or commit'
         default: 'main'
 
+permissions:
+  contents: write
+
 jobs:
   tests:
     name: Run tests (Elixir ${{matrix.elixir}}, OTP ${{matrix.otp}})
@@ -27,7 +30,8 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4
-      ref: ${{ github.event.inputs.git-ref }}
+      with:
+        ref: ${{ github.event.inputs.git-ref }}
 
     - uses: oven-sh/setup-bun@v2
       with:
@@ -38,16 +42,6 @@ jobs:
       with:
         otp-version: ${{ matrix.otp }}
         elixir-version: ${{ matrix.elixir }}
-
-    - name: Restore deps and _build cache
-      uses: actions/cache@v3
-      with:
-        path: |
-          deps
-          _build
-        key: deps-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-${{ hashFiles('**/mix.lock') }}
-        restore-keys: |
-          deps-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}
 
     - name: Install dependencies
       env:
@@ -79,11 +73,9 @@ jobs:
       run: mix test
 
   release:
-    name: semantic release
+    name: Publish release to hex.pm
     runs-on: ubuntu-latest
     needs: [ tests ]
-    outputs:
-      version: ${{ steps.semantic.outputs.new_release_version }}
     steps:
       - name: 🛑 Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.12.1
@@ -92,7 +84,8 @@ jobs:
 
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v4
-        ref: ${{ github.event.inputs.git-ref }}
+        with:
+          ref: ${{ github.event.inputs.git-ref }}
 
       - name: Set up Elixir
         uses: erlef/setup-beam@v1
@@ -101,8 +94,12 @@ jobs:
           elixir-version: 1.18
 
       - name: Install Deps
+        env:
+          MIX_ENV: prod
         run: |
           mix deps.get
+          sed -i 's%@version "[0-9\.]\+"%@version "${{ github.event.inputs.release-version }}"%' mix.exs
+          sed -i 's%{:phoenix_react_server, "~> [0-9\.]\+"}%{:phoenix_react_server, "~> ${{ github.event.inputs.release-version }}"}%' README.md
 
       - name: Publish to hex.pm
         env:
@@ -110,8 +107,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
         run: |
-          sed -i 's%@version "[0-9\.]\+"%@version "${{ github.event.inputs.release-version }}"%' mix.exs
-          sed -i 's%{:phoenix_react, "~> [0-9\.]\+"}%{:phoenix_react, "~> ${{ github.event.inputs.release-version }}"}%' README.md
           mix hex.publish --yes
       
       - uses: actions/github-script@v7

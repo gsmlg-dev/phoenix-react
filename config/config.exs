@@ -1,6 +1,5 @@
 import Config
 
-config :phoenix_react, Phoenix.React,
-  # runtime: Path.expand("../node_modules/@babel/node/bin/babel-node.js", __DIR__)
-  runtime: System.find_executable("bun"),
-  cache_ttl: 3600
+# Import environment specific config. This must remain at the bottom
+# of this file so it overrides the configuration defined above.
+import_config "#{config_env()}.exs"

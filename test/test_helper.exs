@@ -1,2 +1,2 @@
 ExUnit.start()
-Phoenix.React.Superviser.start_link([])
+Phoenix.React.start_link([])

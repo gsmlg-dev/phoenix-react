@@ -10,14 +10,14 @@ Run a `react` render server to render react component in `Phoenix` html.
 - Render to html
 - Render to html and use hydrate at client side by `live_view` `hook`
 
-See the [docs](https://hexdocs.pm/phoenix_react/) for more information.
+See the [docs](https://hexdocs.pm/phoenix_react_server/) for more information.
 
 ## Install this package
 
 Add deps in `mix.exs`
 
 ```elixir
-    {:phoenix_react, "~> 0.1.0"},
+    {:phoenix_react_server, "~> 0.1.0"},
 ```
 
 ## Configuration
@@ -27,7 +27,7 @@ Set config, runtime, react components, etc.
 ```elixir
 import Config
 
-config :phoenix_react, Phoenix.React,
+config :phoenix_react_server, Phoenix.React,
   # runtime: Path.expand("../node_modules/@babel/node/bin/babel-node.js", __DIR__)
   # runtime: System.find_executable("deno"),
   runtime: System.find_executable("bun"),

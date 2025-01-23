@@ -1,12 +1,13 @@
 defmodule Phoenix.React.Cache do
   @moduledoc """
-  A simple ETS based cache for expensive function calls.
+  A simple ETS based cache for render react component
   """
   use GenServer
 
   @ets_table_name :react_component_cache
 
-  @default_ttl Application.compile_env(:phoenix_react, Phoenix.React) |> Keyword.get(:cache_ttl, 3600)
+  @default_ttl Application.compile_env(:phoenix_react_server, Phoenix.React)
+               |> Keyword.get(:cache_ttl, 3600)
 
   def start_link(_) do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)
@@ -18,53 +19,50 @@ defmodule Phoenix.React.Cache do
     {:ok, state}
   end
 
-  def ensure_started() do
-    case :ets.whereis(@ets_table_name) do
-      :undefined -> :ets.new(@ets_table_name, [:set, :public, :named_table])
-      ref -> ref
-    end
+  @doc """
+  Get a cached value
+  """
+  def get(component, props) do
+    lookup(component, props)
   end
 
   @doc """
-  Retrieve a cached value or apply the given function caching and returning
-  the result.
+  Set a cached value
   """
-  def get(mod, fun, args, opts \\ []) do
-    case lookup(mod, fun, args) do
-      nil ->
-        ttl = Keyword.get(opts, :ttl, @default_ttl)
-        cache_apply(mod, fun, args, ttl)
-
-      result ->
-        result
-    end
+  def put(component, props, result, opt \\ []) do
+    ttl = Keyword.get(opt, :ttl, @default_ttl)
+    expiration = :os.system_time(:seconds) + ttl
+    record = {[component, props], result, expiration}
+    :ets.insert(@ets_table_name, record)
   end
 
   @doc """
   Remove cached value
   """
-  def delete_cache(mod, fun, args) do
-    :ets.delete(@ets_table_name, [mod, fun, args])
+  def delete_cache(component, props) do
+    :ets.delete(@ets_table_name, [component, props])
   end
 
-  defp lookup(mod, fun, args) do
-    case :ets.lookup(@ets_table_name, [mod, fun, args]) do
+  defp lookup(component, props) do
+    case :ets.lookup(@ets_table_name, [component, props]) do
       [result | _] -> check_freshness(result)
       [] -> nil
     end
   end
 
-  defp check_freshness({_mfa, result, expiration}) do
+  defp check_freshness({[component, props], result, expiration}) do
     cond do
       expiration > :os.system_time(:seconds) -> result
-      :else -> nil
+      :else ->
+        delete_cache(component, props)
+        nil
     end
   end
 
-  defp cache_apply(mod, fun, args, ttl) do
-    result = apply(mod, fun, args)
-    expiration = :os.system_time(:seconds) + ttl
-    :ets.insert(@ets_table_name, {[mod, fun, args], result, expiration})
-    result
+  defp ensure_started() do
+    case :ets.whereis(@ets_table_name) do
+      :undefined -> :ets.new(@ets_table_name, [:set, :public, :named_table])
+      ref -> ref
+    end
   end
 end

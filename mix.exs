@@ -6,21 +6,25 @@ defmodule Phoenix.React.Mixfile do
 
   def project do
     [
-      app: :phoenix_react,
+      app: :phoenix_react_server,
       version: @version,
       elixir: "~> 1.14.1 or ~> 1.15",
       config_path: "config/config.exs",
       deps: deps(),
       name: "Phoenix.React",
-      description: "Description of this package",
+      description: """
+      Phoenix.React is a Phoenix module that renders React components in heex template.
+      Support render to string and render to static markup and cache render result in ets.
+      Also support render React component in live view and hyrate react component with phx-hook.
+      """,
       package: package(),
       aliases: aliases(),
       elixirc_paths: elixirc_paths(Mix.env()),
       docs: [
-        extras: ["CHANGELOG.md"],
+        extras: ["CHANGELOG.md", "README.md"],
         source_url: @source_url,
         source_ref: "v#{@version}",
-        main: "Phoenix.React",
+        main: "readme",
         skip_undefined_reference_warnings_on: ["CHANGELOG.md"]
       ]
     ]
@@ -40,6 +44,7 @@ defmodule Phoenix.React.Mixfile do
   defp deps do
     [
       {:jason, "~> 1.2"},
+      {:httpoison, "~> 2.0"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_view, "~> 1.0"},
       {:ex_doc, ">= 0.0.0", only: :prod, runtime: false}
@@ -52,7 +57,7 @@ defmodule Phoenix.React.Mixfile do
       licenses: ["MIT"],
       files: ~w(lib priv CHANGELOG.md LICENSE mix.exs README.md),
       links: %{
-        Changelog: "https://hexdocs.pm/phoenix_react/changelog.html",
+        Changelog: "https://hexdocs.pm/phoenix_react_server/changelog.html",
         GitHub: @source_url
       }
     ]
