@@ -21,7 +21,6 @@ defmodule Phoenix.ReactTest do
     # assert html =~ "Content 2"
   end
 
-
   test "render_to_static_markup" do
     file = Path.expand("../fixtures/tab_test.js", __DIR__)
 

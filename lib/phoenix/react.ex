@@ -10,11 +10,14 @@ defmodule Phoenix.React do
     props = if(is_nil(props), do: %{}, else: props)
     config = Application.get_env(:phoenix_react, Phoenix.React)
     runtime = config[:runtime]
-    file = if String.starts_with?(file, "/") do
-      file
-    else
-      Path.expand(file, config[:components_base] || File.cwd!)
-    end
+
+    file =
+      if String.starts_with?(file, "/") do
+        file
+      else
+        Path.expand(file, config[:components_base] || File.cwd!())
+      end
+
     Phoenix.React.Server.render_to_string(runtime, file, props)
   rescue
     error ->
@@ -29,11 +32,14 @@ defmodule Phoenix.React do
     props = if(is_nil(props), do: %{}, else: props)
     config = Application.get_env(:phoenix_react, Phoenix.React)
     runtime = config[:runtime]
-    file = if String.starts_with?(file, "/") do
-      file
-    else
-      Path.expand(file, config[:components_base] || File.cwd!)
-    end
+
+    file =
+      if String.starts_with?(file, "/") do
+        file
+      else
+        Path.expand(file, config[:components_base] || File.cwd!())
+      end
+
     Phoenix.React.Server.render_to_static_markup(runtime, file, props)
   rescue
     error ->

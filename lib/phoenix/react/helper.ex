@@ -7,11 +7,11 @@ defmodule Phoenix.React.Helper do
 
     %Phoenix.LiveView.Rendered{
       static: [html],
-      dynamic: fn(_assigns) -> [] end,
+      dynamic: fn _assigns -> [] end,
       fingerprint: :erlang.phash2("components/markdown.js"),
       root: nil,
       caller: :not_available
-     }
+    }
   end
 
   defmacro __using__(_) do

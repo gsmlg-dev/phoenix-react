@@ -10,7 +10,7 @@ defmodule Phoenix.React.Superviser do
     children = [
       {Task.Supervisor, name: Pohoenix.React.RenderTaskSupervisr},
       {Phoenix.React.Cache, []},
-      {Phoenix.React.Server, []},
+      {Phoenix.React.Server, []}
     ]
 
     Supervisor.init(children, strategy: :one_for_one)

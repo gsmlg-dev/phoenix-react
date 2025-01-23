@@ -5,6 +5,7 @@ defmodule Phoenix.React.Server do
 
   def render_to_string(runtime, file, props) do
     Logger.debug("render_to_string: #{inspect(runtime)} #{inspect(file)} #{inspect(props)}")
+
     if is_nil(Process.whereis(__MODULE__)) do
       render(:string, runtime, file, props)
     else
@@ -13,7 +14,10 @@ defmodule Phoenix.React.Server do
   end
 
   def render_to_static_markup(runtime, file, props) do
-    Logger.debug("render_to_static_markup: #{inspect(runtime)} #{inspect(file)} #{inspect(props)}")
+    Logger.debug(
+      "render_to_static_markup: #{inspect(runtime)} #{inspect(file)} #{inspect(props)}"
+    )
+
     if is_nil(Process.whereis(__MODULE__)) do
       render(:static, runtime, file, props)
     else
@@ -44,7 +48,8 @@ defmodule Phoenix.React.Server do
   def render_task(type, runtime, file, props) do
     Task.Supervisor.async(Pohoenix.React.RenderTaskSupervisr, fn ->
       render(type, runtime, file, props)
-    end) |> Task.await(300_000)
+    end)
+    |> Task.await(300_000)
   end
 
   defp render(:string, runtime, file, props) do
@@ -68,6 +73,7 @@ defmodule Phoenix.React.Server do
       {html, 0} ->
         File.rm(js_file)
         {:ok, html}
+
       {msg, code} ->
         # File.rm(js_file)
         {:error, code, msg}
@@ -100,6 +106,7 @@ defmodule Phoenix.React.Server do
       {html, 0} ->
         File.rm(js_file)
         {:ok, html}
+
       {msg, code} ->
         # File.rm(js_file)
         {:error, code, msg}
@@ -109,6 +116,5 @@ defmodule Phoenix.React.Server do
     #   {html, 0} -> {:ok, html}
     #   {msg, code} -> {:error, code, msg}
     # end
-
   end
 end
