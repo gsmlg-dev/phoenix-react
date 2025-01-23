@@ -110,5 +110,16 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
         run: |
-          sed -i 's%@version "[0-9\.]\+"%@version "${{ github.event.inputs.release-version }}"%' mix.exs;
+          sed -i 's%@version "[0-9\.]\+"%@version "${{ github.event.inputs.release-version }}"%' mix.exs
+          sed -i 's%{:phoenix_react, "~> [0-9\.]\+"}%{:phoenix_react, "~> ${{ github.event.inputs.release-version }}"}%' README.md
           mix hex.publish --yes
+      
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ github.event.inputs.release-version }}',
+              sha: context.sha
+            })

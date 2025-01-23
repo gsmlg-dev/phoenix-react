@@ -22,9 +22,75 @@ Add deps in `mix.exs`
 
 ## Configuration
 
-`Javascript` runtime
+```elixir
+import Config
 
-- `babel` with `nodejs`
-- `deno`
-- `bun`
+config :phoenix_react, Phoenix.React,
+  # runtime: Path.expand("../node_modules/@babel/node/bin/babel-node.js", __DIR__)
+  # runtime: System.find_executable("deno"),
+  runtime: System.find_executable("bun"),
+  components_base: Path.expand("../assets/js", __DIR__),
+  cache_ttl: 3600
+```
 
+Write React Component Module
+
+```elixir
+defmodule ReactDemoWeb.ReactComponents do
+  use Phoenix.Component
+  use Phoenix.React.Helper
+
+  def markdown(assigns) do
+    props = assigns.props
+
+    # path: components_base + "components/markdown.js"
+    react_component("components/markdown.js", props)
+  end
+end
+```
+
+Import in html helpers
+
+```elixir
+  defp html_helpers do
+    quote do
+      # Translation
+      use Gettext, backend: ReactDemoWeb.Gettext
+
+      # HTML escaping functionality
+      import Phoenix.HTML
+      # Core UI components
+      import ReactDemoWeb.CoreComponents
+      import ReactDemoWeb.ReactComponents
+
+      ...
+    end
+  end
+```
+
+Use in html template
+
+```heex
+  <.markdown
+    props={%{
+      content: """
+      # Hello World
+      
+      Best in the world!
+
+      ```elixir
+      defmodule Hello do
+        def world do
+          IO.puts "Hello World"
+        end
+      end
+      ```
+      
+      """
+    }}
+  />
+```
+
+## Example App
+
+An example can be find in `react_demo` folder.
