@@ -22,6 +22,8 @@ Add deps in `mix.exs`
 
 ## Configuration
 
+Set config, runtime, react components, etc.
+
 ```elixir
 import Config
 
@@ -31,6 +33,26 @@ config :phoenix_react, Phoenix.React,
   runtime: System.find_executable("bun"),
   components_base: Path.expand("../assets/js", __DIR__),
   cache_ttl: 3600
+```
+
+Add Render Server in your application Supervisor tree.
+
+```elixir
+  def start(_type, _args) do
+    children = [
+      ReactDemoWeb.Telemetry,
+      {DNSCluster, query: Application.get_env(:react_demo, :dns_cluster_query) || :ignore},
+      {Phoenix.PubSub, name: ReactDemo.PubSub},
+      # React render service
+      Phoenix.React.Superviser,
+      ReactDemoWeb.Endpoint
+    ]
+
+    # See https://hexdocs.pm/elixir/Supervisor.html
+    # for other strategies and supported options
+    opts = [strategy: :one_for_one, name: ReactDemo.Supervisor]
+    Supervisor.start_link(children, opts)
+  end
 ```
 
 Write React Component Module
