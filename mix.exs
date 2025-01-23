@@ -40,6 +40,8 @@ defmodule Phoenix.React.Mixfile do
   defp deps do
     [
       {:jason, "~> 1.2"},
+      {:phoenix_html, "~> 4.1"},
+      {:phoenix_live_view, "~> 1.0"},
       {:ex_doc, ">= 0.0.0", only: :prod, runtime: false}
     ]
   end

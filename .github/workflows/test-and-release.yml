@@ -1,13 +1,16 @@
 name: test-and-release
 on:
-  push:
-    branches:
-      - '+([0-9])?(.{+([0-9]),x}).x'
-      - main
-      - alpha
-      - beta
-      - next
-      - next-major
+  workflow_dispatch:
+    inputs:
+      release-version:
+        required: true
+        description: 'The version of the release'
+        default: '0.1.0'
+      git-ref:
+        required: true
+        description: 'The git revison of repo, branch, tag or commit'
+        default: 'main'
+
 jobs:
   tests:
     name: Run tests (Elixir ${{matrix.elixir}}, OTP ${{matrix.otp}})
@@ -15,24 +18,29 @@ jobs:
     strategy:
       matrix:
         include:
-          - elixir: 1.13
-            otp: 24
+          - elixir: 1.18
+            otp: 27
             lint: lint
 
     runs-on: ubuntu-latest
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v4
+      ref: ${{ github.event.inputs.git-ref }}
+
+    - uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: latest
 
     - name: Set up Elixir
-      uses: erlef/setup-elixir@v1
+      uses: erlef/setup-beam@v1
       with:
-        elixir-version: ${{ matrix.elixir }}
         otp-version: ${{ matrix.otp }}
+        elixir-version: ${{ matrix.elixir }}
 
     - name: Restore deps and _build cache
-      uses: actions/cache@v2
+      uses: actions/cache@v3
       with:
         path: |
           deps
@@ -42,7 +50,11 @@ jobs:
           deps-${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}
 
     - name: Install dependencies
-      run: mix deps.get --only test
+      env:
+        MIX_ENV: test
+      run: |
+        mix deps.get
+        bun install
 
     - name: Check source code format
       run: mix format --check-formatted
@@ -74,35 +86,40 @@ jobs:
       version: ${{ steps.semantic.outputs.new_release_version }}
     steps:
       - name: 🛑 Cancel Previous Runs
-        uses: styfle/cancel-workflow-action@0.9.1
+        uses: styfle/cancel-workflow-action@0.12.1
         with:
           access_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: ⬇️ Checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+        ref: ${{ github.event.inputs.git-ref }}
 
-      - name: 💊 Setup Elixir
+      - name: Set up Elixir
         uses: erlef/setup-beam@v1
         with:
-          otp-version: '24'
-          elixir-version: '1.13.0'
+          otp-version: 27
+          elixir-version: 1.18
 
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v2
-        with:
-          node-version: 16
+      - name: Install Deps
+        run: |
+          mix deps.get
 
-      - name: 🚀 Release
-        uses: cycjimmy/semantic-release-action@v3
-        id: semantic
-        with:
-          semantic_version: 19
-          extra_plugins: |
-            @semantic-release/changelog
-            @semantic-release/exec
-            @semantic-release/git
+      - name: Publish to hex.pm
         env:
           MIX_ENV: prod
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
           HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
+        run: |
+          sed -i 's%@version "[0-9\.]\+"%@version "${{ github.event.inputs.release-version }}"%' mix.exs
+          sed -i 's%{:phoenix_react, "~> [0-9\.]\+"}%{:phoenix_react, "~> ${{ github.event.inputs.release-version }}"}%' README.md
+          mix hex.publish --yes
+      
+      - uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.git.createRef({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              ref: 'refs/tags/${{ github.event.inputs.release-version }}',
+              sha: context.sha
+            })

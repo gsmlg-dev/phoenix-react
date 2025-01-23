@@ -4,11 +4,21 @@ defmodule Phoenix.React.Server do
   use GenServer
 
   def render_to_string(runtime, file, props) do
-    GenServer.call(__MODULE__, {:render_to_string, runtime, file, props})
+    Logger.debug("render_to_string: #{inspect(runtime)} #{inspect(file)} #{inspect(props)}")
+    if is_nil(Process.whereis(__MODULE__)) do
+      render(:string, runtime, file, props)
+    else
+      GenServer.call(__MODULE__, {:render_to_string, runtime, file, props}, 30_000)
+    end
   end
 
   def render_to_static_markup(runtime, file, props) do
-    GenServer.call(__MODULE__, {:render_to_static_markup, runtime, file, props})
+    Logger.debug("render_to_static_markup: #{inspect(runtime)} #{inspect(file)} #{inspect(props)}")
+    if is_nil(Process.whereis(__MODULE__)) do
+      render(:static, runtime, file, props)
+    else
+      GenServer.call(__MODULE__, {:render_to_static_markup, runtime, file, props})
+    end
   end
 
   def start_link(init_arg) do
@@ -48,13 +58,25 @@ defmodule Phoenix.React.Server do
     process.stdout.write(html);
     """
 
-    js_file = Path.join(:code.priv_dir(:phoenix_react), "tmp/render.js")
+    tmp_dir = Path.expand("tmp", :code.priv_dir(:phoenix_react))
+    File.exists?(tmp_dir) || File.mkdir_p!(tmp_dir)
+    n = Enum.random(0..999_999)
+    js_file = Path.expand("compile-#{n}.js", tmp_dir)
     File.write!(js_file, js)
 
     case System.cmd(runtime, [js_file]) do
-      {html, 0} -> {:ok, html}
-      {msg, code} -> {:error, code, msg}
+      {html, 0} ->
+        File.rm(js_file)
+        {:ok, html}
+      {msg, code} ->
+        # File.rm(js_file)
+        {:error, code, msg}
     end
+
+    # case System.cmd(runtime, ["--eval", js]) do
+    #   {html, 0} -> {:ok, html}
+    #   {msg, code} -> {:error, code, msg}
+    # end
   end
 
   defp render(:static, runtime, file, props) do
@@ -68,12 +90,25 @@ defmodule Phoenix.React.Server do
     process.stdout.write(html);
     """
 
-    js_file = Path.join(:code.priv_dir(:phoenix_react), "tmp/render.js")
+    tmp_dir = Path.expand("tmp", :code.priv_dir(:phoenix_react))
+    File.exists?(tmp_dir) || File.mkdir_p!(tmp_dir)
+    n = Enum.random(0..999_999)
+    js_file = Path.expand("compile-#{n}.js", tmp_dir)
     File.write!(js_file, js)
 
     case System.cmd(runtime, [js_file]) do
-      {html, 0} -> {:ok, html}
-      {msg, code} -> {:error, code, msg}
+      {html, 0} ->
+        File.rm(js_file)
+        {:ok, html}
+      {msg, code} ->
+        # File.rm(js_file)
+        {:error, code, msg}
     end
+
+    # case System.cmd(runtime, ["--eval", js]) do
+    #   {html, 0} -> {:ok, html}
+    #   {msg, code} -> {:error, code, msg}
+    # end
+
   end
 end
