@@ -12,7 +12,11 @@ defmodule Phoenix.React.Mixfile do
       config_path: "config/config.exs",
       deps: deps(),
       name: "Phoenix.React",
-      description: "Description of this package",
+      description: """
+      Phoenix.React is a Phoenix module that renders React components in heex template.
+      Support render to string and render to static markup and cache render result in ets.
+      Also support render React component in live view and hyrate react component with phx-hook.
+      """,
       package: package(),
       aliases: aliases(),
       elixirc_paths: elixirc_paths(Mix.env()),
