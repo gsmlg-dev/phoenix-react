@@ -8,9 +8,9 @@ defmodule Phoenix.React.Superviser do
   @impl true
   def init(_init_arg) do
     children = [
+      {Task.Supervisor, name: Pohoenix.React.RenderTaskSupervisr},
       {Phoenix.React.Cache, []},
       {Phoenix.React.Server, []},
-      {Task.Supervisor, name: Phoenix.React.RenderTaskSupervisor}
     ]
 
     Supervisor.init(children, strategy: :one_for_one)
