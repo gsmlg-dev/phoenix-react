@@ -1,6 +1,6 @@
 import Config
 
-config :phoenix_react, Phoenix.React,
+config :phoenix_react_server, Phoenix.React,
   runtime: System.find_executable("bun"),
   cache_ttl: 10
 

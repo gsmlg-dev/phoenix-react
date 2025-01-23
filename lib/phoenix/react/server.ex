@@ -63,7 +63,7 @@ defmodule Phoenix.React.Server do
     process.stdout.write(html);
     """
 
-    tmp_dir = Path.expand("tmp", :code.priv_dir(:phoenix_react))
+    tmp_dir = Path.expand("tmp", :code.priv_dir(:phoenix_react_server))
     File.exists?(tmp_dir) || File.mkdir_p!(tmp_dir)
     n = Enum.random(0..999_999)
     js_file = Path.expand("compile-#{n}.js", tmp_dir)
@@ -96,7 +96,7 @@ defmodule Phoenix.React.Server do
     process.stdout.write(html);
     """
 
-    tmp_dir = Path.expand("tmp", :code.priv_dir(:phoenix_react))
+    tmp_dir = Path.expand("tmp", :code.priv_dir(:phoenix_react_server))
     File.exists?(tmp_dir) || File.mkdir_p!(tmp_dir)
     n = Enum.random(0..999_999)
     js_file = Path.expand("compile-#{n}.js", tmp_dir)

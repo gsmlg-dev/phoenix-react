@@ -6,7 +6,7 @@ defmodule Phoenix.React.Cache do
 
   @ets_table_name :react_component_cache
 
-  @default_ttl Application.compile_env(:phoenix_react, Phoenix.React)
+  @default_ttl Application.compile_env(:phoenix_react_server, Phoenix.React)
                |> Keyword.get(:cache_ttl, 3600)
 
   def start_link(_) do

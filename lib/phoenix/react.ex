@@ -8,7 +8,7 @@ defmodule Phoenix.React do
   @spec render_to_string(file, props) :: {:ok, binary()} | {:error, term()}
   def render_to_string(file, props) do
     props = if(is_nil(props), do: %{}, else: props)
-    config = Application.get_env(:phoenix_react, Phoenix.React)
+    config = Application.get_env(:phoenix_react_server, Phoenix.React)
     runtime = config[:runtime]
 
     file =
@@ -30,7 +30,7 @@ defmodule Phoenix.React do
   @spec render_to_static_markup(file, props) :: {:ok, binary()} | {:error, term()}
   def render_to_static_markup(file, props) do
     props = if(is_nil(props), do: %{}, else: props)
-    config = Application.get_env(:phoenix_react, Phoenix.React)
+    config = Application.get_env(:phoenix_react_server, Phoenix.React)
     runtime = config[:runtime]
 
     file =

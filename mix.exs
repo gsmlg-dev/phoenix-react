@@ -6,7 +6,7 @@ defmodule Phoenix.React.Mixfile do
 
   def project do
     [
-      app: :phoenix_react,
+      app: :phoenix_react_server,
       version: @version,
       elixir: "~> 1.14.1 or ~> 1.15",
       config_path: "config/config.exs",
@@ -52,7 +52,7 @@ defmodule Phoenix.React.Mixfile do
       licenses: ["MIT"],
       files: ~w(lib priv CHANGELOG.md LICENSE mix.exs README.md),
       links: %{
-        Changelog: "https://hexdocs.pm/phoenix_react/changelog.html",
+        Changelog: "https://hexdocs.pm/phoenix_react_server/changelog.html",
         GitHub: @source_url
       }
     ]
