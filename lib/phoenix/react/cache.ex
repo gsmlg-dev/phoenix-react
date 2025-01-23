@@ -6,6 +6,8 @@ defmodule Phoenix.React.Cache do
 
   @ets_table_name :react_component_cache
 
+  @default_ttl Application.compile_env(:phoenix_react, Phoenix.React) |> Keyword.get(:cache_ttl, 3600)
+
   def start_link(_) do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
@@ -30,7 +32,7 @@ defmodule Phoenix.React.Cache do
   def get(mod, fun, args, opts \\ []) do
     case lookup(mod, fun, args) do
       nil ->
-        ttl = Keyword.get(opts, :ttl, 3600)
+        ttl = Keyword.get(opts, :ttl, @default_ttl)
         cache_apply(mod, fun, args, ttl)
 
       result ->

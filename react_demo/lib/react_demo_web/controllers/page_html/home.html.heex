@@ -5,7 +5,18 @@
     data={"data string"}
     props={%{
       data: """
-      Best in the world! #{@name}
+      # Hello World
+      
+      Best in the world!
+
+      ```elixir
+      defmodule Hello do
+        def world do
+          IO.puts "Hello World"
+        end
+      end
+      ```
+      
       """
     }}
   />

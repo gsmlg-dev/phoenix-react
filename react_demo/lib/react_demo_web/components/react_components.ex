@@ -3,12 +3,15 @@ defmodule ReactDemoWeb.ReactComponents do
   Provides React UI components.
 
   """
-  use Phoenix.React.Component
+  use Phoenix.Component
+  use Phoenix.React.Helper
   use Gettext, backend: ReactDemoWeb.Gettext
+
+  require Logger
 
   def markdown(assigns) do
     props = assigns.props
 
-    ~RF"components/markdown.js"
+    react_component("components/markdown.js", props)
   end
 end

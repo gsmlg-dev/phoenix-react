@@ -8,7 +8,7 @@ defmodule Phoenix.React.Server do
     if is_nil(Process.whereis(__MODULE__)) do
       render(:string, runtime, file, props)
     else
-      GenServer.call(__MODULE__, {:render_to_string, runtime, file, props})
+      GenServer.call(__MODULE__, {:render_to_string, runtime, file, props}, 30_000)
     end
   end
 
@@ -65,10 +65,18 @@ defmodule Phoenix.React.Server do
     File.write!(js_file, js)
 
     case System.cmd(runtime, [js_file]) do
-      {html, 0} -> {:ok, html}
+      {html, 0} ->
+        File.rm(js_file)
+        {:ok, html}
       {msg, code} ->
+        # File.rm(js_file)
         {:error, code, msg}
     end
+
+    # case System.cmd(runtime, ["--eval", js]) do
+    #   {html, 0} -> {:ok, html}
+    #   {msg, code} -> {:error, code, msg}
+    # end
   end
 
   defp render(:static, runtime, file, props) do
@@ -89,8 +97,18 @@ defmodule Phoenix.React.Server do
     File.write!(js_file, js)
 
     case System.cmd(runtime, [js_file]) do
-      {html, 0} -> {:ok, html}
-      {msg, code} -> {:error, code, msg}
+      {html, 0} ->
+        File.rm(js_file)
+        {:ok, html}
+      {msg, code} ->
+        # File.rm(js_file)
+        {:error, code, msg}
     end
+
+    # case System.cmd(runtime, ["--eval", js]) do
+    #   {html, 0} -> {:ok, html}
+    #   {msg, code} -> {:error, code, msg}
+    # end
+
   end
 end
