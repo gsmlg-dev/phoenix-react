@@ -89,6 +89,7 @@ defmodule ReactDemoWeb do
       import Phoenix.HTML
       # Core UI components
       import ReactDemoWeb.CoreComponents
+      import ReactDemoWeb.ReactComponents
 
       # Shortcut for generating JS commands
       alias Phoenix.LiveView.JS
