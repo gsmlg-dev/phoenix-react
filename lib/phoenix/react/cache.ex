@@ -1,6 +1,6 @@
 defmodule Phoenix.React.Cache do
   @moduledoc """
-  A simple ETS based cache for expensive function calls.
+  Cache service for React Server rendering
   """
   use GenServer
 
@@ -27,8 +27,8 @@ defmodule Phoenix.React.Cache do
   end
 
   @doc """
-  Retrieve a cached value or apply the given function caching and returning
-  the result.
+  Retrieve a cached value or apply the given function caching
+  then returning the result.
   """
   def get(mod, fun, args, opts \\ []) do
     case lookup(mod, fun, args) do

@@ -1,5 +1,7 @@
 defmodule Phoenix.React.Server do
-  @moduledoc false
+  @moduledoc """
+  The React Render Server
+  """
   require Logger
   use GenServer
 
