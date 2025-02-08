@@ -5,7 +5,7 @@ defmodule ReactDemoWeb.PageController do
     markdown_doc = """
     # Phoenix.React
 
-    [![release](https://github.com/gsmlg-dev/phoenix-react/actions/workflows/test-and-release.yml/badge.svg)](https://github.com/gsmlg-dev/phoenix-react/actions/workflows/test-and-release.yml)
+    [![CI](https://github.com/gsmlg-dev/phoenix-react/actions/workflows/ci.yml/badge.svg)](https://github.com/gsmlg-dev/phoenix-react/actions/workflows/ci.yml)
 
     Run a `react` render server to render react component in `Phoenix` html.
 

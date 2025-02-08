@@ -1,6 +1,6 @@
 # Phoenix.React
 
-[![release](https://github.com/gsmlg-dev/phoenix-react/actions/workflows/test-and-release.yml/badge.svg)](https://github.com/gsmlg-dev/phoenix-react/actions/workflows/test-and-release.yml)
+[![CI](https://github.com/gsmlg-dev/phoenix-react/actions/workflows/ci.yml/badge.svg)](https://github.com/gsmlg-dev/phoenix-react/actions/workflows/ci.yml)
 
 Run a `react` render server to render react component in `Phoenix` html.
 
@@ -17,7 +17,7 @@ See the [docs](https://hexdocs.pm/phoenix_react_server/) for more information.
 Add deps in `mix.exs`
 
 ```elixir
-{:phoenix_react_server, "~> #{Application.spec(:phoenix_react_server, :vsn)}"},
+{:phoenix_react_server, "~> 0.2.0"},
 ```
 
 ## Configuration
