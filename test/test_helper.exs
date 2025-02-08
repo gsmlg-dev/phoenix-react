@@ -2,9 +2,13 @@ ExUnit.start()
 Phoenix.React.start_link([])
 
 ExUnit.after_suite(fn _results ->
-  IO.puts("Stopping runtime ...")
+  try do
+    IO.puts("Stopping runtime ...")
 
-  Phoenix.React.stop_runtime()
+    Phoenix.React.stop_runtime()
 
-  :ok
+    :ok
+  rescue
+    _ -> :ok
+  end
 end)
