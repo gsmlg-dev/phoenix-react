@@ -12,7 +12,7 @@ defmodule Phoenix.React.Server do
     config = Application.get_env(:phoenix_react_server, Phoenix.React)
 
     [
-      runtime: config[:runtime],
+      runtime: config[:runtime] || Phoenix.React.Runtime.Bun,
       component_base: config[:component_base],
       cache_ttl: config[:cache_ttl] || 600,
       render_timeout: config[:render_timeout] || 300_000

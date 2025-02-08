@@ -7,11 +7,6 @@
 # General application configuration
 import Config
 
-config :phoenix_react_server, Phoenix.React,
-  # runtime: Path.expand("../node_modules/@babel/node/bin/babel-node.js", __DIR__)
-  runtime: System.find_executable("bun"),
-  components_base: Path.expand("../assets/js", __DIR__)
-
 config :react_demo,
   generators: [timestamp_type: :utc_datetime]
 

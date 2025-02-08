@@ -31,7 +31,10 @@ defmodule Phoenix.React.Runtime.Bun do
           {:noreply, Phoenix.React.Runtime.t()}
   def handle_continue(:start_port, %Runtime{component_base: component_base} = state) do
     port = start(component_base: component_base)
-    Logger.debug("Bun.Server started on port: #{inspect(port)} and OS pid: #{get_port_os_pid(port)}")
+
+    Logger.debug(
+      "Bun.Server started on port: #{inspect(port)} and OS pid: #{get_port_os_pid(port)}"
+    )
 
     {:noreply, %Runtime{state | port: port}}
   end
