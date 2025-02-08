@@ -42,18 +42,27 @@ defmodule Phoenix.React.Helper do
   }
   ```
   """
-  attr :component, :string, required: true, doc: """
-  react component name
-  ```
-  """
+  attr(:component, :string,
+    required: true,
+    doc: """
+    react component name
+    ```
+    """
+  )
 
-  attr :props, :map, default: %{}, doc: """
-  props will pass to react component
-  """
+  attr(:props, :map,
+    default: %{},
+    doc: """
+    props will pass to react component
+    """
+  )
 
-  attr :static, :boolean, default: true, doc: """
-  when true, render to static markup, false to render to string for client-side hydrate
-  """
+  attr(:static, :boolean,
+    default: true,
+    doc: """
+    when true, render to static markup, false to render to string for client-side hydrate
+    """
+  )
 
   def react_component(assigns) do
     component = assigns[:component]
@@ -98,5 +107,4 @@ defmodule Phoenix.React.Helper do
         }
     end
   end
-
 end
