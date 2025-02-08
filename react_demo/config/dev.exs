@@ -1,9 +1,5 @@
 import Config
 
-config :phoenix_react_server, Phoenix.React,
-  runtime: System.find_executable("bun"),
-  cache_ttl: 10
-
 config :react_demo, ReactDemoWeb.Endpoint,
   http: [ip: {0, 0, 0, 0}, port: 4666],
   check_origin: false,
@@ -13,9 +9,7 @@ config :react_demo, ReactDemoWeb.Endpoint,
   watchers: [
     esbuild: {Esbuild, :install_and_run, [:react_demo, ~w(--sourcemap=inline --watch)]},
     tailwind: {Tailwind, :install_and_run, [:react_demo, ~w(--watch)]}
-  ]
-
-config :react_demo, ReactDemoWeb.Endpoint,
+  ],
   live_reload: [
     patterns: [
       ~r"priv/static/(?!uploads/).*(js|css|png|jpeg|jpg|gif|svg)$",
@@ -35,5 +29,3 @@ config :phoenix, :plug_init_mode, :runtime
 config :phoenix_live_view,
   debug_heex_annotations: true,
   enable_expensive_runtime_checks: true
-
-config :swoosh, :api_client, false

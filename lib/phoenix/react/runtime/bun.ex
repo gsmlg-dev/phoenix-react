@@ -2,11 +2,15 @@ defmodule Phoenix.React.Runtime.Bun do
   @moduledoc """
   Phoenix.React.Runtime.Bun
 
+  Config in `runtime.exs`
+
   ```
   import Config
+
   config :phoenix_react_server, Phoenix.React.Runtime.Bun,
+    cd: File.cwd!(),
     cmd: "/path/to/bun",
-    server_js: "priv/bin/server.js",
+    server_js: Path.expand("bun/server.js", :code.priv_dir(:phoenix_react_server)),
     port: 5225,
     env: :dev
   ```
@@ -47,6 +51,7 @@ defmodule Phoenix.React.Runtime.Bun do
       cfg[:server_js] || Path.expand("bun/server.js", :code.priv_dir(:phoenix_react_server))
 
     [
+      {:cd, cfg[:cd] || File.cwd!()},
       {:cmd, cmd},
       {:server_js, server_js},
       {:port, cfg[:port] || 5225},
@@ -56,6 +61,7 @@ defmodule Phoenix.React.Runtime.Bun do
 
   @impl true
   def start(component_base: component_base) do
+    cd = config()[:cd]
     cmd = config()[:cmd]
     args = ["--port", Integer.to_string(config()[:port]), config()[:server_js]]
     bun_env = if(config()[:env] == :dev, do: "development", else: "production")
@@ -69,6 +75,7 @@ defmodule Phoenix.React.Runtime.Bun do
       {:spawn_executable, cmd},
       [
         {:args, args},
+        {:cd, cd},
         {:env, env},
         :stream,
         :binary,

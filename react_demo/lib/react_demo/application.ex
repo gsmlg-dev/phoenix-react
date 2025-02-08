@@ -21,6 +21,16 @@ defmodule ReactDemo.Application do
   end
 
   @impl true
+  def stop(_state) do
+    IO.puts("Shutting down Phoenix app... Cleaning up resources.")
+    Phoenix.React.stop_runtime()
+
+    :ok
+  rescue
+    _ -> :ok
+  end
+
+  @impl true
   def config_change(changed, _new, removed) do
     ReactDemoWeb.Endpoint.config_change(changed, removed)
     :ok

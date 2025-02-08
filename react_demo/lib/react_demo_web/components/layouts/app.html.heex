@@ -1,32 +1,31 @@
-<header class="px-4 sm:px-6 lg:px-8">
-  <div class="flex items-center justify-between border-b border-zinc-100 py-3 text-sm">
-    <div class="flex items-center gap-4">
-      <a href="/">
-        <h1 class="font-bold text-sky-400">Phoenix React</h1>
-      </a>
-      <p class="bg-brand/5 text-brand rounded-full px-2 font-medium leading-6">
-        v{Application.spec(:phoenix_react_server, :vsn)}
-      </p>
-    </div>
-    <div class="flex items-center gap-4 font-semibold leading-6 text-zinc-900">
-      <a 
-        href="https://github.com/gsmlg-dev/phoenix-react" 
-        class="hover:text-zinc-700"
-        target="_blank"
-      >
-        GitHub
-      </a>
-      <a
-        href="https://hexdocs.pm/phoenix_react_server/overview.html"
-        class="rounded-lg bg-zinc-100 px-2 py-1 hover:bg-zinc-200/80"
-        target="_blank"
-      >
-        Get Started <span aria-hidden="true">&rarr;</span>
-      </a>
-    </div>
+<header class="navbar bg-primary text-primary-content">
+  <div class="navbar-start">
+    <a class="btn btn-ghost text-xl">Phoenix React Server</a>
+    <code class="text-sm leading-6 opacity-60">
+      :phoenix_react_server ~>
+      v{Application.spec(:phoenix_react_server, :vsn)}
+    </code>
+  </div>
+
+  <div class="navbar-end gap-4 px-4">
+    <a
+      href="https://hexdocs.pm/phoenix_react_server"
+      class="btn btn-sm btn-info"
+      target="_blank"
+    >
+      Hexdocs
+    </a>
+    <a
+      href="https://github.com/gsmlg-dev/phoenix-react" 
+      class="btn btn-sm btn-info"
+      target="_blank"
+    >
+      GitHub
+    </a>
   </div>
 </header>
-<main class="px-4 py-20 sm:px-6 lg:px-8">
+
+<main class="p-4 sm:px-6 lg:px-8">
   <div class="mx-auto max-w-2xl">
     <.flash_group flash={@flash} />
     {@inner_content}
