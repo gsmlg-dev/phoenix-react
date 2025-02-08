@@ -1,0 +1,43 @@
+name: manual-release
+
+on:
+  push:
+    tags:
+      - '/^\d+\.\d+\.\d+$/'
+
+# permissions:
+#   contents: write
+
+jobs:
+  release:
+    name: Publish release to hex.pm
+    runs-on: ubuntu-latest
+    needs: [ tests ]
+    steps:
+      - name: ⬇️ Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref }}
+
+      - name: Set up Elixir
+        uses: erlef/setup-beam@v1
+        with:
+          otp-version: 27
+          elixir-version: 1.18
+
+      - name: Install Deps and Setup Version
+        env:
+          MIX_ENV: prod
+        run: |
+          mix deps.get
+          echo "version: ${{ github.ref }}"
+          sed -i 's%@version "[0-9\.]\+"%@version "${{ github.ref }}"%' mix.exs
+          sed -i 's%{:phoenix_react_server, "~> [0-9\.]\+"}%{:phoenix_react_server, "~> ${{ github.ref }}"}%g' README.md
+
+      - name: Publish to hex.pm
+        env:
+          MIX_ENV: prod
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          HEX_API_KEY: ${{ secrets.HEX_API_KEY }}
+        run: |
+          mix hex.publish --yes

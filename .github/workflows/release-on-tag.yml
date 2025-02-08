@@ -1,11 +1,11 @@
-name: test-and-release
+name: release-on-tag
 on:
-  workflow_dispatch:
+  push:
     inputs:
       release-version:
         required: true
         description: 'The version of the release'
-        default: '0.1.0'
+        default: '0.2.0'
       git-ref:
         required: true
         description: 'The git revison of repo, branch, tag or commit'
@@ -109,12 +109,3 @@ jobs:
         run: |
           mix hex.publish --yes
       
-      - uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'refs/tags/${{ github.event.inputs.release-version }}',
-              sha: context.sha
-            })

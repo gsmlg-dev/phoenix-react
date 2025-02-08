@@ -2,11 +2,10 @@ defmodule Phoenix.React.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/gsmlg-dev/phoenix-react.git"
-  @version "0.1.0"
+  @version "0.2.0"
 
   def project do
     [
-      app: :phoenix_react_server,
       app: :phoenix_react_server,
       version: @version,
       elixir: "~> 1.14.1 or ~> 1.15",
@@ -14,14 +13,9 @@ defmodule Phoenix.React.Mixfile do
       deps: deps(),
       name: "Phoenix.React",
       description: """
-      Phoenix.React is a Phoenix module that renders React components in heex template.
-      Support render to string and render to static markup and cache render result in ets.
-      Also support render React component in live view and hyrate react component with phx-hook.
-      """,
-      description: """
-      Phoenix.React is a Phoenix module that renders React components in heex template.
-      Support render to string and render to static markup and cache render result in ets.
-      Also support render React component in live view and hyrate react component with phx-hook.
+      Phoenix.React is use for renders React component as Phoenix Component in heex template.
+      Support render_to_string and render_to_static_markup and cache render result.
+      Only render to string support hyrate react component with phx-hook.
       """,
       package: package(),
       aliases: aliases(),
