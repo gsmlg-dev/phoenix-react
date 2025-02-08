@@ -10,5 +10,7 @@ ExUnit.after_suite(fn _results ->
     :ok
   rescue
     _ -> :ok
+  catch
+    _ -> :ok
   end
 end)
