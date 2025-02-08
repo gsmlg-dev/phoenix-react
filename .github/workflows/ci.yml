@@ -1,0 +1,51 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tests:
+    name: Run tests (Elixir ${{ matrix.elixir }}, OTP ${{ matrix.otp }})
+
+    strategy:
+      matrix:
+        include:
+          - os: ubuntu-latest
+            elixir: 1.18
+            otp: 27
+
+    runs-on: ${{ matrix.os }}
+    env:
+      MIX_ENV: test
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - uses: oven-sh/setup-bun@v2
+      with:
+        bun-version: latest
+
+    - name: Set up Elixir
+      uses: erlef/setup-beam@v1
+      with:
+        otp-version: ${{ matrix.otp }}
+        elixir-version: ${{ matrix.elixir }}
+
+    - name: Install dependencies
+      run: |
+        mix deps.get
+        bun install
+
+    - name: Check source code format
+      run: mix format --check-formatted
+
+    - name: Remove compiled application files
+      run: mix clean
+
+    - name: Compile & lint dependencies
+      run: mix compile --warnings-as-errors
+
+    - name: Run tests
+      run: mix test

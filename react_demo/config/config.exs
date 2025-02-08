@@ -7,11 +7,6 @@
 # General application configuration
 import Config
 
-config :phoenix_react_server, Phoenix.React,
-  # runtime: Path.expand("../node_modules/@babel/node/bin/babel-node.js", __DIR__)
-  runtime: System.find_executable("bun"),
-  components_base: Path.expand("../assets/js", __DIR__)
-
 config :react_demo,
   generators: [timestamp_type: :utc_datetime]
 
@@ -25,15 +20,6 @@ config :react_demo, ReactDemoWeb.Endpoint,
   ],
   pubsub_server: ReactDemo.PubSub,
   live_view: [signing_salt: "y8Mo2X4Z"]
-
-# Configures the mailer
-#
-# By default it uses the "Local" adapter which stores the emails
-# locally. You can see the emails in your browser, at "/dev/mailbox".
-#
-# For production it's recommended to configure a different adapter
-# at the `config/runtime.exs`.
-config :react_demo, ReactDemo.Mailer, adapter: Swoosh.Adapters.Local
 
 # Configure esbuild (the version is required)
 config :esbuild,
@@ -64,6 +50,11 @@ config :logger, :console,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+config :phoenix_react_server, Phoenix.React,
+  runtime: Phoenix.React.Runtime.Bun,
+  component_base: Path.expand("../assets/component", __DIR__),
+  cache_ttl: 60
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

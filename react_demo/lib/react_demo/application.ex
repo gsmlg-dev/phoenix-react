@@ -11,22 +11,25 @@ defmodule ReactDemo.Application do
       ReactDemoWeb.Telemetry,
       {DNSCluster, query: Application.get_env(:react_demo, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: ReactDemo.PubSub},
-      # Start the Finch HTTP client for sending emails
       {Finch, name: ReactDemo.Finch},
-      # Start a worker by calling: ReactDemo.Worker.start_link(arg)
-      Phoenix.React.Superviser,
-      # Start to serve requests, typically the last entry
+      Phoenix.React,
       ReactDemoWeb.Endpoint
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: ReactDemo.Supervisor]
     Supervisor.start_link(children, opts)
   end
 
-  # Tell Phoenix to update the endpoint configuration
-  # whenever the application is updated.
+  @impl true
+  def stop(_state) do
+    IO.puts("Shutting down Phoenix app... Cleaning up resources.")
+    Phoenix.React.stop_runtime()
+
+    :ok
+  rescue
+    _ -> :ok
+  end
+
   @impl true
   def config_change(changed, _new, removed) do
     ReactDemoWeb.Endpoint.config_change(changed, removed)

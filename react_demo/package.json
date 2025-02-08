@@ -7,16 +7,13 @@
     ]
   },
   "devDependencies": {
-    "@babel/core": "^7.26.0",
-    "@babel/node": "^7.26.0",
-    "@babel/preset-env": "^7.26.0",
-    "@babel/preset-react": "^7.26.3",
-    "@headlessui/react": "^2.2.0",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "@headlessui/react": "^2.2.0"
   },
   "dependencies": {
-    "github-markdown-css": "^5.8.1",
+    "@tailwindcss/typography": "^0.5.16",
+    "daisyui": "^4.12.23",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "react-markdown": "^9.0.3",
     "react-syntax-highlighter": "^15.6.1",
     "remark-gfm": "^4.0.0"

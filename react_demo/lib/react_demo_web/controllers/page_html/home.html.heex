@@ -1,23 +1,10 @@
-<h3>markdown react</h3>
-<div>
-  <.markdown
-    name={@name}
-    data={"data string"}
-    props={%{
-      data: """
-      # Hello World
-      
-      Best in the world!
-
-      ```elixir
-      defmodule Hello do
-        def world do
-          IO.puts "Hello World"
-        end
-      end
-      ```
-      
-      """
-    }}
-  />
+<div class="card">
+  <div class="card-body">
+    <h3 class="card-title">This markdown is rendered with <code>react-dom/server</code></h3>
+    <div class="prose">
+      <.react_markdown
+        data={@markdown_doc}
+      />
+    </div>
+  </div>
 </div>

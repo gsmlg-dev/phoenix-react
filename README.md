@@ -6,9 +6,9 @@ Run a `react` render server to render react component in `Phoenix` html.
 
 **Features**
 
-- Render to static markup
-- Render to html
-- Render to html and use hydrate at client side by `live_view` `hook`
+- [x] Render to static markup
+- [x] Render to html
+- [x] Hydrate at client side
 
 See the [docs](https://hexdocs.pm/phoenix_react_server/) for more information.
 
@@ -17,7 +17,7 @@ See the [docs](https://hexdocs.pm/phoenix_react_server/) for more information.
 Add deps in `mix.exs`
 
 ```elixir
-    {:phoenix_react_server, "~> 0.1.0"},
+{:phoenix_react_server, "~> #{Application.spec(:phoenix_react_server, :vsn)}"},
 ```
 
 ## Configuration
@@ -28,12 +28,20 @@ Set config, runtime, react components, etc.
 import Config
 
 config :phoenix_react_server, Phoenix.React,
-  # runtime: Path.expand("../node_modules/@babel/node/bin/babel-node.js", __DIR__)
-  # runtime: System.find_executable("deno"),
-  runtime: System.find_executable("bun"),
-  components_base: Path.expand("../assets/js", __DIR__),
-  cache_ttl: 3600
+  # react runtime, default to `bun`
+  runtime: Phoenix.React.Runtime.Bun,
+  # react component base path
+  component_base: Path.expand("../assets/component", __DIR__),
+  # cache ttl, default to 60 seconds
+  cache_ttl: 60
 ```
+
+Supported `runtime`
+
+- [x] `Phoenix.React.Runtime.Bun`
+- [ ] `Phoenix.React.Runtime.Deno`
+- [ ] `Phoenix.React.Runtime.Node`
+- [ ] `Phoenix.React.Runtime.Lambda`
 
 Add Render Server in your application Supervisor tree.
 
@@ -44,34 +52,36 @@ Add Render Server in your application Supervisor tree.
       {DNSCluster, query: Application.get_env(:react_demo, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: ReactDemo.PubSub},
       # React render service
-      Phoenix.React.Superviser,
+      Phoenix.React,
       ReactDemoWeb.Endpoint
     ]
 
-    # See https://hexdocs.pm/elixir/Supervisor.html
-    # for other strategies and supported options
     opts = [strategy: :one_for_one, name: ReactDemo.Supervisor]
     Supervisor.start_link(children, opts)
   end
 ```
 
-Write React Component Module
+Write Phoenix Component use `react_component`
 
 ```elixir
 defmodule ReactDemoWeb.ReactComponents do
   use Phoenix.Component
-  use Phoenix.React.Helper
 
-  def markdown(assigns) do
-    props = assigns.props
+  import Phoenix.React.Helper
 
-    # path: components_base + "components/markdown.js"
-    react_component("components/markdown.js", props)
+  def react_markdown(assigns) do
+    {static, props} = Map.pop(assigns, :static, true)
+
+    react_component(%{
+      component: "markdown",
+      props: props,
+      static: static
+    })
   end
 end
 ```
 
-Import in html helpers
+Import in html helpers in `react_demo_web.ex`
 
 ```elixir
   defp html_helpers do
@@ -90,29 +100,48 @@ Import in html helpers
   end
 ```
 
-Use in html template
+## Use in otp release
 
-```heex
-  <.markdown
-    props={%{
-      content: """
-      # Hello World
-      
-      Best in the world!
+Transcompile react component in release.
 
-      ```elixir
-      defmodule Hello do
-        def world do
-          IO.puts "Hello World"
-        end
-      end
-      ```
-      
-      """
-    }}
-  />
+```shell
+bun build --outdir=priv/react/component ./assets/component/**
 ```
 
-## Example App
+Config `runtime` to `Phoenix.React.Runtime.Bun` in `runtime.exs`
 
-An example can be find in `react_demo` folder.
+```elixir
+config :phoenix_react_server, Phoenix.React,
+  # Change `component_base` to `priv/react/component`
+  component_base: :code.priv(:react_demo, "react/component")
+
+config :phoenix_react_server, Phoenix.React.Runtime.Bun,
+  # include `react-dom/server` and `jsx-runtime`
+  cd: "/path/to/dir/include/node_modules/and/bunfig.toml",
+  cmd: "/path/to/bun",
+  env: :prod
+```
+
+## Hydrate at client side
+
+Hydrate react component at client side.
+
+```html
+<script type="importmap">
+  {
+    "imports": {
+      "react-dom": "https://esm.run/react-dom@19",
+      "app": "https://my.web.site/app.js"
+    }
+  }
+</script>
+<script type="module">
+import { hydrateRoot } from 'react-dom/client';
+import { Component } from 'app';
+
+hydrateRoot(
+  document.getElementById('app-wrapper'),
+  <App />
+);
+</script>
+```
