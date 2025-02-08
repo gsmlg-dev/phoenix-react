@@ -1,6 +1,6 @@
 name: manual-release
 on:
-  push:
+  workflow_dispatch:
     inputs:
       release-version:
         required: true
