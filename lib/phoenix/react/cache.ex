@@ -9,6 +9,9 @@ defmodule Phoenix.React.Cache do
   @default_ttl Application.compile_env(:phoenix_react_server, Phoenix.React)
                |> Keyword.get(:cache_ttl, 3600)
 
+  @default_ttl Application.compile_env(:phoenix_react_server, Phoenix.React)
+               |> Keyword.get(:cache_ttl, 3600)
+
   def start_link(_) do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end

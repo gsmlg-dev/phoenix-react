@@ -7,11 +7,17 @@ defmodule Phoenix.React.Mixfile do
   def project do
     [
       app: :phoenix_react_server,
+      app: :phoenix_react_server,
       version: @version,
       elixir: "~> 1.14.1 or ~> 1.15",
       config_path: "config/config.exs",
       deps: deps(),
       name: "Phoenix.React",
+      description: """
+      Phoenix.React is a Phoenix module that renders React components in heex template.
+      Support render to string and render to static markup and cache render result in ets.
+      Also support render React component in live view and hyrate react component with phx-hook.
+      """,
       description: """
       Phoenix.React is a Phoenix module that renders React components in heex template.
       Support render to string and render to static markup and cache render result in ets.
