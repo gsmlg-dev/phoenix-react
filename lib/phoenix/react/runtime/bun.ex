@@ -146,6 +146,7 @@ defmodule Phoenix.React.Runtime.Bun do
       _ ->
         0
     end
+
     {:noreply, state}
   end
 
