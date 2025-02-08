@@ -7,7 +7,7 @@ defmodule Phoenix.React.Runtime.Bun do
   config :phoenix_react_server, Phoenix.React.Runtime.Bun,
     cmd: "/path/to/bun",
     server_js: "priv/bin/server.js",
-    port: 4000,
+    port: 5225,
     env: :dev
   ```
   """
@@ -22,7 +22,8 @@ defmodule Phoenix.React.Runtime.Bun do
 
   @impl true
   def init(component_base: component_base, render_timeout: render_timeout) do
-    {:ok, %Runtime{component_base: component_base, render_timeout: render_timeout}, {:continue, :start_port}}
+    {:ok, %Runtime{component_base: component_base, render_timeout: render_timeout},
+     {:continue, :start_port}}
   end
 
   @impl true
@@ -30,6 +31,7 @@ defmodule Phoenix.React.Runtime.Bun do
           {:noreply, Phoenix.React.Runtime.t()}
   def handle_continue(:start_port, %Runtime{component_base: component_base} = state) do
     port = start(component_base: component_base)
+    Logger.debug("Bun.Server started on port: #{inspect(port)} and OS pid: #{get_port_os_pid(port)}")
 
     {:noreply, %Runtime{state | port: port}}
   end
@@ -37,11 +39,14 @@ defmodule Phoenix.React.Runtime.Bun do
   def config() do
     cfg = Application.get_env(:phoenix_react_server, Phoenix.React.Runtime.Bun, [])
     cmd = cfg[:cmd] || System.find_executable("bun")
-    server_js = cfg[:server_js] || Path.expand("bun/server.js", :code.priv_dir(:phoenix_react_server))
+
+    server_js =
+      cfg[:server_js] || Path.expand("bun/server.js", :code.priv_dir(:phoenix_react_server))
+
     [
       {:cmd, cmd},
       {:server_js, server_js},
-      {:port, cfg[:port] || 12025},
+      {:port, cfg[:port] || 5225},
       {:env, cfg[:env] || :dev}
     ]
   end
@@ -51,9 +56,10 @@ defmodule Phoenix.React.Runtime.Bun do
     cmd = config()[:cmd]
     args = ["--port", Integer.to_string(config()[:port]), config()[:server_js]]
     bun_env = if(config()[:env] == :dev, do: "development", else: "production")
+
     env = [
       {~c"BUN_ENV", ~c"#{bun_env}"},
-      {~c"COMPONENT_BASE", ~c"#{component_base}"},
+      {~c"COMPONENT_BASE", ~c"#{component_base}"}
     ]
 
     Port.open(
@@ -96,7 +102,7 @@ defmodule Phoenix.React.Runtime.Bun do
     cleanup(reason, state)
   end
 
-  defp cleanup(reason, %{port: port} = _state) do
+  defp cleanup(reason, %Runtime{port: port} = _state) do
     case port |> Port.info(:os_pid) do
       {:os_pid, pid} ->
         {_, code} = System.cmd("kill", ["-9", "#{pid}"])
@@ -113,39 +119,58 @@ defmodule Phoenix.React.Runtime.Bun do
     end
   end
 
+  defp get_port_os_pid(port) do
+    case port |> Port.info(:os_pid) do
+      {:os_pid, pid} -> pid
+      _ -> nil
+    end
+  end
+
   @impl true
+  # def handle_call(:stop, _from, state) do
+
+  #   {:reply, reply, state}
+  # end
+
   def handle_call({:render_to_string, component, props}, _from, state) do
     server_port = config()[:port]
-    reply = case Jason.encode(props) do
-      {:ok, encoded_props} ->
-        get_rendered_component(server_port, component, encoded_props, :string)
-      {:error, error} ->
-        {:error, error}
-    end
+
+    reply =
+      case Jason.encode(props) do
+        {:ok, encoded_props} ->
+          get_rendered_component(server_port, component, encoded_props, :string)
+
+        {:error, error} ->
+          {:error, error}
+      end
+
     {:reply, reply, state}
   end
 
   @impl true
   def handle_call({:render_to_static_markup, component, props}, _from, state) do
     server_port = config()[:port]
-    reply = case Jason.encode(props) do
-      {:ok, encoded_props} ->
-        get_rendered_component(server_port, component, encoded_props, :static_markup)
-      {:error, error} ->
-        {:error, error}
-    end
+
+    reply =
+      case Jason.encode(props) do
+        {:ok, encoded_props} ->
+          get_rendered_component(server_port, component, encoded_props, :static_markup)
+
+        {:error, error} ->
+          {:error, error}
+      end
+
     {:reply, reply, state}
   end
-
 
   defmacro process_result(result) do
     quote do
       case unquote(result) do
+        #  request: %HTTPoison.Request{url: request_url}
         {:ok,
          %HTTPoison.Response{
            body: data,
-           status_code: status_code,
-          #  request: %HTTPoison.Request{url: request_url}
+           status_code: status_code
          }}
         when status_code >= 200 and status_code < 400 ->
           {:ok, data}
@@ -168,13 +193,12 @@ defmodule Phoenix.React.Runtime.Bun do
         when status_code >= 500 ->
           {:error, body}
 
-        {:error, %HTTPoison.Error{reason: reason} = error} ->
-          Logger.error inspect({"HTTPoison.Error", error})
-          {:error, reason}
+        {:ok, _} ->
+          {:error, "Unknown"}
 
-        {:error, error} ->
-          Logger.error inspect({"Unknown", error})
-          {:error, error}
+        {:error, %HTTPoison.Error{reason: reason} = error} ->
+          Logger.error(inspect({"HTTPoison.Error", error}))
+          {:error, reason}
       end
     end
   end
@@ -191,6 +215,7 @@ defmodule Phoenix.React.Runtime.Bun do
     url = "http://localhost:#{server_port}/static_markup/#{component}"
     post(url, props) |> process_result()
   end
+
   defp get_rendered_component(server_port, component, props, :string) do
     url = "http://localhost:#{server_port}/component/#{component}"
     post(url, props) |> process_result()

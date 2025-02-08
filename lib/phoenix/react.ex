@@ -18,7 +18,6 @@ defmodule Phoenix.React do
     Supervisor.init(children, strategy: :one_for_one)
   end
 
-
   @type component :: binary()
   @type props :: map()
 
@@ -51,6 +50,7 @@ defmodule Phoenix.React do
   def find_server_pid() do
     # pid = Supervisor.whereis(__MODULE__)
     children = Supervisor.which_children(__MODULE__)
+
     Enum.find_value(children, fn {_, pid, _, [m | _]} ->
       if m == Phoenix.React.Server do
         pid
@@ -58,5 +58,10 @@ defmodule Phoenix.React do
         false
       end
     end)
+  end
+
+  def stop_runtime() do
+    server = find_server_pid()
+    GenServer.call(server, :stop_runtime)
   end
 end

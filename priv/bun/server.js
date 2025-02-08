@@ -1,5 +1,5 @@
-import { serve, sleep, readableStreamToJSON } from 'bun';
-import { renderToString } from 'react-dom/server';
+import { serve, sleep, readableStreamToJSON, readableStreamToText } from 'bun';
+import { renderToString, renderToStaticMarkup } from 'react-dom/server';
 import { join  } from 'path';
 
 const { COMPONENT_BASE, BUN_ENV } = process.env;
@@ -11,7 +11,8 @@ const server = serve({
   async fetch(req) {
     try {
       if (isDev) {
-        console.log('fetch', req.method, req.url);
+        // const body = await readableStreamToText(req.body);
+        console.log('Request: ', req.method, req.url);
       }
       const { url } = req;
       const uri = new URL(url);
@@ -21,6 +22,18 @@ const server = serve({
         return new Response('{"message":"ok"}', {
           headers: {
             "Content-Type": "application/json",
+          },
+        });
+      }
+      if (pathname.startsWith('/static_markup/')) {
+        const props = await readableStreamToJSON(req.body);
+        const fileName = pathname.replace(/^\/static_markup\//, '');
+        const componentFile = join(COMPONENT_BASE, fileName);
+        const { Component } = await import(componentFile);
+        const html = renderToStaticMarkup(<Component {...props} />);
+        return new Response(html, {
+          headers: {
+            "Content-Type": "text/html",
           },
         });
       }
@@ -36,6 +49,12 @@ const server = serve({
           },
         });
       }
+      return new Response(`Not Found, not matched request.`, {
+        status: 404,
+        headers: {
+          "Content-Type": "text/html",
+        },
+      });
     } catch(error) {
       throw error;
     }

@@ -6,10 +6,10 @@ defmodule Phoenix.React.Runtime do
   defstruct [:component_base, :port, render_timeout: 300_000]
 
   @type t :: %__MODULE__{
-    render_timeout: integer(),
-    component_base: path(),
-    port: port()
-  }
+          render_timeout: integer(),
+          component_base: path(),
+          port: port()
+        }
 
   @type path :: binary()
 

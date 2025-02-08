@@ -25,39 +25,41 @@ defmodule Phoenix.React.Cache do
   @doc """
   Get a cached value
   """
-  def get(component, props) do
-    lookup(component, props)
+  def get(component, props, mod) do
+    lookup(component, props, mod)
   end
 
   @doc """
   Set a cached value
   """
-  def put(component, props, result, opt \\ []) do
+  def put(component, props, mod, result, opt \\ []) do
     ttl = Keyword.get(opt, :ttl, @default_ttl)
     expiration = :os.system_time(:seconds) + ttl
-    record = {[component, props], result, expiration}
+    record = {[component, props, mod], result, expiration}
     :ets.insert(@ets_table_name, record)
   end
 
   @doc """
   Remove cached value
   """
-  def delete_cache(component, props) do
-    :ets.delete(@ets_table_name, [component, props])
+  def delete_cache(component, props, mod) do
+    :ets.delete(@ets_table_name, [component, props, mod])
   end
 
-  defp lookup(component, props) do
-    case :ets.lookup(@ets_table_name, [component, props]) do
+  defp lookup(component, props, mod) do
+    case :ets.lookup(@ets_table_name, [component, props, mod]) do
       [result | _] -> check_freshness(result)
       [] -> nil
     end
   end
 
-  defp check_freshness({[component, props], result, expiration}) do
+  defp check_freshness({[component, props, mod], result, expiration}) do
     cond do
-      expiration > :os.system_time(:seconds) -> result
+      expiration > :os.system_time(:seconds) ->
+        result
+
       :else ->
-        delete_cache(component, props)
+        delete_cache(component, props, mod)
         nil
     end
   end
