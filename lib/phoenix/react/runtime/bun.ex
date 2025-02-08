@@ -137,11 +137,19 @@ defmodule Phoenix.React.Runtime.Bun do
   end
 
   @impl true
-  # def handle_call(:stop, _from, state) do
+  def handle_cast(:shutdown, %Runtime{port: port} = state) do
+    case port |> Port.info(:os_pid) do
+      {:os_pid, pid} ->
+        {_, code} = System.cmd("kill", ["-9", "#{pid}"])
+        code
 
-  #   {:reply, reply, state}
-  # end
+      _ ->
+        0
+    end
+    {:noreply, state}
+  end
 
+  @impl true
   def handle_call({:render_to_string, component, props}, _from, state) do
     server_port = config()[:port]
 

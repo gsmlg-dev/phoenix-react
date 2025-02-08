@@ -102,8 +102,7 @@ defmodule Phoenix.React.Server do
   end
 
   def handle_call(:stop_runtime, _from, %{runtiem_process: runtiem_process} = state) do
-    # GenServer.call(runtiem_process, :stop_runtime)
-    GenServer.stop(runtiem_process, :shutdown)
-    {:reply, :ok, state}
+    ok = GenServer.cast(runtiem_process, :shutdown)
+    {:reply, ok, state}
   end
 end
