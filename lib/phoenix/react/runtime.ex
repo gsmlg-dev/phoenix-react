@@ -22,9 +22,11 @@ defmodule Phoenix.React.Runtime do
 
   @callback config() :: list()
 
-  @callback handle_call({:render_to_string, component(), map()}, GenServer.from(), t()) :: {:reply, {:ok, html()}, t()} | {:reply, {:error, term()}, t()}
+  @callback handle_call({:render_to_string, component(), map()}, GenServer.from(), t()) ::
+              {:reply, {:ok, html()}, t()} | {:reply, {:error, term()}, t()}
 
-  @callback handle_call({:render_to_static_markup, component(), map()}, GenServer.from(), t()) :: {:reply, {:ok, html()}, t()} | {:reply, {:error, term()}, t()}
+  @callback handle_call({:render_to_static_markup, component(), map()}, GenServer.from(), t()) ::
+              {:reply, {:ok, html()}, t()} | {:reply, {:error, term()}, t()}
 
   defmacro __using__(_) do
     quote do

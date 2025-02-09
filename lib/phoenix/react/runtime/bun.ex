@@ -67,11 +67,12 @@ defmodule Phoenix.React.Runtime.Bun do
     args = ["--port", Integer.to_string(config()[:port]), config()[:server_js]]
     bun_env = if(config()[:env] == :dev, do: "development", else: "production")
 
-    args = if config()[:env] == :dev do
-      ["--watch" | args]
-    else
-      args
-    end
+    args =
+      if config()[:env] == :dev do
+        ["--watch" | args]
+      else
+        args
+      end
 
     env = [
       {~c"BUN_ENV", ~c"#{bun_env}"},

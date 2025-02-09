@@ -29,14 +29,17 @@ defmodule Phoenix.React.Cache do
   def handle_info(:gc, state) do
     ts = :os.system_time(:seconds)
     fun = :ets.fun2ms(fn {key, _, expiration} when ts > expiration -> key end)
+
     :ets.lookup(@ets_table_name, fun)
     |> Enum.each(&:ets.delete(@ets_table_name, &1))
+
     schedule_work()
     {:noreply, state}
   end
 
   defp schedule_work do
-    Process.send_after(self(), :gc, 60_000)  # Every 60 seconds
+    # Every 60 seconds
+    Process.send_after(self(), :gc, 60_000)
   end
 
   @doc """
