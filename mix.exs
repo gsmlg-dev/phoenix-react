@@ -2,7 +2,7 @@ defmodule Phoenix.React.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/gsmlg-dev/phoenix-react.git"
-  @version "0.2.0"
+  @version "0.2.1"
 
   def project do
     [
