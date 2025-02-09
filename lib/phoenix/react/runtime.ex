@@ -36,10 +36,10 @@ defmodule Phoenix.React.Runtime do
       use GenServer
 
       @impl true
-      def handle_call({method, component, props}, from, state) when method in [:render_to_string, :render_to_static_markup] do
+      def handle_call({method, component, props}, from, state)
+          when method in [:render_to_string, :render_to_static_markup] do
         apply(__MODULE__, method, [component, props, from, state])
       end
-
     end
   end
 end
