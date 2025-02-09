@@ -29,23 +29,32 @@ defmodule Phoenix.React.Cache do
   @impl true
   def handle_info(:gc, state) do
     ts = :os.system_time(:seconds)
-    fun = :ets.fun2ms(fn {key, _, expiration} when ts > expiration -> key end)
 
-    :ets.lookup(@ets_table_name, fun)
-    |> Enum.each(&:ets.delete(@ets_table_name, &1))
+    match_spec = [
+      {{:"$1", :_, :"$2"}, [{:<, :"$2", ts}], [:"$1"]}
+    ]
+
+    :ets.select(@ets_table_name, match_spec)
+    |> Enum.each(fn key -> :ets.delete(@ets_table_name, key) end)
 
     schedule_work()
     {:noreply, state}
   end
 
   defp schedule_work do
-    # Every 60 seconds
-    Process.send_after(self(), :gc, 60_000)
+    # Every 60 seconds by default
+    gc_time =
+      Application.get_env(:phoenix_react_server, Phoenix.React)
+      |> Keyword.get(:gc_time, 60_000)
+
+    Process.send_after(self(), :gc, gc_time)
   end
 
   @doc """
   Get a cached value
   """
+  @spec get(Phoenix.React.component(), Phoenix.React.props(), :static_markup | :string) ::
+          binary() | nil
   def get(component, props, mod) do
     lookup(component, props, mod)
   end
@@ -53,6 +62,9 @@ defmodule Phoenix.React.Cache do
   @doc """
   Set a cached value
   """
+  @spec put(Phoenix.React.component(), Phoenix.React.props(), :static_markup | :string, binary(),
+          ttl: integer()
+        ) :: true
   def put(component, props, mod, result, opt \\ []) do
     ttl = Keyword.get(opt, :ttl, @default_ttl)
     expiration = :os.system_time(:seconds) + ttl
@@ -63,6 +75,8 @@ defmodule Phoenix.React.Cache do
   @doc """
   Remove cached value
   """
+  @spec delete_cache(Phoenix.React.component(), Phoenix.React.props(), :static_markup | :string) ::
+          true
   def delete_cache(component, props, mod) do
     :ets.delete(@ets_table_name, [component, props, mod])
   end
