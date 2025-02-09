@@ -17,7 +17,7 @@ See the [docs](https://hexdocs.pm/phoenix_react_server/) for more information.
 Add deps in `mix.exs`
 
 ```elixir
-{:phoenix_react_server, "~> 0.2.0"},
+{:phoenix_react_server, "~> 0.2"},
 ```
 
 ## Configuration
