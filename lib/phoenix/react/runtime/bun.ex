@@ -43,6 +43,7 @@ defmodule Phoenix.React.Runtime.Bun do
     {:noreply, %Runtime{state | port: port}}
   end
 
+  @impl true
   def config() do
     cfg = Application.get_env(:phoenix_react_server, Phoenix.React.Runtime.Bun, [])
     cmd = cfg[:cmd] || System.find_executable("bun")
@@ -65,6 +66,12 @@ defmodule Phoenix.React.Runtime.Bun do
     cmd = config()[:cmd]
     args = ["--port", Integer.to_string(config()[:port]), config()[:server_js]]
     bun_env = if(config()[:env] == :dev, do: "development", else: "production")
+
+    args = if config()[:env] == :dev do
+      ["--watch" | args]
+    else
+      args
+    end
 
     env = [
       {~c"BUN_ENV", ~c"#{bun_env}"},
@@ -150,7 +157,7 @@ defmodule Phoenix.React.Runtime.Bun do
     {:noreply, state}
   end
 
-  @impl true
+  @impl Phoenix.React.Runtime
   def handle_call({:render_to_string, component, props}, _from, state) do
     server_port = config()[:port]
 
@@ -166,7 +173,7 @@ defmodule Phoenix.React.Runtime.Bun do
     {:reply, reply, state}
   end
 
-  @impl true
+  @impl Phoenix.React.Runtime
   def handle_call({:render_to_static_markup, component, props}, _from, state) do
     server_port = config()[:port]
 

@@ -3,3 +3,24 @@
 @import "tailwindcss/utilities";
 
 @import "./github-markdown.css";
+
+@layer components {
+  .table-primary-border {
+    th, td {
+      @apply border border-primary;
+    }
+  }
+
+  .table-animate-row {
+    > tbody > tr {
+      transition: opacity 1000ms, translate 500ms;
+      opacity: 1;
+      translate: 0 0;
+
+      @starting-style {
+        opacity: 0;
+        translate: -100% 0;
+      }
+    }
+  }
+}

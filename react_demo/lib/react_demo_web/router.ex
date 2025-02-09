@@ -14,6 +14,7 @@ defmodule ReactDemoWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
+    get "/stats", PageController, :stats
   end
 
 end

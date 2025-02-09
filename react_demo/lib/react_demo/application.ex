@@ -11,7 +11,7 @@ defmodule ReactDemo.Application do
       ReactDemoWeb.Telemetry,
       {DNSCluster, query: Application.get_env(:react_demo, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: ReactDemo.PubSub},
-      {Finch, name: ReactDemo.Finch},
+      SystemStats,
       Phoenix.React,
       ReactDemoWeb.Endpoint
     ]

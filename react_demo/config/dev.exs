@@ -29,3 +29,13 @@ config :phoenix, :plug_init_mode, :runtime
 config :phoenix_live_view,
   debug_heex_annotations: true,
   enable_expensive_runtime_checks: true
+
+config :phoenix_react_server, Phoenix.React,
+  runtime: Phoenix.React.Runtime.Bun,
+  component_base: Path.expand("../assets/component", __DIR__),
+  cache_ttl: 10
+
+config :phoenix_react_server, Phoenix.React.Runtime.Bun,
+  cd: Path.expand("..", __DIR__),
+  cmd: System.find_executable("bun"),
+  env: :dev

@@ -46,7 +46,6 @@ defmodule Phoenix.React.Helper do
     required: true,
     doc: """
     react component name
-    ```
     """
   )
 

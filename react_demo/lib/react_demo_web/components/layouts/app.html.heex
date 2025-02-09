@@ -1,10 +1,10 @@
 <header class="navbar bg-primary text-primary-content">
   <div class="navbar-start">
     <a class="btn btn-ghost text-xl">Phoenix React Server</a>
-    <code class="text-sm leading-6 opacity-60">
-      :phoenix_react_server ~>
-      v{Application.spec(:phoenix_react_server, :vsn)}
-    </code>
+  </div>
+  <div class="navbar-center">
+    <a href="/" class="btn btn-ghost">Render to Static markup</a>
+    <a href="/stats" class="btn btn-ghost">Render to String and Hydrate</a>
   </div>
 
   <div class="navbar-end gap-4 px-4">
@@ -26,7 +26,7 @@
 </header>
 
 <main class="p-4 sm:px-6 lg:px-8">
-  <div class="mx-auto max-w-2xl">
+  <div class="w-full min-h-auto">
     <.flash_group flash={@flash} />
     {@inner_content}
   </div>
