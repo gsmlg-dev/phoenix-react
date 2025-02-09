@@ -158,8 +158,8 @@ defmodule Phoenix.React.Runtime.Bun do
     {:noreply, state}
   end
 
-  @impl Phoenix.React.Runtime
-  def handle_call({:render_to_string, component, props}, _from, state) do
+  @impl true
+  def render_to_string(component, props, _from, state) do
     server_port = config()[:port]
 
     reply =
@@ -174,8 +174,8 @@ defmodule Phoenix.React.Runtime.Bun do
     {:reply, reply, state}
   end
 
-  @impl Phoenix.React.Runtime
-  def handle_call({:render_to_static_markup, component, props}, _from, state) do
+  @impl true
+  def render_to_static_markup(component, props, _from, state) do
     server_port = config()[:port]
 
     reply =

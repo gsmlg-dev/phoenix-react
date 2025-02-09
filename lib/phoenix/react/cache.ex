@@ -18,6 +18,7 @@ defmodule Phoenix.React.Cache do
   end
 
   @impl true
+  @spec init(any()) :: {:ok, %{}}
   def init(_) do
     state = %{}
     ensure_started()
