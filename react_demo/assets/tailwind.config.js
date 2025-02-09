@@ -4,6 +4,8 @@ const plugin = require("tailwindcss/plugin")
 module.exports = {
   content: [
     "./js/**/*.js",
+    "./component/**/*.js",
+    "../../priv/bun/**/*.js",
     "../lib/react_demo_web.ex",
     "../lib/react_demo_web/**/*.*ex"
   ],

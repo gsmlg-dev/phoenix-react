@@ -18,3 +18,5 @@ liveSocket.connect()
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket
 
+import "./system_usage"
+

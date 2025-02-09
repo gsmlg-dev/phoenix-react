@@ -1,6 +1,9 @@
 defmodule Phoenix.React.Server do
   @moduledoc """
   The React Render Server
+
+  Start runtime server set in `Application.get_env(:phoenix_react_server, Phoenix.React)`
+
   """
   require Logger
 
@@ -8,6 +11,19 @@ defmodule Phoenix.React.Server do
 
   use GenServer
 
+  @type second() :: integer()
+  @type millisecond() :: integer()
+
+  @doc """
+  Return the configuration of the React Render Server from `Application.get_env(:phoenix_react_server, Phoenix.React)`
+  """
+  @spec config() :: [
+          {:cache_ttl, second()}
+          | {:component_base, binary()}
+          | {:render_timeout, millisecond()}
+          | {:runtime, module()},
+          ...
+        ]
   def config() do
     config = Application.get_env(:phoenix_react_server, Phoenix.React)
 

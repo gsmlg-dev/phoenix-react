@@ -1,10 +1,5 @@
 import Config
 
-System.at_exit(fn _exit_code ->
-  IO.puts("App is shutting down... Close React Render runtime.")
-  Phoenix.React.stop_runtime()
-end)
-
 if System.get_env("PHX_SERVER") do
   config :react_demo, ReactDemoWeb.Endpoint, server: true
 end

@@ -20,13 +20,37 @@ defmodule ReactDemoWeb.ReactComponents do
 
   """
   attr :data, :string, required: true, doc: "markdown data"
-  attr :static, :boolean, default: true, doc: "when true, render to static markup, false to render to string for client-side hydrate"
 
   def react_markdown(assigns) do
     {static, props} = Map.pop(assigns, :static, true)
 
     react_component(%{
       component: "markdown",
+      props: props,
+      static: static
+    })
+  end
+
+  @doc """
+  Renders a xychart by react-dom/server.
+
+  ## Examples
+
+      <.react_system_stats
+        data={@data}
+      />
+
+  """
+  # attr :time, :list, required: false, doc: "time data"
+  # attr :cpu, :list, required: false, doc: "cpu data"
+  # attr :mem, :list, required: false, doc: "memory data"
+  attr :date, :list, required: false, doc: "date data"
+
+  def react_system_stats(assigns) do
+    {static, props} = Map.pop(assigns, :static, false)
+
+    react_component(%{
+      component: "system_usage",
       props: props,
       static: static
     })

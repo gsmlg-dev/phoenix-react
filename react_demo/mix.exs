@@ -21,7 +21,7 @@ defmodule ReactDemo.MixProject do
   def application do
     [
       mod: {ReactDemo.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :os_mon]
     ]
   end
 
@@ -42,7 +42,6 @@ defmodule ReactDemo.MixProject do
       {:floki, ">= 0.30.0", only: :test},
       {:esbuild, "~> 0.8", runtime: Mix.env() == :dev},
       {:tailwind, "~> 0.2", runtime: Mix.env() == :dev},
-      {:finch, "~> 0.13"},
       {:telemetry_metrics, "~> 1.0"},
       {:telemetry_poller, "~> 1.0"},
       {:gettext, "~> 0.26"},

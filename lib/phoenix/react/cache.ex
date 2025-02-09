@@ -1,6 +1,10 @@
 defmodule Phoenix.React.Cache do
   @moduledoc """
-  A simple ETS based cache for render react component
+  Cache for React Component rendering
+
+  Cache key is a tuple of component, props and static flag
+
+  Remove expired cache every 60 seconds
   """
   use GenServer
 
@@ -13,10 +17,30 @@ defmodule Phoenix.React.Cache do
     GenServer.start_link(__MODULE__, nil, name: __MODULE__)
   end
 
+  @impl true
+  @spec init(any()) :: {:ok, %{}}
   def init(_) do
     state = %{}
     ensure_started()
+    schedule_work()
     {:ok, state}
+  end
+
+  @impl true
+  def handle_info(:gc, state) do
+    ts = :os.system_time(:seconds)
+    fun = :ets.fun2ms(fn {key, _, expiration} when ts > expiration -> key end)
+
+    :ets.lookup(@ets_table_name, fun)
+    |> Enum.each(&:ets.delete(@ets_table_name, &1))
+
+    schedule_work()
+    {:noreply, state}
+  end
+
+  defp schedule_work do
+    # Every 60 seconds
+    Process.send_after(self(), :gc, 60_000)
   end
 
   @doc """
