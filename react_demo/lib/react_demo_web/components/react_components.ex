@@ -41,10 +41,8 @@ defmodule ReactDemoWeb.ReactComponents do
       />
 
   """
-  # attr :time, :list, required: false, doc: "time data"
-  # attr :cpu, :list, required: false, doc: "cpu data"
-  # attr :mem, :list, required: false, doc: "memory data"
-  attr :date, :list, required: false, doc: "date data"
+
+  attr :data, :list, required: false, doc: "data"
 
   def react_system_stats(assigns) do
     {static, props} = Map.pop(assigns, :static, false)
