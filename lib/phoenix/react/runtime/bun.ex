@@ -64,7 +64,8 @@ defmodule Phoenix.React.Runtime.Bun do
   def start(component_base: component_base) do
     cd = config()[:cd]
     cmd = config()[:cmd]
-    args = ["--port", Integer.to_string(config()[:port]), config()[:server_js]]
+    bun_port = Integer.to_string(config()[:port])
+    args = ["--port", bun_port, config()[:server_js]]
     bun_env = if(config()[:env] == :dev, do: "development", else: "production")
 
     args =
@@ -75,6 +76,9 @@ defmodule Phoenix.React.Runtime.Bun do
       end
 
     env = [
+      {~c"no_proxy", ~c"10.*,127.*,192.168.*,172.16.0.0/12,localhost,127.0.0.1,::1"},
+      {~c"PORT", ~c"#{bun_port}"},
+      {~c"BUN_PORT", ~c"#{bun_port}"},
       {~c"BUN_ENV", ~c"#{bun_env}"},
       {~c"COMPONENT_BASE", ~c"#{component_base}"}
     ]
