@@ -39,8 +39,6 @@ defmodule Phoenix.React do
 
   - [x] `Phoenix.React.Runtime.Bun`
   - [ ] `Phoenix.React.Runtime.Deno`
-  - [ ] `Phoenix.React.Runtime.Node`
-  - [ ] `Phoenix.React.Runtime.Lambda`
 
   Add Render Server in your application Supervisor tree.
 
@@ -99,27 +97,25 @@ defmodule Phoenix.React do
     end
   ```
 
-  ## Use in otp release
+  ## Run in release mode
 
-  Transcompile react component in release.
+  Bundle components with server.js to one file.
 
   ```shell
-  bun build --outdir=priv/react/component ./assets/component/**
+  mix phx.react.bun.bundle --component-base=assets/component --output=priv/react/server.js
   ```
 
   Config `runtime` to `Phoenix.React.Runtime.Bun` in `runtime.exs`
 
   ```elixir
-  config :phoenix_react_server, Phoenix.React,
-    # Change `component_base` to `priv/react/component`
-    component_base: :code.priv(:react_demo, "react/component")
 
   config :phoenix_react_server, Phoenix.React.Runtime.Bun,
-    # include `react-dom/server` and `jsx-runtime`
-    cd: "/path/to/dir/include/node_modules/and/bunfig.toml",
-    cmd: "/path/to/bun",
+    cmd: System.find_executable("bun"),
+    server_js: Path.expand("../priv/react/server.js", __DIR__),
+    port: 12666,
     env: :prod
   ```
+
 
   ## Hydrate at client side
 
