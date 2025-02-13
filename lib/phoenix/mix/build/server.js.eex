@@ -1,5 +1,5 @@
 import { serve, readableStreamToJSON, readableStreamToText } from 'bun';
-import { renderToString, renderToStaticMarkup } from 'react-dom/server';
+import { renderToReadableStream, renderToString, renderToStaticMarkup } from 'react-dom/server';
 
 const __comMap = {};
 <%= for {{name, file}, idx} <- Enum.with_index(files) do %>
