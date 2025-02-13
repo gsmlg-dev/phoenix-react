@@ -153,6 +153,7 @@ defmodule Phoenix.React do
   def init(_init_arg) do
     children = [
       {Phoenix.React.Cache, []},
+      {Phoenix.React.Runtime, []},
       {Phoenix.React.Server, []}
     ]
 

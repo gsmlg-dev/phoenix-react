@@ -8,11 +8,16 @@ defmodule Phoenix.React.Server do
   require Logger
 
   alias Phoenix.React.Cache
+  alias Phoenix.React.Runtime
 
   use GenServer
 
   @type second() :: integer()
   @type millisecond() :: integer()
+
+  def set_runtime_process(pid) do
+    GenServer.cast(__MODULE__, {:set_runtime_process, pid})
+  end
 
   @doc """
   Return the configuration of the React Render Server from `Application.get_env(:phoenix_react_server, Phoenix.React)`
@@ -46,14 +51,20 @@ defmodule Phoenix.React.Server do
     runtime = cfg[:runtime]
     component_base = cfg[:component_base]
     render_timeout = cfg[:render_timeout]
+    args = [component_base: component_base, render_timeout: render_timeout]
 
-    {:ok, runtiem_process} =
-      GenServer.start_link(runtime,
-        component_base: component_base,
-        render_timeout: render_timeout
-      )
+    Runtime.start_runtime(runtime, args)
 
-    {:ok, %{runtiem_process: runtiem_process}}
+    {:ok, %{
+      runtime: runtime,
+      component_base: component_base,
+      render_timeout: render_timeout
+      }}
+  end
+
+  @impl true
+  def handle_cast({:set_runtime_process, pid}, state) do
+    {:noreply, Map.put(state, :runtiem_process, pid)}
   end
 
   @impl true

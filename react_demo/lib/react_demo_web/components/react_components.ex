@@ -53,4 +53,15 @@ defmodule ReactDemoWeb.ReactComponents do
       static: static
     })
   end
+
+
+  def react_live_form(assigns) do
+    {static, props} = Map.pop(assigns, :static, nil)
+
+    react_component(%{
+      component: "live_form",
+      props: props,
+      static: static
+    })
+  end
 end

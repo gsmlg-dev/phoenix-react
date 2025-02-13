@@ -21,12 +21,13 @@ defmodule Phoenix.React.Runtime.Bun do
   use Phoenix.React.Runtime
 
   def start_link(init_arg) do
+    IO.inspect(init_arg)
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
   @impl true
   def init(component_base: component_base, render_timeout: render_timeout) do
-    {:ok, %Runtime{component_base: component_base, render_timeout: render_timeout},
+    {:ok, %Runtime{component_base: component_base, render_timeout: render_timeout, server_js: config()[:server_js]},
      {:continue, :start_port}}
   end
 
@@ -34,11 +35,17 @@ defmodule Phoenix.React.Runtime.Bun do
   @spec handle_continue(:start_port, Phoenix.React.Runtime.t()) ::
           {:noreply, Phoenix.React.Runtime.t()}
   def handle_continue(:start_port, %Runtime{component_base: component_base} = state) do
+    if config()[:env] == :dev do
+      start_file_watcher(component_base)
+    end
+
     port = start(component_base: component_base)
 
     Logger.debug(
       "Bun.Server started on port: #{inspect(port)} and OS pid: #{get_port_os_pid(port)}"
     )
+
+    Phoenix.React.Server.set_runtime_process(self())
 
     {:noreply, %Runtime{state | port: port}}
   end
@@ -66,7 +73,10 @@ defmodule Phoenix.React.Runtime.Bun do
     cmd = config()[:cmd]
     bun_port = Integer.to_string(config()[:port])
     args = ["--port", bun_port, config()[:server_js]]
-    bun_env = if(config()[:env] == :dev, do: "development", else: "production")
+
+    is_dev = config()[:env] == :dev
+
+    bun_env = if(is_dev, do: "development", else: "production")
 
     args =
       if config()[:env] == :dev do
@@ -100,6 +110,22 @@ defmodule Phoenix.React.Runtime.Bun do
   end
 
   @impl true
+  def start_file_watcher(component_base) do
+    Logger.debug("Building server.js bundle")
+    Mix.Task.run("phx.react.bun.bundle", ["--component-base", component_base, "--output", config()[:server_js]])
+    Logger.debug("Starting file watcher")
+    Runtime.start_file_watcher([ref: self(), path: component_base])
+  end
+
+  @impl true
+  def handle_info({:component_base_changed, path}, state) do
+    Logger.debug("component_base changed: #{path}")
+    Task.async(fn ->
+      Mix.Task.run("phx.react.bun.bundle", ["--component-base", state.component_base, "--output", config()[:server_js]])
+    end)
+    {:noreply, state}
+  end
+
   def handle_info({_port, {:data, msg}}, state) do
     Logger.debug(msg)
     {:noreply, state}
