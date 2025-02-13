@@ -1,4 +1,5 @@
 defmodule Phoenix.React.Runtime.FileWatcher do
+  @moduledoc false
   use GenServer
 
   def start_link(args) do

@@ -2,7 +2,14 @@ defmodule Phoenix.React.Server do
   @moduledoc """
   The React Render Server
 
-  Start runtime server set in `Application.get_env(:phoenix_react_server, Phoenix.React)`
+  Start React Render server by setting.
+
+  ```
+  config :phoenix_react_server, Phoenix.React,
+    runtime: Phoenix.React.Runtime.Bun,
+    component_base: Path.expand("../assets/component", __DIR__),
+    cache_ttl: 10
+  ```
 
   """
   require Logger

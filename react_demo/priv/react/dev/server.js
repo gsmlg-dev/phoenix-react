@@ -86388,7 +86388,6 @@ var server = serve({
         const jsxNode = /* @__PURE__ */ jsx_dev_runtime4.jsxDEV(Component4, {
           ...props
         }, undefined, false, undefined, this);
-        console.log("jsxNode", jsxNode, Component4, fileName, props);
         const stream = await import_server.renderToReadableStream(jsxNode);
         return new Response(stream, {
           headers: {

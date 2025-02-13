@@ -10,6 +10,8 @@ defmodule Phoenix.React.Runtime.Bun do
   config :phoenix_react_server, Phoenix.React.Runtime.Bun,
     cd: File.cwd!(),
     cmd: "/path/to/bun",
+    # In dev mode, the server_js will be watched and recompiled when changed
+    # In prod mode, this need to be precompiled with `mix phx.react.bun.bundle`
     server_js: Path.expand("bun/server.js", :code.priv_dir(:phoenix_react_server)),
     port: 5225,
     env: :dev
