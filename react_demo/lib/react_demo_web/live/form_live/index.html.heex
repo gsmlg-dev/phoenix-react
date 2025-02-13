@@ -1,0 +1,22 @@
+<div class="container mx-auto p-4 sm:px-6 lg:px-8">
+  <div class="card w-full">
+    <div class="card-body">
+      <h3 class="card-title">
+        This <code class="text-primary">Form</code> is rendered with <code class="text-secondary">react-dom/server</code>
+      </h3>
+      <p>
+        Form is <code class="text-info">hydrate</code> on client side after live view socket connected with event <code class="text-info">form:init</code>.<br />
+        Input in markdown editor will send <code class="text-info">form:input</code> to server<br />
+        Server will send <code class="text-info">form:update</code> to client to update the form data.
+      </p>
+      <div
+        id="react-live-form"
+        class="w-full h-full"
+        phx-update="ignore"
+        phx-hook="LiveFormHook"
+      ><.react_live_form
+        data={@form_data}
+      /></div>
+    </div>
+  </div>
+</div>

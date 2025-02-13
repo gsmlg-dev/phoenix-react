@@ -2,7 +2,7 @@ defmodule Phoenix.React.Mixfile do
   use Mix.Project
 
   @source_url "https://github.com/gsmlg-dev/phoenix-react.git"
-  @version "0.3.0"
+  @version "0.4.0"
 
   def project do
     [
@@ -47,7 +47,8 @@ defmodule Phoenix.React.Mixfile do
       {:httpoison, "~> 2.0"},
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_view, "~> 1.0"},
-      {:ex_doc, ">= 0.0.0", only: :prod, runtime: false}
+      {:file_system, "~> 1.0"},
+      {:ex_doc, ">= 0.0.0", only: :doc, runtime: false}
     ]
   end
 

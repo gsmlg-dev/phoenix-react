@@ -15,6 +15,8 @@ defmodule ReactDemoWeb.Router do
 
     get "/", PageController, :home
     get "/stats", PageController, :stats
+
+    live "/form", FormLive.Index, :index
   end
 
 end

@@ -12,6 +12,7 @@ defmodule ReactDemo.Application do
       {DNSCluster, query: Application.get_env(:react_demo, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: ReactDemo.PubSub},
       SystemStats,
+      FormProcess,
       Phoenix.React,
       ReactDemoWeb.Endpoint
     ]
