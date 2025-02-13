@@ -1,5 +1,5 @@
 import { serve, sleep, readableStreamToJSON, readableStreamToText } from 'bun';
-import { renderToString, renderToStaticMarkup } from 'react-dom/server';
+import { renderToString, renderToStaticMarkup, renderToReadableStream } from 'react-dom/server';
 import { join  } from 'path';
 
 const { COMPONENT_BASE, BUN_ENV } = process.env;
@@ -52,6 +52,20 @@ const server = serve({
         const jsxNode = <Component {...props} />;
         const html = renderToString(jsxNode);
         return new Response(html, {
+          headers: {
+            "Content-Type": "text/html",
+          },
+        });
+      }
+
+      if (pathname.startsWith('/readable_stream/')) {
+        const props = await readableStreamToJSON(bodyStream);
+        const fileName = pathname.replace(/^\/readable_stream\//, '');
+        const componentFile = join(COMPONENT_BASE, fileName);
+        const { Component } = await import(componentFile);
+        const jsxNode = <Component {...props} />;
+        const stream = await renderToReadableStream(jsxNode);
+        return new Response(stream, {
           headers: {
             "Content-Type": "text/html",
           },

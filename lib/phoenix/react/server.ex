@@ -2,7 +2,14 @@ defmodule Phoenix.React.Server do
   @moduledoc """
   The React Render Server
 
-  Start runtime server set in `Application.get_env(:phoenix_react_server, Phoenix.React)`
+  Start React Render server by setting.
+
+  ```
+  config :phoenix_react_server, Phoenix.React,
+    runtime: Phoenix.React.Runtime.Bun,
+    component_base: Path.expand("../assets/component", __DIR__),
+    cache_ttl: 10
+  ```
 
   """
   require Logger
@@ -69,6 +76,36 @@ defmodule Phoenix.React.Server do
   end
 
   @impl true
+  def handle_call(
+        {:render_to_readable_stream, component, props},
+        _from,
+        %{runtiem_process: runtiem_process} = state
+      ) do
+    reply =
+      case Cache.get(component, props, :render_to_readable_stream) do
+        nil ->
+          render_timeout = config()[:render_timeout]
+
+          case GenServer.call(
+                 runtiem_process,
+                 {:render_to_readable_stream, component, props},
+                 render_timeout
+               ) do
+            {:ok, html} = reply ->
+              Cache.put(component, props, :render_to_readable_stream, html)
+              reply
+
+            reply ->
+              reply
+          end
+
+        html ->
+          {:ok, html}
+      end
+
+    {:reply, reply, state}
+  end
+
   def handle_call(
         {:render_to_string, component, props},
         _from,

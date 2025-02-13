@@ -10,6 +10,8 @@ defmodule Phoenix.React.Runtime.Bun do
   config :phoenix_react_server, Phoenix.React.Runtime.Bun,
     cd: File.cwd!(),
     cmd: "/path/to/bun",
+    # In dev mode, the server_js will be watched and recompiled when changed
+    # In prod mode, this need to be precompiled with `mix phx.react.bun.bundle`
     server_js: Path.expand("bun/server.js", :code.priv_dir(:phoenix_react_server)),
     port: 5225,
     env: :dev
@@ -207,6 +209,22 @@ defmodule Phoenix.React.Runtime.Bun do
   end
 
   @impl true
+  def render_to_readable_stream(component, props, _from, state) do
+    server_port = config()[:port]
+
+    reply =
+      case Jason.encode(props) do
+        {:ok, encoded_props} ->
+          get_rendered_component(server_port, component, encoded_props, :readable_stream)
+
+        {:error, error} ->
+          {:error, error}
+      end
+
+    {:reply, reply, state}
+  end
+
+  @impl true
   def render_to_string(component, props, _from, state) do
     server_port = config()[:port]
 
@@ -241,7 +259,6 @@ defmodule Phoenix.React.Runtime.Bun do
   defmacro process_result(result) do
     quote do
       case unquote(result) do
-        #  request: %HTTPoison.Request{url: request_url}
         {:ok,
          %HTTPoison.Response{
            body: data,
@@ -293,6 +310,11 @@ defmodule Phoenix.React.Runtime.Bun do
 
   defp get_rendered_component(server_port, component, props, :string) do
     url = "http://localhost:#{server_port}/component/#{component}"
+    post(url, props) |> process_result()
+  end
+
+  defp get_rendered_component(server_port, component, props, :readable_stream) do
+    url = "http://localhost:#{server_port}/readable_stream/#{component}"
     post(url, props) |> process_result()
   end
 end

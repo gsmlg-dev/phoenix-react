@@ -6,8 +6,10 @@ defmodule Phoenix.React do
   **Features**
 
   - [x] Render to static markup
-  - [x] Render to html
+  - [x] Render to string
+  - [x] Render to readable stream
   - [x] Hydrate at client side
+  - [x] Connect to Live View render
 
   See the [docs](https://hexdocs.pm/phoenix_react_server/) for more information.
 
@@ -16,7 +18,7 @@ defmodule Phoenix.React do
   Add deps in `mix.exs`
 
   ```elixir
-  {:phoenix_react_server, "~> 0.2.0"},
+  {:phoenix_react_server, "~> 0.5"},
   ```
 
   ## Configuration
@@ -97,6 +99,122 @@ defmodule Phoenix.React do
     end
   ```
 
+  ### `render_to_static_markup`
+
+  Then you can use react server rendered component in Phoenix Component
+
+  ```html
+  <div class="card">
+    <div clas="card-body">
+      <div class="card-title">Hello There</div>
+      <.react_markdown
+        data={@data}
+      >
+    </div>
+  </div>
+  ```
+
+  ### `render_to_string`
+
+  ```html
+  <div class="card w-full">
+    <div class="card-body">
+      <h3 class="card-title">
+        This <code class="text-primary">Table</code> is rendered with <code class="text-secondary">react-dom/server</code>
+      </h3>
+      <!-- Notice: Remove white space in the react render node or it will break hydrate -->
+      <div class="w-full h-full" id="system_usage_container"><.react_system_stats
+        data={@data}
+      /></div>
+    </div>
+  </div>
+  ```
+
+  * Then hydrate on the client.
+
+  ```js
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const store = new Store();
+    const domContainer = document.querySelector('#system_usage_container');
+    if (domContainer) {
+      let channel = socket.channel("system_usage:lobby", {});
+
+      channel.join()
+        .receive("ok", resp => { console.log("Joined successfully", resp) })
+        .receive("error", resp => { console.log("Unable to join", resp) });
+
+
+      function Usage(props) {
+        const data = useSyncExternalStore(store.subscribe, store.getSnapshot, store.getServerSnapshot);
+
+        return <SystemUsage data={data} />;
+      }
+
+      let root;
+
+      channel.on("joined", (data) => {
+        // console.log("Reset stats: ", data)
+        store.reset(data.data)
+
+        requestAnimationFrame(() => {
+          hydrateRoot(domContainer, <Usage />);
+        });
+      });
+
+      channel.on("stats", (data) => {
+        // console.log("Stats: ", data)
+        store.unshift(data)
+      });
+
+    }
+  });
+
+  ```
+
+  ### `render_to_readable_stream`
+
+  ```html
+  <div
+    id="react-live-form"
+    class="w-full h-full"
+    phx-update="ignore"
+    phx-hook="LiveFormHook"
+  ><.react_live_form
+    data={@form_data}
+  /></div>
+  ```
+
+  * Work with `LiveView`
+
+  ```js
+
+  const hooks = {
+    LiveFormHook: {
+      mounted() {
+        const formState = new FormState();
+
+        formState.setData = (data) => {
+          this.pushEvent("form:input", data);
+        };
+
+        function LiveViewForm(props) {
+          const data = useSyncExternalStore(formState.subscribe, formState.getSnapshot, formState.getServerSnapshot);
+          return <LiveForm data={data} setData={formState.setData} />;
+        }
+
+        this.pushEvent("form:init", {}, (data, ref) => {
+          formState.reset(data);
+          this.reactRoot = hydrateRoot(this.el, <LiveViewForm />);
+        });
+        this.handleEvent("form:update", (data) => {
+          formState.assign(data);
+        });
+      },
+    }
+  }
+  ```
+
   ## Run in release mode
 
   Bundle components with server.js to one file.
@@ -116,10 +234,9 @@ defmodule Phoenix.React do
     env: :prod
   ```
 
+  ## Hydrate at client side with CDN
 
-  ## Hydrate at client side
-
-  Hydrate react component at client side.
+  Hydrate react component at client side when CDN.
 
   ```html
   <script type="importmap">
@@ -140,7 +257,6 @@ defmodule Phoenix.React do
   );
   </script>
   ```
-
 
   """
   use Supervisor
@@ -170,6 +286,19 @@ defmodule Phoenix.React do
   Must be a json serializable map
   """
   @type props :: map()
+
+  @doc """
+  Render a React component to a string by call `renderToReadableStream` in `react-dom/server`
+  """
+  @spec render_to_readable_stream(component, props) :: {:ok, binary()} | {:error, term()}
+  def render_to_readable_stream(component, props \\ %{}) do
+    server = find_server_pid()
+    timeout = Phoenix.React.Server.config()[:render_timeout]
+    GenServer.call(server, {:render_to_readable_stream, component, props}, timeout)
+  rescue
+    error ->
+      {:error, error}
+  end
 
   @doc """
   Render a React component to a string by call `renderToString` in `react-dom/server`
