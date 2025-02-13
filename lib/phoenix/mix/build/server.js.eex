@@ -69,6 +69,19 @@ const server = serve({
         });
       }
 
+      if (pathname.startsWith('/readable_stream/')) {
+        const props = await readableStreamToJSON(bodyStream);
+        const fileName = pathname.replace(/^\/component\//, '');
+        const Component = __comMap[fileName];
+        const jsxNode = <Component {...props} />;
+        const stream = await renderToReadableStream(jsxNode);
+        return new Response(stream, {
+          headers: {
+            "Content-Type": "text/html",
+          },
+        });
+      }
+
       return new Response(`Not Found, not matched request.`, {
         status: 404,
         headers: {

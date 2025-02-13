@@ -45,6 +45,9 @@ defmodule Phoenix.React.Runtime do
 
   @callback config() :: list()
 
+  @callback render_to_readable_stream(component(), map(), GenServer.from(), t()) ::
+              {:reply, {:ok, html()}, t()} | {:reply, {:error, term()}, t()}
+
   @callback render_to_string(component(), map(), GenServer.from(), t()) ::
               {:reply, {:ok, html()}, t()} | {:reply, {:error, term()}, t()}
 
@@ -60,7 +63,7 @@ defmodule Phoenix.React.Runtime do
 
       @impl true
       def handle_call({method, component, props}, from, state)
-          when method in [:render_to_string, :render_to_static_markup] do
+          when method in [:render_to_readable_stream, :render_to_string, :render_to_static_markup] do
         apply(__MODULE__, method, [component, props, from, state])
       end
     end
