@@ -48,7 +48,7 @@ defmodule Phoenix.React.Mixfile do
       {:phoenix_html, "~> 4.1"},
       {:phoenix_live_view, "~> 1.0"},
       {:file_system, "~> 1.0"},
-      {:ex_doc, ">= 0.0.0", only: :doc, runtime: false}
+      {:ex_doc, ">= 0.0.0", only: :prod, runtime: false}
     ]
   end
 
