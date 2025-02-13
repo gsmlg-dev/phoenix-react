@@ -73,7 +73,7 @@ defmodule Phoenix.React.Helper do
 
     method =
       case static do
-        true ->:render_to_static_markup
+        true -> :render_to_static_markup
         false -> :render_to_string
         nil -> :render_to_readable_stream
       end

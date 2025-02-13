@@ -20,7 +20,7 @@ defmodule Phoenix.React.Runtime do
   end
 
   def start_file_watcher(args) do
-    spec = {Phoenix.React.Runtime.FileWatcher , args}
+    spec = {Phoenix.React.Runtime.FileWatcher, args}
     DynamicSupervisor.start_child(__MODULE__, spec)
   end
 

@@ -27,8 +27,12 @@ defmodule Phoenix.React.Runtime.Bun do
 
   @impl true
   def init(component_base: component_base, render_timeout: render_timeout) do
-    {:ok, %Runtime{component_base: component_base, render_timeout: render_timeout, server_js: config()[:server_js]},
-     {:continue, :start_port}}
+    {:ok,
+     %Runtime{
+       component_base: component_base,
+       render_timeout: render_timeout,
+       server_js: config()[:server_js]
+     }, {:continue, :start_port}}
   end
 
   @impl true
@@ -112,17 +116,31 @@ defmodule Phoenix.React.Runtime.Bun do
   @impl true
   def start_file_watcher(component_base) do
     Logger.debug("Building server.js bundle")
-    Mix.Task.run("phx.react.bun.bundle", ["--component-base", component_base, "--output", config()[:server_js]])
+
+    Mix.Task.run("phx.react.bun.bundle", [
+      "--component-base",
+      component_base,
+      "--output",
+      config()[:server_js]
+    ])
+
     Logger.debug("Starting file watcher")
-    Runtime.start_file_watcher([ref: self(), path: component_base])
+    Runtime.start_file_watcher(ref: self(), path: component_base)
   end
 
   @impl true
   def handle_info({:component_base_changed, path}, state) do
     Logger.debug("component_base changed: #{path}")
+
     Task.async(fn ->
-      Mix.Task.run("phx.react.bun.bundle", ["--component-base", state.component_base, "--output", config()[:server_js]])
+      Mix.Task.run("phx.react.bun.bundle", [
+        "--component-base",
+        state.component_base,
+        "--output",
+        config()[:server_js]
+      ])
     end)
+
     {:noreply, state}
   end
 

@@ -55,11 +55,12 @@ defmodule Phoenix.React.Server do
 
     Runtime.start_runtime(runtime, args)
 
-    {:ok, %{
-      runtime: runtime,
-      component_base: component_base,
-      render_timeout: render_timeout
-      }}
+    {:ok,
+     %{
+       runtime: runtime,
+       component_base: component_base,
+       render_timeout: render_timeout
+     }}
   end
 
   @impl true
@@ -68,9 +69,11 @@ defmodule Phoenix.React.Server do
   end
 
   @impl true
-  def handle_call({:render_to_readable_stream, component, props},
-  _from,
-  %{runtiem_process: runtiem_process} = state) do
+  def handle_call(
+        {:render_to_readable_stream, component, props},
+        _from,
+        %{runtiem_process: runtiem_process} = state
+      ) do
     reply =
       case Cache.get(component, props, :render_to_readable_stream) do
         nil ->
