@@ -86220,7 +86220,7 @@ var esm_default4 = Editor_default;
 
 // assets/component/live_form.js
 var jsx_dev_runtime2 = __toESM(require_jsx_dev_runtime(), 1);
-function Component2({ data = "**Hello world!!!**", setData }) {
+function Component2({ data = "", setData }) {
   const { content: content3 } = data;
   return /* @__PURE__ */ jsx_dev_runtime2.jsxDEV("div", {
     className: "container",
