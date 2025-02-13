@@ -55,11 +55,12 @@ defmodule Phoenix.React.Server do
 
     Runtime.start_runtime(runtime, args)
 
-    {:ok, %{
-      runtime: runtime,
-      component_base: component_base,
-      render_timeout: render_timeout
-      }}
+    {:ok,
+     %{
+       runtime: runtime,
+       component_base: component_base,
+       render_timeout: render_timeout
+     }}
   end
 
   @impl true
