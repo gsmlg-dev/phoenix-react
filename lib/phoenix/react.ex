@@ -172,6 +172,19 @@ defmodule Phoenix.React do
   @type props :: map()
 
   @doc """
+  Render a React component to a string by call `renderToReadableStream` in `react-dom/server`
+  """
+  @spec render_to_readable_stream(component, props) :: {:ok, binary()} | {:error, term()}
+  def render_to_readable_stream(component, props \\ %{}) do
+    server = find_server_pid()
+    timeout = Phoenix.React.Server.config()[:render_timeout]
+    GenServer.call(server, {:render_to_readable_stream, component, props}, timeout)
+  rescue
+    error ->
+      {:error, error}
+  end
+
+  @doc """
   Render a React component to a string by call `renderToString` in `react-dom/server`
   """
   @spec render_to_string(component, props) :: {:ok, binary()} | {:error, term()}
