@@ -1,6 +1,10 @@
 # Phoenix.React
 
 [![CI](https://github.com/gsmlg-dev/phoenix-react/actions/workflows/ci.yml/badge.svg)](https://github.com/gsmlg-dev/phoenix-react/actions/workflows/ci.yml)
+[![Hex.pm](https://img.shields.io/hexpm/v/phoenix_react_server.svg)](https://hex.pm/packages/phoenix_react_server)
+[![Hexdocs.pm](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/phoenix_react_server/)
+[![Hex.pm](https://img.shields.io/hexpm/dt/phoenix_react_server.svg)](https://hex.pm/packages/phoenix_react_server)
+[![Hex.pm](https://img.shields.io/hexpm/dw/phoenix_react_server.svg)](https://hex.pm/packages/phoenix_react_server)
 
 Run a `react` render server to render react component in `Phoenix` html.
 
