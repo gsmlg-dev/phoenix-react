@@ -60,7 +60,7 @@ const server = serve({
 
       if (pathname.startsWith('/readable_stream/')) {
         const props = await readableStreamToJSON(bodyStream);
-        const fileName = pathname.replace(/^\/component\//, '');
+        const fileName = pathname.replace(/^\/readable_stream\//, '');
         const componentFile = join(COMPONENT_BASE, fileName);
         const { Component } = await import(componentFile);
         const jsxNode = <Component {...props} />;

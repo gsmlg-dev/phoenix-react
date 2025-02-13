@@ -86383,12 +86383,13 @@ var server = serve({
       }
       if (pathname.startsWith("/readable_stream/")) {
         const props = await readableStreamToJSON(bodyStream);
-        const fileName = pathname.replace(/^\/component\//, "");
+        const fileName = pathname.replace(/^\/readable_stream\//, "");
         const Component4 = __comMap[fileName];
         const jsxNode = /* @__PURE__ */ jsx_dev_runtime4.jsxDEV(Component4, {
           ...props
         }, undefined, false, undefined, this);
-        const stream = await renderToReadableStream(jsxNode);
+        console.log("jsxNode", jsxNode, Component4, fileName, props);
+        const stream = await import_server.renderToReadableStream(jsxNode);
         return new Response(stream, {
           headers: {
             "Content-Type": "text/html"

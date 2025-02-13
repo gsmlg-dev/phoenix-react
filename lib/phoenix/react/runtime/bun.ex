@@ -257,7 +257,6 @@ defmodule Phoenix.React.Runtime.Bun do
   defmacro process_result(result) do
     quote do
       case unquote(result) do
-        #  request: %HTTPoison.Request{url: request_url}
         {:ok,
          %HTTPoison.Response{
            body: data,
