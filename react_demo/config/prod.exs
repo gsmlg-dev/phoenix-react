@@ -16,7 +16,6 @@ config :react_demo, ReactDemoWeb.Endpoint,
 
 
 config :phoenix_react_server, Phoenix.React.Runtime.Bun,
-  cd: Path.expand("..", __DIR__),
   cmd: System.find_executable("bun"),
   server_js: Path.expand("../priv/react/server.js", __DIR__),
   port: 5124,

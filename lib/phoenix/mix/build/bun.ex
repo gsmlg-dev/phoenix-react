@@ -15,7 +15,7 @@ defmodule Mix.Tasks.Phx.React.Bun.Bundle do
   @shortdoc "Bundle components into server.js"
   def run(args) do
     {opts, _argv} =
-      OptionParser.parse!(args, strict: [component_base: :string, output: :string])
+      OptionParser.parse!(args, strict: [component_base: :string, output: :string, cd: :string])
 
     component_base = Keyword.get(opts, :component_base)
     base_dir = Path.absname(component_base, File.cwd!()) |> Path.expand()
@@ -44,12 +44,26 @@ defmodule Mix.Tasks.Phx.React.Bun.Bundle do
     tmp_file = "#{File.cwd!()}/server.js"
     File.write!(tmp_file, result)
 
+    cd = Keyword.get(opts, :cd, File.cwd!())
+
+    outdir = Path.dirname(output)
+
+    if File.exists?(output) do
+      File.rm!(output)
+    end
+
     {out, code} =
-      System.cmd("bun", ["build", "--target=bun", "--outdir=#{Path.dirname(output)}", tmp_file])
+      System.cmd("bun", ["build", "--target=bun", "--outdir=#{outdir}", tmp_file], cd: cd)
+
+    IO.puts(~s[cd #{cd}; bun build --target=bun --outdir=#{outdir} #{tmp_file}])
+    IO.puts("out #{code}: #{out}")
 
     if code != 0 do
-      IO.puts(out)
       throw("bun build failed(#{code})")
+    end
+
+    if Path.join(outdir, "server.js") != output do
+      File.rename(Path.join(outdir, "server.js"), output)
     end
 
     File.rm!(tmp_file)

@@ -1,10 +1,22 @@
 import * as React from 'react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
+import MDEditor from '@uiw/react-md-editor';
+
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
 import {dark} from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 export const Component = (props = {}) => {
+  
+  // return (
+  //   <MDEditor.Markdown 
+  //     source={props.data}
+  //     style={{ 
+  //       whiteSpace: 'pre-wrap',
+  //       padding: '1rem',
+  //     }}
+  //   />
+  // );
   return (
     <Markdown 
       className="markdown-body"

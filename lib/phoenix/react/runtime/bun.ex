@@ -33,7 +33,8 @@ defmodule Phoenix.React.Runtime.Bun do
      %Runtime{
        component_base: component_base,
        render_timeout: render_timeout,
-       server_js: config()[:server_js]
+       server_js: config()[:server_js],
+       cd: config()[:cd]
      }, {:continue, :start_port}}
   end
 
@@ -119,11 +120,13 @@ defmodule Phoenix.React.Runtime.Bun do
   def start_file_watcher(component_base) do
     Logger.debug("Building server.js bundle")
 
-    Mix.Task.run("phx.react.bun.bundle", [
+    Mix.Tasks.Phx.React.Bun.Bundle.run([
       "--component-base",
       component_base,
       "--output",
-      config()[:server_js]
+      config()[:server_js],
+      "--cd",
+      config()[:cd]
     ])
 
     Logger.debug("Starting file watcher")
@@ -132,17 +135,23 @@ defmodule Phoenix.React.Runtime.Bun do
 
   @impl true
   def handle_info({:component_base_changed, path}, state) do
-    Logger.debug("component_base changed: #{path}")
-
     Task.async(fn ->
-      Mix.Task.run("phx.react.bun.bundle", [
+      Logger.debug("component_base changed: #{path}, rebuilding...")
+
+      Mix.Tasks.Phx.React.Bun.Bundle.run([
         "--component-base",
         state.component_base,
         "--output",
-        config()[:server_js]
+        state.server_js,
+        "--cd",
+        state.cd
       ])
     end)
 
+    {:noreply, state}
+  end
+
+  def handle_info({_ref, :ok}, state) do
     {:noreply, state}
   end
 

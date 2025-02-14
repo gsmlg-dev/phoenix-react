@@ -31,12 +31,13 @@ defmodule Phoenix.React.Runtime do
     DynamicSupervisor.start_child(__MODULE__, spec)
   end
 
-  defstruct [:component_base, :port, :server_js, render_timeout: 300_000]
+  defstruct [:component_base, :port, :server_js, :cd, render_timeout: 300_000]
 
   @type t :: %__MODULE__{
           render_timeout: integer(),
           component_base: path(),
           server_js: path(),
+          cd: path(),
           port: port()
         }
 

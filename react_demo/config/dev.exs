@@ -38,5 +38,5 @@ config :phoenix_react_server, Phoenix.React,
 config :phoenix_react_server, Phoenix.React.Runtime.Bun,
   cd: Path.expand("..", __DIR__),
   cmd: System.find_executable("bun"),
-  server_js: Path.expand("../priv/react/dev/server.js", __DIR__),
+  server_js: Path.expand("../priv/react/server.js", __DIR__),
   env: :dev
