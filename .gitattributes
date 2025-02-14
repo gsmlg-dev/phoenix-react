@@ -1,0 +1,4 @@
+*.html linguist-detectable=false
+*.js linguist-detectable=false
+*.css linguist-detectable=false
+/react_demo/** linguist-vendored
