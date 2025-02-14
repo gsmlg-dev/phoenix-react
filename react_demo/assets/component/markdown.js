@@ -1,17 +1,20 @@
 import * as React from 'react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
-import MDEditor from '@uiw/react-md-editor';
+import MarkdownPreview from '@uiw/react-markdown-preview';
 
 import {Prism as SyntaxHighlighter} from 'react-syntax-highlighter';
 import {dark} from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 export const Component = (props = {}) => {
-  
+
   // return (
-  //   <MDEditor.Markdown 
+  //   <MarkdownPreview
   //     source={props.data}
+  //     className=""
   //     style={{ 
+  //       color: 'var(--color-base-content)',
+  //       backgroundColor: 'var(--color-base-200)',
   //       whiteSpace: 'pre-wrap',
   //       padding: '1rem',
   //     }}

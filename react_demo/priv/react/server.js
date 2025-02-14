@@ -12650,23 +12650,6 @@ var require_extends = __commonJS((exports, module) => {
   module.exports = _extends, module.exports.__esModule = true, module.exports["default"] = module.exports;
 });
 
-// node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js
-var require_objectWithoutPropertiesLoose = __commonJS((exports, module) => {
-  function _objectWithoutPropertiesLoose(r, e) {
-    if (r == null)
-      return {};
-    var t = {};
-    for (var n in r)
-      if ({}.hasOwnProperty.call(r, n)) {
-        if (e.includes(n))
-          continue;
-        t[n] = r[n];
-      }
-    return t;
-  }
-  module.exports = _objectWithoutPropertiesLoose, module.exports.__esModule = true, module.exports["default"] = module.exports;
-});
-
 // node_modules/parse-numeric-range/index.js
 var require_parse_numeric_range = __commonJS((exports, module) => {
   function parsePart(string3) {
@@ -12706,21 +12689,21 @@ var require_boolbase = __commonJS((exports, module) => {
   };
 });
 
-// node_modules/@babel/runtime/helpers/taggedTemplateLiteralLoose.js
-var require_taggedTemplateLiteralLoose = __commonJS((exports, module) => {
-  function _taggedTemplateLiteralLoose(e, t) {
-    return t || (t = e.slice(0)), e.raw = t, e;
+// node_modules/@babel/runtime/helpers/objectWithoutPropertiesLoose.js
+var require_objectWithoutPropertiesLoose = __commonJS((exports, module) => {
+  function _objectWithoutPropertiesLoose(r2, e) {
+    if (r2 == null)
+      return {};
+    var t = {};
+    for (var n2 in r2)
+      if ({}.hasOwnProperty.call(r2, n2)) {
+        if (e.includes(n2))
+          continue;
+        t[n2] = r2[n2];
+      }
+    return t;
   }
-  module.exports = _taggedTemplateLiteralLoose, module.exports.__esModule = true, module.exports["default"] = module.exports;
-});
-
-// node_modules/@babel/runtime/helpers/objectDestructuringEmpty.js
-var require_objectDestructuringEmpty = __commonJS((exports, module) => {
-  function _objectDestructuringEmpty(t) {
-    if (t == null)
-      throw new TypeError("Cannot destructure " + t);
-  }
-  module.exports = _objectDestructuringEmpty, module.exports.__esModule = true, module.exports["default"] = module.exports;
+  module.exports = _objectWithoutPropertiesLoose, module.exports.__esModule = true, module.exports["default"] = module.exports;
 });
 
 // node_modules/@babel/runtime/helpers/objectWithoutProperties.js
@@ -12869,9 +12852,9 @@ var require_immutable = __commonJS((exports, module) => {
     var target = {};
     for (var i = 0;i < arguments.length; i++) {
       var source = arguments[i];
-      for (var key2 in source) {
-        if (hasOwnProperty3.call(source, key2)) {
-          target[key2] = source[key2];
+      for (var key in source) {
+        if (hasOwnProperty3.call(source, key)) {
+          target[key] = source[key];
         }
       }
     }
@@ -12989,9 +12972,9 @@ var require_defined_info = __commonJS((exports, module) => {
       mark2(this, check, (mask & types2[check]) === types2[check]);
     }
   }
-  function mark2(values2, key2, value) {
+  function mark2(values2, key, value) {
     if (value) {
-      values2[key2] = value;
+      values2[key] = value;
     }
   }
 });
@@ -13473,8 +13456,8 @@ var require_html2 = __commonJS((exports, module) => {
   var xml2 = require_xml();
   var xmlns2 = require_xmlns();
   var aria2 = require_aria();
-  var html7 = require_html();
-  module.exports = merge2([xml2, xlink2, xmlns2, aria2, html7]);
+  var html5 = require_html();
+  module.exports = merge2([xml2, xlink2, xmlns2, aria2, html5]);
 });
 
 // node_modules/hastscript/node_modules/property-information/find.js
@@ -13505,7 +13488,7 @@ var require_find = __commonJS((exports, module) => {
     return new Type(prop, value);
   }
   function datasetToProperty(attribute2) {
-    var value = attribute2.slice(5).replace(dash2, camelcase3);
+    var value = attribute2.slice(5).replace(dash2, camelcase2);
     return data + value.charAt(0).toUpperCase() + value.slice(1);
   }
   function datasetToAttribute(property) {
@@ -13522,7 +13505,7 @@ var require_find = __commonJS((exports, module) => {
   function kebab2($0) {
     return "-" + $0.toLowerCase();
   }
-  function camelcase3($0) {
+  function camelcase2($0) {
     return $0.charAt(1).toUpperCase();
   }
 });
@@ -13627,7 +13610,7 @@ var require_factory = __commonJS((exports, module) => {
   var spaces = require_space_separated_tokens().parse;
   var commas = require_comma_separated_tokens().parse;
   module.exports = factory2;
-  var own18 = {}.hasOwnProperty;
+  var own16 = {}.hasOwnProperty;
   function factory2(schema, defaultTagName, caseSensitive) {
     var adjust = caseSensitive ? createAdjustMap3(caseSensitive) : null;
     return h3;
@@ -13636,7 +13619,7 @@ var require_factory = __commonJS((exports, module) => {
       var children = Array.prototype.slice.call(arguments, 2);
       var name3 = node2.tagName.toLowerCase();
       var property;
-      node2.tagName = adjust && own18.call(adjust, name3) ? adjust[name3] : name3;
+      node2.tagName = adjust && own16.call(adjust, name3) ? adjust[name3] : name3;
       if (properties2 && isChildren(properties2, node2)) {
         children.unshift(properties2);
         properties2 = null;
@@ -13653,14 +13636,14 @@ var require_factory = __commonJS((exports, module) => {
       }
       return node2;
     }
-    function addProperty3(properties2, key2, value) {
+    function addProperty3(properties2, key, value) {
       var info;
       var property;
       var result;
       if (value === null || value === undefined || value !== value) {
         return;
       }
-      info = find2(schema, key2);
+      info = find2(schema, key);
       property = info.property;
       result = value;
       if (typeof result === "string") {
@@ -13748,9 +13731,9 @@ var require_factory = __commonJS((exports, module) => {
   }
   function style3(value) {
     var result = [];
-    var key2;
-    for (key2 in value) {
-      result.push([key2, value[key2]].join(": "));
+    var key;
+    for (key in value) {
+      result.push([key, value[key]].join(": "));
     }
     return result.join("; ");
   }
@@ -13771,9 +13754,9 @@ var require_factory = __commonJS((exports, module) => {
 var require_html3 = __commonJS((exports, module) => {
   var schema = require_html2();
   var factory2 = require_factory();
-  var html7 = factory2(schema, "div");
-  html7.displayName = "html";
-  module.exports = html7;
+  var html5 = factory2(schema, "div");
+  html5.displayName = "html";
+  module.exports = html5;
 });
 
 // node_modules/refractor/node_modules/character-entities-legacy/index.json
@@ -13926,8 +13909,8 @@ var require_character_reference_invalid = __commonJS((exports, module) => {
 var require_is_decimal = __commonJS((exports, module) => {
   module.exports = decimal;
   function decimal(character) {
-    var code5 = typeof character === "string" ? character.charCodeAt(0) : character;
-    return code5 >= 48 && code5 <= 57;
+    var code4 = typeof character === "string" ? character.charCodeAt(0) : character;
+    return code4 >= 48 && code4 <= 57;
   }
 });
 
@@ -13935,8 +13918,8 @@ var require_is_decimal = __commonJS((exports, module) => {
 var require_is_hexadecimal = __commonJS((exports, module) => {
   module.exports = hexadecimal;
   function hexadecimal(character) {
-    var code5 = typeof character === "string" ? character.charCodeAt(0) : character;
-    return code5 >= 97 && code5 <= 102 || code5 >= 65 && code5 <= 70 || code5 >= 48 && code5 <= 57;
+    var code4 = typeof character === "string" ? character.charCodeAt(0) : character;
+    return code4 >= 97 && code4 <= 102 || code4 >= 65 && code4 <= 70 || code4 >= 48 && code4 <= 57;
   }
 });
 
@@ -13944,8 +13927,8 @@ var require_is_hexadecimal = __commonJS((exports, module) => {
 var require_is_alphabetical = __commonJS((exports, module) => {
   module.exports = alphabetical;
   function alphabetical(character) {
-    var code5 = typeof character === "string" ? character.charCodeAt(0) : character;
-    return code5 >= 97 && code5 <= 122 || code5 >= 65 && code5 <= 90;
+    var code4 = typeof character === "string" ? character.charCodeAt(0) : character;
+    return code4 >= 97 && code4 <= 122 || code4 >= 65 && code4 <= 90;
   }
 });
 
@@ -16192,22 +16175,22 @@ var require_character_entities = __commonJS((exports, module) => {
 var require_decode_entity = __commonJS((exports, module) => {
   var characterEntities2 = require_character_entities();
   module.exports = decodeEntity;
-  var own18 = {}.hasOwnProperty;
-  function decodeEntity(characters2) {
-    return own18.call(characterEntities2, characters2) ? characterEntities2[characters2] : false;
+  var own16 = {}.hasOwnProperty;
+  function decodeEntity(characters) {
+    return own16.call(characterEntities2, characters) ? characterEntities2[characters] : false;
   }
 });
 
 // node_modules/refractor/node_modules/parse-entities/index.js
 var require_parse_entities = __commonJS((exports, module) => {
   var legacy = require_character_entities_legacy();
-  var invalid2 = require_character_reference_invalid();
+  var invalid = require_character_reference_invalid();
   var decimal = require_is_decimal();
   var hexadecimal = require_is_hexadecimal();
   var alphanumerical = require_is_alphanumerical();
   var decodeEntity = require_decode_entity();
   module.exports = parseEntities2;
-  var own18 = {}.hasOwnProperty;
+  var own16 = {}.hasOwnProperty;
   var fromCharCode = String.fromCharCode;
   var noop2 = Function.prototype;
   var defaults = {
@@ -16261,14 +16244,14 @@ var require_parse_entities = __commonJS((exports, module) => {
   messages2[numericProhibited] = "Numeric character references cannot be outside the permissible Unicode range";
   function parseEntities2(value, options) {
     var settings = {};
-    var option2;
-    var key2;
+    var option;
+    var key;
     if (!options) {
       options = {};
     }
-    for (key2 in defaults) {
-      option2 = options[key2];
-      settings[key2] = option2 === null || option2 === undefined ? defaults[key2] : option2;
+    for (key in defaults) {
+      option = options[key];
+      settings[key] = option === null || option === undefined ? defaults[key] : option;
     }
     if (settings.position.indent || settings.position.start) {
       settings.indent = settings.position.indent || [];
@@ -16297,7 +16280,7 @@ var require_parse_entities = __commonJS((exports, module) => {
     var entityCharacters;
     var namedEntity;
     var terminated;
-    var characters2;
+    var characters;
     var character;
     var reference;
     var following;
@@ -16349,7 +16332,7 @@ var require_parse_entities = __commonJS((exports, module) => {
         }
         entityCharacters = "";
         entity = "";
-        characters2 = "";
+        characters = "";
         test2 = tests[type];
         end--;
         while (++end < length) {
@@ -16357,24 +16340,24 @@ var require_parse_entities = __commonJS((exports, module) => {
           if (!test2(following)) {
             break;
           }
-          characters2 += fromCharCode(following);
-          if (type === name3 && own18.call(legacy, characters2)) {
-            entityCharacters = characters2;
-            entity = legacy[characters2];
+          characters += fromCharCode(following);
+          if (type === name3 && own16.call(legacy, characters)) {
+            entityCharacters = characters;
+            entity = legacy[characters];
           }
         }
         terminated = value.charCodeAt(end) === semicolon;
         if (terminated) {
           end++;
-          namedEntity = type === name3 ? decodeEntity(characters2) : false;
+          namedEntity = type === name3 ? decodeEntity(characters) : false;
           if (namedEntity) {
-            entityCharacters = characters2;
+            entityCharacters = characters;
             entity = namedEntity;
           }
         }
         diff2 = 1 + end - start2;
         if (!terminated && !nonTerminated) {
-        } else if (!characters2) {
+        } else if (!characters) {
           if (type !== name3) {
             warning(numericEmpty, diff2);
           }
@@ -16382,7 +16365,7 @@ var require_parse_entities = __commonJS((exports, module) => {
           if (terminated && !entity) {
             warning(namedUnknown, 1);
           } else {
-            if (entityCharacters !== characters2) {
+            if (entityCharacters !== characters) {
               end = begin + entityCharacters.length;
               diff2 = 1 + end - begin;
               terminated = false;
@@ -16409,13 +16392,13 @@ var require_parse_entities = __commonJS((exports, module) => {
           if (!terminated) {
             warning(numericNotTerminated, diff2);
           }
-          reference = parseInt(characters2, bases[type]);
+          reference = parseInt(characters, bases[type]);
           if (prohibited2(reference)) {
             warning(numericProhibited, diff2);
             reference = fromCharCode(replacementCharacter);
-          } else if (reference in invalid2) {
+          } else if (reference in invalid) {
             warning(numericDisallowed, diff2);
-            reference = invalid2[reference];
+            reference = invalid[reference];
           } else {
             output = "";
             if (disallowed2(reference)) {
@@ -16442,9 +16425,9 @@ var require_parse_entities = __commonJS((exports, module) => {
           }
           prev = next2;
         } else {
-          characters2 = value.slice(start2 - 1, end);
-          queue += characters2;
-          column += characters2.length;
+          characters = value.slice(start2 - 1, end);
+          queue += characters;
+          column += characters.length;
           index2 = end - 1;
         }
       } else {
@@ -16469,11 +16452,11 @@ var require_parse_entities = __commonJS((exports, module) => {
         offset: index2 + (pos.offset || 0)
       };
     }
-    function parseError(code5, offset) {
+    function parseError(code4, offset) {
       var position4 = now();
       position4.column += offset;
       position4.offset += offset;
-      handleWarning.call(warningContext, messages2[code5], position4, code5);
+      handleWarning.call(warningContext, messages2[code4], position4, code4);
     }
     function flush() {
       if (queue) {
@@ -16485,11 +16468,11 @@ var require_parse_entities = __commonJS((exports, module) => {
       }
     }
   }
-  function prohibited2(code5) {
-    return code5 >= 55296 && code5 <= 57343 || code5 > 1114111;
+  function prohibited2(code4) {
+    return code4 >= 55296 && code4 <= 57343 || code4 > 1114111;
   }
-  function disallowed2(code5) {
-    return code5 >= 1 && code5 <= 8 || code5 === 11 || code5 >= 13 && code5 <= 31 || code5 >= 127 && code5 <= 159 || code5 >= 64976 && code5 <= 65007 || (code5 & 65535) === 65535 || (code5 & 65535) === 65534;
+  function disallowed2(code4) {
+    return code4 >= 1 && code4 <= 8 || code4 === 11 || code4 >= 13 && code4 <= 31 || code4 >= 127 && code4 <= 159 || code4 >= 64976 && code4 <= 65007 || (code4 & 65535) === 65535 || (code4 & 65535) === 65534;
   }
 });
 
@@ -16534,9 +16517,9 @@ var require_prism_core = __commonJS((exports, module) => {
               }
               clone2 = {};
               visited[id2] = clone2;
-              for (var key2 in o) {
-                if (o.hasOwnProperty(key2)) {
-                  clone2[key2] = deepClone(o[key2], visited);
+              for (var key in o) {
+                if (o.hasOwnProperty(key)) {
+                  clone2[key] = deepClone(o[key], visited);
                 }
               }
               return clone2;
@@ -16555,19 +16538,19 @@ var require_prism_core = __commonJS((exports, module) => {
               return o;
           }
         },
-        getLanguage: function(element7) {
-          while (element7) {
-            var m = lang2.exec(element7.className);
+        getLanguage: function(element6) {
+          while (element6) {
+            var m = lang2.exec(element6.className);
             if (m) {
               return m[1].toLowerCase();
             }
-            element7 = element7.parentElement;
+            element6 = element6.parentElement;
           }
           return "none";
         },
-        setLanguage: function(element7, language) {
-          element7.className = element7.className.replace(RegExp(lang2, "gi"), "");
-          element7.classList.add("language-" + language);
+        setLanguage: function(element6, language) {
+          element6.className = element6.className.replace(RegExp(lang2, "gi"), "");
+          element6.classList.add("language-" + language);
         },
         currentScript: function() {
           if (typeof document === "undefined") {
@@ -16591,17 +16574,17 @@ var require_prism_core = __commonJS((exports, module) => {
             return null;
           }
         },
-        isActive: function(element7, className2, defaultActivation) {
+        isActive: function(element6, className2, defaultActivation) {
           var no = "no-" + className2;
-          while (element7) {
-            var classList = element7.classList;
+          while (element6) {
+            var classList = element6.classList;
             if (classList.contains(className2)) {
               return true;
             }
             if (classList.contains(no)) {
               return false;
             }
-            element7 = element7.parentElement;
+            element6 = element6.parentElement;
           }
           return !!defaultActivation;
         }
@@ -16613,14 +16596,14 @@ var require_prism_core = __commonJS((exports, module) => {
         txt: plainTextGrammar2,
         extend: function(id2, redef) {
           var lang3 = _2.util.clone(_2.languages[id2]);
-          for (var key2 in redef) {
-            lang3[key2] = redef[key2];
+          for (var key in redef) {
+            lang3[key] = redef[key];
           }
           return lang3;
         },
-        insertBefore: function(inside, before, insert, root8) {
-          root8 = root8 || _2.languages;
-          var grammar = root8[inside];
+        insertBefore: function(inside, before, insert, root7) {
+          root7 = root7 || _2.languages;
+          var grammar = root7[inside];
           var ret = {};
           for (var token in grammar) {
             if (grammar.hasOwnProperty(token)) {
@@ -16636,11 +16619,11 @@ var require_prism_core = __commonJS((exports, module) => {
               }
             }
           }
-          var old = root8[inside];
-          root8[inside] = ret;
-          _2.languages.DFS(_2.languages, function(key2, value) {
-            if (value === old && key2 != inside) {
-              this[key2] = ret;
+          var old = root7[inside];
+          root7[inside] = ret;
+          _2.languages.DFS(_2.languages, function(key, value) {
+            if (value === old && key != inside) {
+              this[key] = ret;
             }
           });
           return ret;
@@ -16677,24 +16660,24 @@ var require_prism_core = __commonJS((exports, module) => {
         _2.hooks.run("before-highlightall", env2);
         env2.elements = Array.prototype.slice.apply(env2.container.querySelectorAll(env2.selector));
         _2.hooks.run("before-all-elements-highlight", env2);
-        for (var i = 0, element7;element7 = env2.elements[i++]; ) {
-          _2.highlightElement(element7, async === true, env2.callback);
+        for (var i = 0, element6;element6 = env2.elements[i++]; ) {
+          _2.highlightElement(element6, async === true, env2.callback);
         }
       },
-      highlightElement: function(element7, async, callback) {
-        var language = _2.util.getLanguage(element7);
+      highlightElement: function(element6, async, callback) {
+        var language = _2.util.getLanguage(element6);
         var grammar = _2.languages[language];
-        _2.util.setLanguage(element7, language);
-        var parent2 = element7.parentElement;
+        _2.util.setLanguage(element6, language);
+        var parent2 = element6.parentElement;
         if (parent2 && parent2.nodeName.toLowerCase() === "pre") {
           _2.util.setLanguage(parent2, language);
         }
-        var code5 = element7.textContent;
+        var code4 = element6.textContent;
         var env2 = {
-          element: element7,
+          element: element6,
           language,
           grammar,
-          code: code5
+          code: code4
         };
         function insertHighlightedCode(highlightedCode) {
           env2.highlightedCode = highlightedCode;
@@ -16733,9 +16716,9 @@ var require_prism_core = __commonJS((exports, module) => {
           insertHighlightedCode(_2.highlight(env2.code, env2.grammar, env2.language));
         }
       },
-      highlight: function(text10, grammar, language) {
+      highlight: function(text9, grammar, language) {
         var env2 = {
-          code: text10,
+          code: text9,
           grammar,
           language
         };
@@ -16747,7 +16730,7 @@ var require_prism_core = __commonJS((exports, module) => {
         _2.hooks.run("after-tokenize", env2);
         return Token2.stringify(_2.util.encode(env2.tokens), env2.language);
       },
-      tokenize: function(text10, grammar) {
+      tokenize: function(text9, grammar) {
         var rest2 = grammar.rest;
         if (rest2) {
           for (var token in rest2) {
@@ -16756,8 +16739,8 @@ var require_prism_core = __commonJS((exports, module) => {
           delete grammar.rest;
         }
         var tokenList = new LinkedList2;
-        addAfter2(tokenList, tokenList.head, text10);
-        matchGrammar2(text10, tokenList, grammar, tokenList.head, 0);
+        addAfter2(tokenList, tokenList.head, text9);
+        matchGrammar2(text9, tokenList, grammar, tokenList.head, 0);
         return toArray2(tokenList);
       },
       hooks: {
@@ -16820,9 +16803,9 @@ var require_prism_core = __commonJS((exports, module) => {
       }
       return "<" + env2.tag + ' class="' + env2.classes.join(" ") + '"' + attributes2 + ">" + env2.content + "</" + env2.tag + ">";
     };
-    function matchPattern2(pattern, pos, text10, lookbehind) {
+    function matchPattern2(pattern, pos, text9, lookbehind) {
       pattern.lastIndex = pos;
-      var match = pattern.exec(text10);
+      var match = pattern.exec(text9);
       if (match && lookbehind && match[1]) {
         var lookbehindLength = match[1].length;
         match.index += lookbehindLength;
@@ -16830,7 +16813,7 @@ var require_prism_core = __commonJS((exports, module) => {
       }
       return match;
     }
-    function matchGrammar2(text10, tokenList, grammar, startNode, startPos, rematch) {
+    function matchGrammar2(text9, tokenList, grammar, startNode, startPos, rematch) {
       for (var token in grammar) {
         if (!grammar.hasOwnProperty(token) || !grammar[token]) {
           continue;
@@ -16856,7 +16839,7 @@ var require_prism_core = __commonJS((exports, module) => {
               break;
             }
             var str = currentNode.value;
-            if (tokenList.length > text10.length) {
+            if (tokenList.length > text9.length) {
               return;
             }
             if (str instanceof Token2) {
@@ -16865,29 +16848,29 @@ var require_prism_core = __commonJS((exports, module) => {
             var removeCount = 1;
             var match;
             if (greedy) {
-              match = matchPattern2(pattern, pos, text10, lookbehind);
-              if (!match || match.index >= text10.length) {
+              match = matchPattern2(pattern, pos, text9, lookbehind);
+              if (!match || match.index >= text9.length) {
                 break;
               }
               var from = match.index;
               var to = match.index + match[0].length;
-              var p3 = pos;
-              p3 += currentNode.value.length;
-              while (from >= p3) {
+              var p2 = pos;
+              p2 += currentNode.value.length;
+              while (from >= p2) {
                 currentNode = currentNode.next;
-                p3 += currentNode.value.length;
+                p2 += currentNode.value.length;
               }
-              p3 -= currentNode.value.length;
-              pos = p3;
+              p2 -= currentNode.value.length;
+              pos = p2;
               if (currentNode.value instanceof Token2) {
                 continue;
               }
-              for (var k = currentNode;k !== tokenList.tail && (p3 < to || typeof k.value === "string"); k = k.next) {
+              for (var k = currentNode;k !== tokenList.tail && (p2 < to || typeof k.value === "string"); k = k.next) {
                 removeCount++;
-                p3 += k.value.length;
+                p2 += k.value.length;
               }
               removeCount--;
-              str = text10.slice(pos, p3);
+              str = text9.slice(pos, p2);
               match.index -= pos;
             } else {
               match = matchPattern2(pattern, 0, str, lookbehind);
@@ -16919,7 +16902,7 @@ var require_prism_core = __commonJS((exports, module) => {
                 cause: token + "," + j2,
                 reach
               };
-              matchGrammar2(text10, tokenList, grammar, currentNode.prev, pos, nestedRematch);
+              matchGrammar2(text9, tokenList, grammar, currentNode.prev, pos, nestedRematch);
               if (rematch && nestedRematch.reach > rematch.reach) {
                 rematch.reach = nestedRematch.reach;
               }
@@ -16929,10 +16912,10 @@ var require_prism_core = __commonJS((exports, module) => {
       }
     }
     function LinkedList2() {
-      var head2 = { value: null, prev: null, next: null };
-      var tail = { value: null, prev: head2, next: null };
-      head2.next = tail;
-      this.head = head2;
+      var head = { value: null, prev: null, next: null };
+      var tail = { value: null, prev: head, next: null };
+      head.next = tail;
+      this.head = head;
       this.tail = tail;
       this.length = 0;
     }
@@ -16970,9 +16953,9 @@ var require_prism_core = __commonJS((exports, module) => {
         _self2.addEventListener("message", function(evt) {
           var message = JSON.parse(evt.data);
           var lang3 = message.language;
-          var code5 = message.code;
+          var code4 = message.code;
           var immediateClose = message.immediateClose;
-          _self2.postMessage(_2.highlight(code5, _2.languages[lang3], lang3));
+          _self2.postMessage(_2.highlight(code4, _2.languages[lang3], lang3));
           if (immediateClose) {
             _self2.close();
           }
@@ -17415,7 +17398,7 @@ var require_core = __commonJS((exports, module) => {
   var clike2 = require_clike();
   var js = require_javascript();
   restore();
-  var own18 = {}.hasOwnProperty;
+  var own16 = {}.hasOwnProperty;
   function Refractor2() {
   }
   Refractor2.prototype = Prism2;
@@ -17443,7 +17426,7 @@ var require_core = __commonJS((exports, module) => {
   function alias2(name3, alias3) {
     var languages = refract.languages;
     var map4 = name3;
-    var key2;
+    var key;
     var list4;
     var length;
     var index2;
@@ -17451,13 +17434,13 @@ var require_core = __commonJS((exports, module) => {
       map4 = {};
       map4[name3] = alias3;
     }
-    for (key2 in map4) {
-      list4 = map4[key2];
+    for (key in map4) {
+      list4 = map4[key];
       list4 = typeof list4 === "string" ? [list4] : list4;
       length = list4.length;
       index2 = -1;
       while (++index2 < length) {
-        languages[list4[index2]] = languages[key2];
+        languages[list4[index2]] = languages[key];
       }
     }
   }
@@ -17474,7 +17457,7 @@ var require_core = __commonJS((exports, module) => {
       if (typeof name3 !== "string") {
         throw new Error("Expected `string` for `name`, got `" + name3 + "`");
       }
-      if (own18.call(refract.languages, name3)) {
+      if (own16.call(refract.languages, name3)) {
         grammar = refract.languages[name3];
       } else {
         throw new Error("Unknown language: `" + name3 + "` is not registered");
@@ -17486,14 +17469,14 @@ var require_core = __commonJS((exports, module) => {
     if (typeof language !== "string") {
       throw new Error("Expected `string` for `language`, got `" + language + "`");
     }
-    return own18.call(refract.languages, language);
+    return own16.call(refract.languages, language);
   }
   function listLanguages2() {
     var languages = refract.languages;
     var list4 = [];
     var language;
     for (language in languages) {
-      if (own18.call(languages, language) && typeof languages[language] === "object") {
+      if (own16.call(languages, language) && typeof languages[language] === "object") {
         list4.push(language);
       }
     }
@@ -17545,9 +17528,9 @@ var require_core = __commonJS((exports, module) => {
     return tokens;
   }
   function attributes2(attrs) {
-    var key2;
-    for (key2 in attrs) {
-      attrs[key2] = decode2(attrs[key2]);
+    var key;
+    for (key in attrs) {
+      attrs[key] = decode2(attrs[key]);
     }
     return attrs;
   }
@@ -20268,13 +20251,13 @@ var require_coffeescript = __commonJS((exports, module) => {
   coffeescript2.aliases = ["coffee"];
   function coffeescript2(Prism2) {
     (function(Prism3) {
-      var comment5 = /#(?!\{).+/;
+      var comment3 = /#(?!\{).+/;
       var interpolation = {
         pattern: /#\{[^}]+\}/,
         alias: "variable"
       };
       Prism3.languages.coffeescript = Prism3.languages.extend("javascript", {
-        comment: comment5,
+        comment: comment3,
         string: [
           {
             pattern: /'(?:\\[\s\S]|[^\\'])*'/,
@@ -20303,7 +20286,7 @@ var require_coffeescript = __commonJS((exports, module) => {
           pattern: /\/{3}[\s\S]*?\/{3}/,
           alias: "regex",
           inside: {
-            comment: comment5,
+            comment: comment3,
             interpolation
           }
         }
@@ -21576,7 +21559,7 @@ var require_docker = __commonJS((exports, module) => {
         return spaceAfterBackSlash;
       });
       var string3 = /"(?:[^"\\\r\n]|\\(?:\r\n|[\s\S]))*"|'(?:[^'\\\r\n]|\\(?:\r\n|[\s\S]))*'/.source;
-      var option2 = /--[\w-]+=(?:<STR>|(?!["'])(?:[^\s\\]|\\.)+)/.source.replace(/<STR>/g, function() {
+      var option = /--[\w-]+=(?:<STR>|(?!["'])(?:[^\s\\]|\\.)+)/.source.replace(/<STR>/g, function() {
         return string3;
       });
       var stringRule = {
@@ -21590,7 +21573,7 @@ var require_docker = __commonJS((exports, module) => {
       };
       function re2(source, flags) {
         source = source.replace(/<OPT>/g, function() {
-          return option2;
+          return option;
         }).replace(/<SP>/g, function() {
           return space2;
         });
@@ -25725,9 +25708,9 @@ var require_js_templates = __commonJS((exports, module) => {
       function getPlaceholder(counter, language) {
         return "___" + language.toUpperCase() + "_" + counter + "___";
       }
-      function tokenizeWithHooks(code5, grammar, language) {
+      function tokenizeWithHooks(code4, grammar, language) {
         var env2 = {
-          code: code5,
+          code: code4,
           grammar,
           language
         };
@@ -25747,8 +25730,8 @@ var require_js_templates = __commonJS((exports, module) => {
         }
         return new Prism3.Token("interpolation", tokens, interpolationObject.alias, expression);
       }
-      function tokenizeEmbedded(code5, grammar, language) {
-        var _tokens = Prism3.tokenize(code5, {
+      function tokenizeEmbedded(code4, grammar, language) {
+        var _tokens = Prism3.tokenize(code4, {
           interpolation: {
             pattern: RegExp(interpolationPattern),
             lookbehind: true
@@ -25762,7 +25745,7 @@ var require_js_templates = __commonJS((exports, module) => {
           } else {
             var interpolationExpression = token.content;
             var placeholder;
-            while (code5.indexOf(placeholder = getPlaceholder(placeholderCounter++, language)) !== -1) {
+            while (code4.indexOf(placeholder = getPlaceholder(placeholderCounter++, language)) !== -1) {
             }
             placeholderMap[placeholder] = interpolationExpression;
             return placeholder;
@@ -25814,7 +25797,7 @@ var require_js_templates = __commonJS((exports, module) => {
           }
         }
         walkTokens(embeddedTokens);
-        return new Prism3.Token(language, embeddedTokens, "language-" + language, code5);
+        return new Prism3.Token(language, embeddedTokens, "language-" + language, code4);
       }
       var supportedLanguages = {
         javascript: true,
@@ -25844,14 +25827,14 @@ var require_js_templates = __commonJS((exports, module) => {
             if (token.type === "template-string") {
               var embedded = content3[1];
               if (content3.length === 3 && typeof embedded !== "string" && embedded.type === "embedded-code") {
-                var code5 = stringContent(embedded);
+                var code4 = stringContent(embedded);
                 var alias2 = embedded.alias;
                 var language = Array.isArray(alias2) ? alias2[0] : alias2;
                 var grammar = Prism3.languages[language];
                 if (!grammar) {
                   continue;
                 }
-                content3[1] = tokenizeEmbedded(code5, grammar, language);
+                content3[1] = tokenizeEmbedded(code4, grammar, language);
               }
             } else {
               findTemplateStrings(content3);
@@ -26659,7 +26642,7 @@ var require_php = __commonJS((exports, module) => {
   function php2(Prism2) {
     Prism2.register(refractorMarkupTemplating);
     (function(Prism3) {
-      var comment5 = /\/\*[\s\S]*?\*\/|\/\/.*|#(?!\[).*/;
+      var comment3 = /\/\*[\s\S]*?\*\/|\/\/.*|#(?!\[).*/;
       var constant = [
         {
           pattern: /\b(?:false|true)\b/i,
@@ -26686,7 +26669,7 @@ var require_php = __commonJS((exports, module) => {
           pattern: /\?>$|^<\?(?:php(?=\s)|=)?/i,
           alias: "important"
         },
-        comment: comment5,
+        comment: comment3,
         variable: /\$+(?:\w+\b|(?=\{))/,
         package: {
           pattern: /(namespace\s+|use\s+(?:function\s+)?)(?:\\?\b[a-z_]\w*)+\b(?!\\)/i,
@@ -26932,7 +26915,7 @@ var require_php = __commonJS((exports, module) => {
               pattern: /^(#\[)[\s\S]+(?=\]$)/,
               lookbehind: true,
               inside: {
-                comment: comment5,
+                comment: comment3,
                 string: string3,
                 "attribute-class-name": [
                   {
@@ -27172,12 +27155,12 @@ var require_scheme = __commonJS((exports, module) => {
         punctuation: /[()\[\]']/
       };
       function SortedBNF(grammar) {
-        for (var key2 in grammar) {
-          grammar[key2] = grammar[key2].replace(/<[\w\s]+>/g, function(key3) {
-            return "(?:" + grammar[key3].trim() + ")";
+        for (var key in grammar) {
+          grammar[key] = grammar[key].replace(/<[\w\s]+>/g, function(key2) {
+            return "(?:" + grammar[key2].trim() + ")";
           });
         }
-        return grammar[key2];
+        return grammar[key];
       }
     })(Prism2);
   }
@@ -28086,17 +28069,17 @@ var require_markdown = __commonJS((exports, module) => {
               continue;
             }
             var codeLang = token.content[1];
-            var codeBlock2 = token.content[3];
-            if (codeLang && codeBlock2 && codeLang.type === "code-language" && codeBlock2.type === "code-block" && typeof codeLang.content === "string") {
+            var codeBlock = token.content[3];
+            if (codeLang && codeBlock && codeLang.type === "code-language" && codeBlock.type === "code-block" && typeof codeLang.content === "string") {
               var lang2 = codeLang.content.replace(/\b#/g, "sharp").replace(/\b\+\+/g, "pp");
               lang2 = (/[a-z][\w-]*/i.exec(lang2) || [""])[0].toLowerCase();
               var alias2 = "language-" + lang2;
-              if (!codeBlock2.alias) {
-                codeBlock2.alias = [alias2];
-              } else if (typeof codeBlock2.alias === "string") {
-                codeBlock2.alias = [codeBlock2.alias, alias2];
+              if (!codeBlock.alias) {
+                codeBlock.alias = [alias2];
+              } else if (typeof codeBlock.alias === "string") {
+                codeBlock.alias = [codeBlock.alias, alias2];
               } else {
-                codeBlock2.alias.push(alias2);
+                codeBlock.alias.push(alias2);
               }
             }
           }
@@ -28140,27 +28123,27 @@ var require_markdown = __commonJS((exports, module) => {
         quot: '"'
       };
       var fromCodePoint2 = String.fromCodePoint || String.fromCharCode;
-      function textContent(html7) {
-        var text10 = html7.replace(tagPattern, "");
-        text10 = text10.replace(/&(\w{1,8}|#x?[\da-f]{1,8});/gi, function(m, code5) {
-          code5 = code5.toLowerCase();
-          if (code5[0] === "#") {
+      function textContent(html5) {
+        var text9 = html5.replace(tagPattern, "");
+        text9 = text9.replace(/&(\w{1,8}|#x?[\da-f]{1,8});/gi, function(m, code4) {
+          code4 = code4.toLowerCase();
+          if (code4[0] === "#") {
             var value;
-            if (code5[1] === "x") {
-              value = parseInt(code5.slice(2), 16);
+            if (code4[1] === "x") {
+              value = parseInt(code4.slice(2), 16);
             } else {
-              value = Number(code5.slice(1));
+              value = Number(code4.slice(1));
             }
             return fromCodePoint2(value);
           } else {
-            var known = KNOWN_ENTITY_NAMES[code5];
+            var known = KNOWN_ENTITY_NAMES[code4];
             if (known) {
               return known;
             }
             return m;
           }
         });
-        return text10;
+        return text9;
       }
       Prism3.languages.md = Prism3.languages.markdown;
     })(Prism2);
@@ -29889,12 +29872,12 @@ var require_pascaligo = __commonJS((exports, module) => {
         "builtin",
         "operator",
         "punctuation"
-      ].reduce(function(accum, key2) {
-        accum[key2] = pascaligo3[key2];
+      ].reduce(function(accum, key) {
+        accum[key] = pascaligo3[key];
         return accum;
       }, {});
-      pascaligo3["class-name"].forEach(function(p3) {
-        p3.inside = classNameInside;
+      pascaligo3["class-name"].forEach(function(p2) {
+        p2.inside = classNameInside;
       });
     })(Prism2);
   }
@@ -31886,7 +31869,7 @@ var require_robotframework = __commonJS((exports, module) => {
   robotframework2.aliases = [];
   function robotframework2(Prism2) {
     (function(Prism3) {
-      var comment5 = {
+      var comment3 = {
         pattern: /(^[ \t]*| {2}|\t)#.*/m,
         lookbehind: true,
         greedy: true
@@ -31915,7 +31898,7 @@ var require_robotframework = __commonJS((exports, module) => {
           }
         };
         extendecInside["variable"] = variable;
-        extendecInside["comment"] = comment5;
+        extendecInside["comment"] = comment3;
         return {
           pattern: RegExp(/^ ?\*{3}[ \t]*<name>[ \t]*\*{3}(?:.|[\r\n](?!\*{3}))*/.source.replace(/<name>/g, function() {
             return name3;
@@ -31972,7 +31955,7 @@ var require_robotframework = __commonJS((exports, module) => {
           documentation: docTag,
           property: testPropertyLike
         }),
-        comment: comment5
+        comment: comment3
       };
       Prism3.languages.robot = Prism3.languages["robotframework"];
     })(Prism2);
@@ -32125,7 +32108,7 @@ var require_sas = __commonJS((exports, module) => {
         alias: "keyword",
         lookbehind: true
       };
-      var comment5 = [
+      var comment3 = [
         /\/\*[\s\S]*?\*\//,
         {
           pattern: /(^[ \t]*|;\s*)\*[^;]*;/m,
@@ -32203,7 +32186,7 @@ var require_sas = __commonJS((exports, module) => {
             pattern: /(?:action)/i,
             alias: "keyword"
           },
-          comment: comment5,
+          comment: comment3,
           function: func,
           "arg-value": args["arg-value"],
           operator: args.operator,
@@ -32257,7 +32240,7 @@ var require_sas = __commonJS((exports, module) => {
           pattern: /(^proc\s+groovy(?:\s+[\w|=]+)?;)[\s\S]+?(?=^(?:proc\s+\w+|data|quit|run);|(?![\s\S]))/im,
           lookbehind: true,
           inside: {
-            comment: comment5,
+            comment: comment3,
             groovy: {
               pattern: RegExp(/(^[ \t]*submit(?:\s+(?:load|norun|parseonly))?)(?:<str>|[^"'])+?(?=endsubmit;)/.source.replace(/<str>/g, function() {
                 return stringPattern;
@@ -32279,7 +32262,7 @@ var require_sas = __commonJS((exports, module) => {
           pattern: /(^proc\s+lua(?:\s+[\w|=]+)?;)[\s\S]+?(?=^(?:proc\s+\w+|data|quit|run);|(?![\s\S]))/im,
           lookbehind: true,
           inside: {
-            comment: comment5,
+            comment: comment3,
             lua: {
               pattern: RegExp(/(^[ \t]*submit(?:\s+(?:load|norun|parseonly))?)(?:<str>|[^"'])+?(?=endsubmit;)/.source.replace(/<str>/g, function() {
                 return stringPattern;
@@ -32301,7 +32284,7 @@ var require_sas = __commonJS((exports, module) => {
           pattern: /(^proc\s+cas(?:\s+[\w|=]+)?;)[\s\S]+?(?=^(?:proc\s+\w+|quit|data);|(?![\s\S]))/im,
           lookbehind: true,
           inside: {
-            comment: comment5,
+            comment: comment3,
             "statement-var": {
               pattern: /((?:^|\s)=?)saveresult\s[^;]+/im,
               lookbehind: true,
@@ -32381,7 +32364,7 @@ var require_sas = __commonJS((exports, module) => {
               alias: "keyword",
               pattern: /^input/i
             },
-            comment: comment5,
+            comment: comment3,
             number: number2,
             "numeric-constant": numericConstant
           }
@@ -32392,7 +32375,7 @@ var require_sas = __commonJS((exports, module) => {
           inside: args
         },
         "cas-actions": casActions,
-        comment: comment5,
+        comment: comment3,
         function: func,
         format,
         altformat,
@@ -33675,13 +33658,13 @@ var require_systemd = __commonJS((exports, module) => {
   systemd2.aliases = [];
   function systemd2(Prism2) {
     (function(Prism3) {
-      var comment5 = {
+      var comment3 = {
         pattern: /^[;#].*/m,
         greedy: true
       };
       var quotesSource = /"(?:[^\r\n"\\]|\\(?:[^\r]|\r\n?))*"(?!\S)/.source;
       Prism3.languages.systemd = {
-        comment: comment5,
+        comment: comment3,
         section: {
           pattern: /^\[[^\n\r\[\]]*\](?=[ \t]*$)/m,
           greedy: true,
@@ -33705,7 +33688,7 @@ var require_systemd = __commonJS((exports, module) => {
           greedy: true,
           alias: "attr-value",
           inside: {
-            comment: comment5,
+            comment: comment3,
             quoted: {
               pattern: RegExp(/(^|\s)/.source + quotesSource),
               lookbehind: true,
@@ -34236,10 +34219,10 @@ var require_toml = __commonJS((exports, module) => {
   toml2.aliases = [];
   function toml2(Prism2) {
     (function(Prism3) {
-      var key2 = /(?:[\w-]+|'[^'\n\r]*'|"(?:\\.|[^\\"\r\n])*")/.source;
+      var key = /(?:[\w-]+|'[^'\n\r]*'|"(?:\\.|[^\\"\r\n])*")/.source;
       function insertKey(pattern) {
         return pattern.replace(/__/g, function() {
-          return key2;
+          return key;
         });
       }
       Prism3.languages.toml = {
@@ -35241,9 +35224,9 @@ var require_web_idl = __commonJS((exports, module) => {
         operator: /\.{3}|[=:?<>-]/,
         punctuation: /[(){}[\].,;]/
       };
-      for (var key2 in Prism3.languages["web-idl"]) {
-        if (key2 !== "class-name") {
-          typeInside[key2] = Prism3.languages["web-idl"][key2];
+      for (var key in Prism3.languages["web-idl"]) {
+        if (key !== "class-name") {
+          typeInside[key] = Prism3.languages["web-idl"][key];
         }
       }
       Prism3.languages["webidl"] = Prism3.languages["web-idl"];
@@ -36158,7 +36141,7 @@ var require_refractor = __commonJS((exports, module) => {
 
 // node_modules/react/cjs/react-jsx-dev-runtime.development.js
 var require_react_jsx_dev_runtime_development = __commonJS((exports) => {
-  var React37 = __toESM(require_react(), 1);
+  var React6 = __toESM(require_react(), 1);
   (function() {
     function getComponentNameFromType2(type) {
       if (type == null)
@@ -36434,12 +36417,12 @@ var require_react_jsx_dev_runtime_development = __commonJS((exports) => {
       componentName = this.props.ref;
       return componentName !== undefined ? componentName : null;
     }
-    function ReactElement(type, key2, self2, source, owner, props) {
+    function ReactElement(type, key, self2, source, owner, props) {
       self2 = props.ref;
       type = {
         $$typeof: REACT_ELEMENT_TYPE2,
         type,
-        key: key2,
+        key,
         props,
         _owner: owner
       };
@@ -36525,14 +36508,14 @@ React keys must be passed directly to JSX without using spread:
     function isValidElement(object) {
       return typeof object === "object" && object !== null && object.$$typeof === REACT_ELEMENT_TYPE2;
     }
-    function validateExplicitKey(element7, parentType) {
-      if (element7._store && !element7._store.validated && element7.key == null && (element7._store.validated = 1, parentType = getCurrentComponentErrorInfo(parentType), !ownerHasKeyUseWarning[parentType])) {
+    function validateExplicitKey(element6, parentType) {
+      if (element6._store && !element6._store.validated && element6.key == null && (element6._store.validated = 1, parentType = getCurrentComponentErrorInfo(parentType), !ownerHasKeyUseWarning[parentType])) {
         ownerHasKeyUseWarning[parentType] = true;
         var childOwner = "";
-        element7 && element7._owner != null && element7._owner !== getOwner() && (childOwner = null, typeof element7._owner.tag === "number" ? childOwner = getComponentNameFromType2(element7._owner.type) : typeof element7._owner.name === "string" && (childOwner = element7._owner.name), childOwner = " It was passed a child from " + childOwner + ".");
+        element6 && element6._owner != null && element6._owner !== getOwner() && (childOwner = null, typeof element6._owner.tag === "number" ? childOwner = getComponentNameFromType2(element6._owner.type) : typeof element6._owner.name === "string" && (childOwner = element6._owner.name), childOwner = " It was passed a child from " + childOwner + ".");
         var prevGetCurrentStack = ReactSharedInternals2.getCurrentStack;
         ReactSharedInternals2.getCurrentStack = function() {
-          var stack = describeUnknownElementTypeFrameInDEV(element7.type);
+          var stack = describeUnknownElementTypeFrameInDEV(element6.type);
           prevGetCurrentStack && (stack += prevGetCurrentStack() || "");
           return stack;
         };
@@ -36552,7 +36535,7 @@ Check the top-level render call using <` + parentType + ">.");
     }
     var REACT_ELEMENT_TYPE2 = Symbol.for("react.transitional.element"), REACT_PORTAL_TYPE2 = Symbol.for("react.portal"), REACT_FRAGMENT_TYPE2 = Symbol.for("react.fragment"), REACT_STRICT_MODE_TYPE2 = Symbol.for("react.strict_mode"), REACT_PROFILER_TYPE2 = Symbol.for("react.profiler");
     Symbol.for("react.provider");
-    var REACT_CONSUMER_TYPE2 = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE2 = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE2 = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE2 = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = Symbol.for("react.memo"), REACT_LAZY_TYPE2 = Symbol.for("react.lazy"), REACT_OFFSCREEN_TYPE2 = Symbol.for("react.offscreen"), MAYBE_ITERATOR_SYMBOL2 = Symbol.iterator, REACT_CLIENT_REFERENCE$2 = Symbol.for("react.client.reference"), ReactSharedInternals2 = React37.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty3 = Object.prototype.hasOwnProperty, assign2 = Object.assign, REACT_CLIENT_REFERENCE$1 = Symbol.for("react.client.reference"), isArrayImpl2 = Array.isArray, disabledDepth2 = 0, prevLog2, prevInfo2, prevWarn2, prevError2, prevGroup2, prevGroupCollapsed2, prevGroupEnd2;
+    var REACT_CONSUMER_TYPE2 = Symbol.for("react.consumer"), REACT_CONTEXT_TYPE2 = Symbol.for("react.context"), REACT_FORWARD_REF_TYPE2 = Symbol.for("react.forward_ref"), REACT_SUSPENSE_TYPE2 = Symbol.for("react.suspense"), REACT_SUSPENSE_LIST_TYPE2 = Symbol.for("react.suspense_list"), REACT_MEMO_TYPE2 = Symbol.for("react.memo"), REACT_LAZY_TYPE2 = Symbol.for("react.lazy"), REACT_OFFSCREEN_TYPE2 = Symbol.for("react.offscreen"), MAYBE_ITERATOR_SYMBOL2 = Symbol.iterator, REACT_CLIENT_REFERENCE$2 = Symbol.for("react.client.reference"), ReactSharedInternals2 = React6.__CLIENT_INTERNALS_DO_NOT_USE_OR_WARN_USERS_THEY_CANNOT_UPGRADE, hasOwnProperty3 = Object.prototype.hasOwnProperty, assign2 = Object.assign, REACT_CLIENT_REFERENCE$1 = Symbol.for("react.client.reference"), isArrayImpl2 = Array.isArray, disabledDepth2 = 0, prevLog2, prevInfo2, prevWarn2, prevError2, prevGroup2, prevGroupCollapsed2, prevGroupEnd2;
     disabledLog2.__reactDisabledLog = true;
     var prefix2, suffix2, reentry2 = false;
     var componentFrameCache2 = new (typeof WeakMap === "function" ? WeakMap : Map);
@@ -36575,12 +36558,29 @@ var require_jsx_dev_runtime = __commonJS((exports, module) => {
   }
 });
 
+// node_modules/@babel/runtime/helpers/taggedTemplateLiteralLoose.js
+var require_taggedTemplateLiteralLoose = __commonJS((exports, module) => {
+  function _taggedTemplateLiteralLoose(e, t) {
+    return t || (t = e.slice(0)), e.raw = t, e;
+  }
+  module.exports = _taggedTemplateLiteralLoose, module.exports.__esModule = true, module.exports["default"] = module.exports;
+});
+
+// node_modules/@babel/runtime/helpers/objectDestructuringEmpty.js
+var require_objectDestructuringEmpty = __commonJS((exports, module) => {
+  function _objectDestructuringEmpty(t) {
+    if (t == null)
+      throw new TypeError("Cannot destructure " + t);
+  }
+  module.exports = _objectDestructuringEmpty, module.exports.__esModule = true, module.exports["default"] = module.exports;
+});
+
 // server.js
 var import_server = __toESM(require_server_bun(), 1);
 var {serve, readableStreamToJSON, readableStreamToText } = globalThis.Bun;
 
 // assets/component/markdown.js
-var React37 = __toESM(require_react(), 1);
+var React6 = __toESM(require_react(), 1);
 
 // node_modules/devlop/lib/development.js
 var codesWarned = new Set;
@@ -50116,11 +50116,6 @@ function remarkGfm(options) {
   fromMarkdownExtensions.push(gfmFromMarkdown());
   toMarkdownExtensions.push(gfmToMarkdown(settings));
 }
-// node_modules/@uiw/react-md-editor/esm/Editor.js
-var import_extends14 = __toESM(require_extends(), 1);
-var import_objectWithoutPropertiesLoose4 = __toESM(require_objectWithoutPropertiesLoose(), 1);
-var import_react34 = __toESM(require_react(), 1);
-
 // node_modules/@uiw/react-markdown-preview/esm/index.js
 var import_extends4 = __toESM(require_extends(), 1);
 var import_react3 = __toESM(require_react(), 1);
@@ -81797,23 +81792,863 @@ var esm_default3 = /* @__PURE__ */ import_react3.default.forwardRef((props, ref)
   }));
 });
 
+// node_modules/react-syntax-highlighter/dist/esm/highlight.js
+var import_objectWithoutProperties = __toESM(require_objectWithoutProperties(), 1);
+var import_toConsumableArray = __toESM(require_toConsumableArray(), 1);
+var import_defineProperty2 = __toESM(require_defineProperty(), 1);
+var import_react5 = __toESM(require_react(), 1);
+
+// node_modules/react-syntax-highlighter/dist/esm/create-element.js
+var import_extends5 = __toESM(require_extends(), 1);
+var import_defineProperty = __toESM(require_defineProperty(), 1);
+var import_react4 = __toESM(require_react(), 1);
+function ownKeys(e, r2) {
+  var t = Object.keys(e);
+  if (Object.getOwnPropertySymbols) {
+    var o = Object.getOwnPropertySymbols(e);
+    r2 && (o = o.filter(function(r3) {
+      return Object.getOwnPropertyDescriptor(e, r3).enumerable;
+    })), t.push.apply(t, o);
+  }
+  return t;
+}
+function _objectSpread(e) {
+  for (var r2 = 1;r2 < arguments.length; r2++) {
+    var t = arguments[r2] != null ? arguments[r2] : {};
+    r2 % 2 ? ownKeys(Object(t), true).forEach(function(r3) {
+      import_defineProperty.default(e, r3, t[r3]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function(r3) {
+      Object.defineProperty(e, r3, Object.getOwnPropertyDescriptor(t, r3));
+    });
+  }
+  return e;
+}
+function powerSetPermutations(arr) {
+  var arrLength = arr.length;
+  if (arrLength === 0 || arrLength === 1)
+    return arr;
+  if (arrLength === 2) {
+    return [arr[0], arr[1], "".concat(arr[0], ".").concat(arr[1]), "".concat(arr[1], ".").concat(arr[0])];
+  }
+  if (arrLength === 3) {
+    return [arr[0], arr[1], arr[2], "".concat(arr[0], ".").concat(arr[1]), "".concat(arr[0], ".").concat(arr[2]), "".concat(arr[1], ".").concat(arr[0]), "".concat(arr[1], ".").concat(arr[2]), "".concat(arr[2], ".").concat(arr[0]), "".concat(arr[2], ".").concat(arr[1]), "".concat(arr[0], ".").concat(arr[1], ".").concat(arr[2]), "".concat(arr[0], ".").concat(arr[2], ".").concat(arr[1]), "".concat(arr[1], ".").concat(arr[0], ".").concat(arr[2]), "".concat(arr[1], ".").concat(arr[2], ".").concat(arr[0]), "".concat(arr[2], ".").concat(arr[0], ".").concat(arr[1]), "".concat(arr[2], ".").concat(arr[1], ".").concat(arr[0])];
+  }
+  if (arrLength >= 4) {
+    return [arr[0], arr[1], arr[2], arr[3], "".concat(arr[0], ".").concat(arr[1]), "".concat(arr[0], ".").concat(arr[2]), "".concat(arr[0], ".").concat(arr[3]), "".concat(arr[1], ".").concat(arr[0]), "".concat(arr[1], ".").concat(arr[2]), "".concat(arr[1], ".").concat(arr[3]), "".concat(arr[2], ".").concat(arr[0]), "".concat(arr[2], ".").concat(arr[1]), "".concat(arr[2], ".").concat(arr[3]), "".concat(arr[3], ".").concat(arr[0]), "".concat(arr[3], ".").concat(arr[1]), "".concat(arr[3], ".").concat(arr[2]), "".concat(arr[0], ".").concat(arr[1], ".").concat(arr[2]), "".concat(arr[0], ".").concat(arr[1], ".").concat(arr[3]), "".concat(arr[0], ".").concat(arr[2], ".").concat(arr[1]), "".concat(arr[0], ".").concat(arr[2], ".").concat(arr[3]), "".concat(arr[0], ".").concat(arr[3], ".").concat(arr[1]), "".concat(arr[0], ".").concat(arr[3], ".").concat(arr[2]), "".concat(arr[1], ".").concat(arr[0], ".").concat(arr[2]), "".concat(arr[1], ".").concat(arr[0], ".").concat(arr[3]), "".concat(arr[1], ".").concat(arr[2], ".").concat(arr[0]), "".concat(arr[1], ".").concat(arr[2], ".").concat(arr[3]), "".concat(arr[1], ".").concat(arr[3], ".").concat(arr[0]), "".concat(arr[1], ".").concat(arr[3], ".").concat(arr[2]), "".concat(arr[2], ".").concat(arr[0], ".").concat(arr[1]), "".concat(arr[2], ".").concat(arr[0], ".").concat(arr[3]), "".concat(arr[2], ".").concat(arr[1], ".").concat(arr[0]), "".concat(arr[2], ".").concat(arr[1], ".").concat(arr[3]), "".concat(arr[2], ".").concat(arr[3], ".").concat(arr[0]), "".concat(arr[2], ".").concat(arr[3], ".").concat(arr[1]), "".concat(arr[3], ".").concat(arr[0], ".").concat(arr[1]), "".concat(arr[3], ".").concat(arr[0], ".").concat(arr[2]), "".concat(arr[3], ".").concat(arr[1], ".").concat(arr[0]), "".concat(arr[3], ".").concat(arr[1], ".").concat(arr[2]), "".concat(arr[3], ".").concat(arr[2], ".").concat(arr[0]), "".concat(arr[3], ".").concat(arr[2], ".").concat(arr[1]), "".concat(arr[0], ".").concat(arr[1], ".").concat(arr[2], ".").concat(arr[3]), "".concat(arr[0], ".").concat(arr[1], ".").concat(arr[3], ".").concat(arr[2]), "".concat(arr[0], ".").concat(arr[2], ".").concat(arr[1], ".").concat(arr[3]), "".concat(arr[0], ".").concat(arr[2], ".").concat(arr[3], ".").concat(arr[1]), "".concat(arr[0], ".").concat(arr[3], ".").concat(arr[1], ".").concat(arr[2]), "".concat(arr[0], ".").concat(arr[3], ".").concat(arr[2], ".").concat(arr[1]), "".concat(arr[1], ".").concat(arr[0], ".").concat(arr[2], ".").concat(arr[3]), "".concat(arr[1], ".").concat(arr[0], ".").concat(arr[3], ".").concat(arr[2]), "".concat(arr[1], ".").concat(arr[2], ".").concat(arr[0], ".").concat(arr[3]), "".concat(arr[1], ".").concat(arr[2], ".").concat(arr[3], ".").concat(arr[0]), "".concat(arr[1], ".").concat(arr[3], ".").concat(arr[0], ".").concat(arr[2]), "".concat(arr[1], ".").concat(arr[3], ".").concat(arr[2], ".").concat(arr[0]), "".concat(arr[2], ".").concat(arr[0], ".").concat(arr[1], ".").concat(arr[3]), "".concat(arr[2], ".").concat(arr[0], ".").concat(arr[3], ".").concat(arr[1]), "".concat(arr[2], ".").concat(arr[1], ".").concat(arr[0], ".").concat(arr[3]), "".concat(arr[2], ".").concat(arr[1], ".").concat(arr[3], ".").concat(arr[0]), "".concat(arr[2], ".").concat(arr[3], ".").concat(arr[0], ".").concat(arr[1]), "".concat(arr[2], ".").concat(arr[3], ".").concat(arr[1], ".").concat(arr[0]), "".concat(arr[3], ".").concat(arr[0], ".").concat(arr[1], ".").concat(arr[2]), "".concat(arr[3], ".").concat(arr[0], ".").concat(arr[2], ".").concat(arr[1]), "".concat(arr[3], ".").concat(arr[1], ".").concat(arr[0], ".").concat(arr[2]), "".concat(arr[3], ".").concat(arr[1], ".").concat(arr[2], ".").concat(arr[0]), "".concat(arr[3], ".").concat(arr[2], ".").concat(arr[0], ".").concat(arr[1]), "".concat(arr[3], ".").concat(arr[2], ".").concat(arr[1], ".").concat(arr[0])];
+  }
+}
+var classNameCombinations = {};
+function getClassNameCombinations(classNames) {
+  if (classNames.length === 0 || classNames.length === 1)
+    return classNames;
+  var key = classNames.join(".");
+  if (!classNameCombinations[key]) {
+    classNameCombinations[key] = powerSetPermutations(classNames);
+  }
+  return classNameCombinations[key];
+}
+function createStyleObject(classNames) {
+  var elementStyle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+  var stylesheet = arguments.length > 2 ? arguments[2] : undefined;
+  var nonTokenClassNames = classNames.filter(function(className2) {
+    return className2 !== "token";
+  });
+  var classNamesCombinations = getClassNameCombinations(nonTokenClassNames);
+  return classNamesCombinations.reduce(function(styleObject, className2) {
+    return _objectSpread(_objectSpread({}, styleObject), stylesheet[className2]);
+  }, elementStyle);
+}
+function createClassNameString(classNames) {
+  return classNames.join(" ");
+}
+function createChildren2(stylesheet, useInlineStyles) {
+  var childrenCount = 0;
+  return function(children) {
+    childrenCount += 1;
+    return children.map(function(child, i) {
+      return createElement({
+        node: child,
+        stylesheet,
+        useInlineStyles,
+        key: "code-segment-".concat(childrenCount, "-").concat(i)
+      });
+    });
+  };
+}
+function createElement(_ref) {
+  var { node: node2, stylesheet, style: _ref$style } = _ref, style3 = _ref$style === undefined ? {} : _ref$style, useInlineStyles = _ref.useInlineStyles, key = _ref.key;
+  var { properties: properties2, type, tagName: TagName, value } = node2;
+  if (type === "text") {
+    return value;
+  } else if (TagName) {
+    var childrenCreator = createChildren2(stylesheet, useInlineStyles);
+    var props;
+    if (!useInlineStyles) {
+      props = _objectSpread(_objectSpread({}, properties2), {}, {
+        className: createClassNameString(properties2.className)
+      });
+    } else {
+      var allStylesheetSelectors = Object.keys(stylesheet).reduce(function(classes, selector) {
+        selector.split(".").forEach(function(className3) {
+          if (!classes.includes(className3))
+            classes.push(className3);
+        });
+        return classes;
+      }, []);
+      var startingClassName = properties2.className && properties2.className.includes("token") ? ["token"] : [];
+      var className2 = properties2.className && startingClassName.concat(properties2.className.filter(function(className3) {
+        return !allStylesheetSelectors.includes(className3);
+      }));
+      props = _objectSpread(_objectSpread({}, properties2), {}, {
+        className: createClassNameString(className2) || undefined,
+        style: createStyleObject(properties2.className, Object.assign({}, properties2.style, style3), stylesheet)
+      });
+    }
+    var children = childrenCreator(node2.children);
+    return /* @__PURE__ */ import_react4.default.createElement(TagName, import_extends5.default({
+      key
+    }, props), children);
+  }
+}
+
+// node_modules/react-syntax-highlighter/dist/esm/checkForListedLanguage.js
+var checkForListedLanguage_default = function(astGenerator, language) {
+  var langs = astGenerator.listLanguages();
+  return langs.indexOf(language) !== -1;
+};
+
+// node_modules/react-syntax-highlighter/dist/esm/highlight.js
+var _excluded2 = ["language", "children", "style", "customStyle", "codeTagProps", "useInlineStyles", "showLineNumbers", "showInlineLineNumbers", "startingLineNumber", "lineNumberContainerStyle", "lineNumberStyle", "wrapLines", "wrapLongLines", "lineProps", "renderer", "PreTag", "CodeTag", "code", "astGenerator"];
+function ownKeys2(e, r2) {
+  var t = Object.keys(e);
+  if (Object.getOwnPropertySymbols) {
+    var o = Object.getOwnPropertySymbols(e);
+    r2 && (o = o.filter(function(r3) {
+      return Object.getOwnPropertyDescriptor(e, r3).enumerable;
+    })), t.push.apply(t, o);
+  }
+  return t;
+}
+function _objectSpread2(e) {
+  for (var r2 = 1;r2 < arguments.length; r2++) {
+    var t = arguments[r2] != null ? arguments[r2] : {};
+    r2 % 2 ? ownKeys2(Object(t), true).forEach(function(r3) {
+      import_defineProperty2.default(e, r3, t[r3]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys2(Object(t)).forEach(function(r3) {
+      Object.defineProperty(e, r3, Object.getOwnPropertyDescriptor(t, r3));
+    });
+  }
+  return e;
+}
+var newLineRegex = /\n/g;
+function getNewLines(str) {
+  return str.match(newLineRegex);
+}
+function getAllLineNumbers(_ref) {
+  var { lines, startingLineNumber, style: style3 } = _ref;
+  return lines.map(function(_2, i) {
+    var number2 = i + startingLineNumber;
+    return /* @__PURE__ */ import_react5.default.createElement("span", {
+      key: "line-".concat(i),
+      className: "react-syntax-highlighter-line-number",
+      style: typeof style3 === "function" ? style3(number2) : style3
+    }, "".concat(number2, `
+`));
+  });
+}
+function AllLineNumbers(_ref2) {
+  var { codeString, codeStyle, containerStyle: _ref2$containerStyle } = _ref2, containerStyle = _ref2$containerStyle === undefined ? {
+    float: "left",
+    paddingRight: "10px"
+  } : _ref2$containerStyle, _ref2$numberStyle = _ref2.numberStyle, numberStyle = _ref2$numberStyle === undefined ? {} : _ref2$numberStyle, startingLineNumber = _ref2.startingLineNumber;
+  return /* @__PURE__ */ import_react5.default.createElement("code", {
+    style: Object.assign({}, codeStyle, containerStyle)
+  }, getAllLineNumbers({
+    lines: codeString.replace(/\n$/, "").split(`
+`),
+    style: numberStyle,
+    startingLineNumber
+  }));
+}
+function getEmWidthOfNumber(num) {
+  return "".concat(num.toString().length, ".25em");
+}
+function getInlineLineNumber(lineNumber, inlineLineNumberStyle) {
+  return {
+    type: "element",
+    tagName: "span",
+    properties: {
+      key: "line-number--".concat(lineNumber),
+      className: ["comment", "linenumber", "react-syntax-highlighter-line-number"],
+      style: inlineLineNumberStyle
+    },
+    children: [{
+      type: "text",
+      value: lineNumber
+    }]
+  };
+}
+function assembleLineNumberStyles(lineNumberStyle, lineNumber, largestLineNumber) {
+  var defaultLineNumberStyle = {
+    display: "inline-block",
+    minWidth: getEmWidthOfNumber(largestLineNumber),
+    paddingRight: "1em",
+    textAlign: "right",
+    userSelect: "none"
+  };
+  var customLineNumberStyle = typeof lineNumberStyle === "function" ? lineNumberStyle(lineNumber) : lineNumberStyle;
+  var assembledStyle = _objectSpread2(_objectSpread2({}, defaultLineNumberStyle), customLineNumberStyle);
+  return assembledStyle;
+}
+function createLineElement(_ref3) {
+  var { children, lineNumber, lineNumberStyle, largestLineNumber, showInlineLineNumbers, lineProps: _ref3$lineProps } = _ref3, lineProps = _ref3$lineProps === undefined ? {} : _ref3$lineProps, _ref3$className = _ref3.className, className2 = _ref3$className === undefined ? [] : _ref3$className, showLineNumbers = _ref3.showLineNumbers, wrapLongLines = _ref3.wrapLongLines, _ref3$wrapLines = _ref3.wrapLines, wrapLines = _ref3$wrapLines === undefined ? false : _ref3$wrapLines;
+  var properties2 = wrapLines ? _objectSpread2({}, typeof lineProps === "function" ? lineProps(lineNumber) : lineProps) : {};
+  properties2["className"] = properties2["className"] ? [].concat(import_toConsumableArray.default(properties2["className"].trim().split(/\s+/)), import_toConsumableArray.default(className2)) : className2;
+  if (lineNumber && showInlineLineNumbers) {
+    var inlineLineNumberStyle = assembleLineNumberStyles(lineNumberStyle, lineNumber, largestLineNumber);
+    children.unshift(getInlineLineNumber(lineNumber, inlineLineNumberStyle));
+  }
+  if (wrapLongLines & showLineNumbers) {
+    properties2.style = _objectSpread2({
+      display: "flex"
+    }, properties2.style);
+  }
+  return {
+    type: "element",
+    tagName: "span",
+    properties: properties2,
+    children
+  };
+}
+function flattenCodeTree(tree) {
+  var className2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+  var newTree = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+  for (var i = 0;i < tree.length; i++) {
+    var node2 = tree[i];
+    if (node2.type === "text") {
+      newTree.push(createLineElement({
+        children: [node2],
+        className: import_toConsumableArray.default(new Set(className2))
+      }));
+    } else if (node2.children) {
+      var classNames = className2.concat(node2.properties.className);
+      flattenCodeTree(node2.children, classNames).forEach(function(i2) {
+        return newTree.push(i2);
+      });
+    }
+  }
+  return newTree;
+}
+function processLines(codeTree, wrapLines, lineProps, showLineNumbers, showInlineLineNumbers, startingLineNumber, largestLineNumber, lineNumberStyle, wrapLongLines) {
+  var _ref4;
+  var tree = flattenCodeTree(codeTree.value);
+  var newTree = [];
+  var lastLineBreakIndex = -1;
+  var index2 = 0;
+  function createWrappedLine(children2, lineNumber2) {
+    var className2 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+    return createLineElement({
+      children: children2,
+      lineNumber: lineNumber2,
+      lineNumberStyle,
+      largestLineNumber,
+      showInlineLineNumbers,
+      lineProps,
+      className: className2,
+      showLineNumbers,
+      wrapLongLines,
+      wrapLines
+    });
+  }
+  function createUnwrappedLine(children2, lineNumber2) {
+    if (showLineNumbers && lineNumber2 && showInlineLineNumbers) {
+      var inlineLineNumberStyle = assembleLineNumberStyles(lineNumberStyle, lineNumber2, largestLineNumber);
+      children2.unshift(getInlineLineNumber(lineNumber2, inlineLineNumberStyle));
+    }
+    return children2;
+  }
+  function createLine(children2, lineNumber2) {
+    var className2 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
+    return wrapLines || className2.length > 0 ? createWrappedLine(children2, lineNumber2, className2) : createUnwrappedLine(children2, lineNumber2);
+  }
+  var _loop = function _loop() {
+    var node2 = tree[index2];
+    var value = node2.children[0].value;
+    var newLines = getNewLines(value);
+    if (newLines) {
+      var splitValue = value.split(`
+`);
+      splitValue.forEach(function(text9, i) {
+        var lineNumber2 = showLineNumbers && newTree.length + startingLineNumber;
+        var newChild = {
+          type: "text",
+          value: "".concat(text9, `
+`)
+        };
+        if (i === 0) {
+          var _children = tree.slice(lastLineBreakIndex + 1, index2).concat(createLineElement({
+            children: [newChild],
+            className: node2.properties.className
+          }));
+          var _line = createLine(_children, lineNumber2);
+          newTree.push(_line);
+        } else if (i === splitValue.length - 1) {
+          var stringChild = tree[index2 + 1] && tree[index2 + 1].children && tree[index2 + 1].children[0];
+          var lastLineInPreviousSpan = {
+            type: "text",
+            value: "".concat(text9)
+          };
+          if (stringChild) {
+            var newElem = createLineElement({
+              children: [lastLineInPreviousSpan],
+              className: node2.properties.className
+            });
+            tree.splice(index2 + 1, 0, newElem);
+          } else {
+            var _children2 = [lastLineInPreviousSpan];
+            var _line2 = createLine(_children2, lineNumber2, node2.properties.className);
+            newTree.push(_line2);
+          }
+        } else {
+          var _children3 = [newChild];
+          var _line3 = createLine(_children3, lineNumber2, node2.properties.className);
+          newTree.push(_line3);
+        }
+      });
+      lastLineBreakIndex = index2;
+    }
+    index2++;
+  };
+  while (index2 < tree.length) {
+    _loop();
+  }
+  if (lastLineBreakIndex !== tree.length - 1) {
+    var children = tree.slice(lastLineBreakIndex + 1, tree.length);
+    if (children && children.length) {
+      var lineNumber = showLineNumbers && newTree.length + startingLineNumber;
+      var line = createLine(children, lineNumber);
+      newTree.push(line);
+    }
+  }
+  return wrapLines ? newTree : (_ref4 = []).concat.apply(_ref4, newTree);
+}
+function defaultRenderer(_ref5) {
+  var { rows, stylesheet, useInlineStyles } = _ref5;
+  return rows.map(function(node2, i) {
+    return createElement({
+      node: node2,
+      stylesheet,
+      useInlineStyles,
+      key: "code-segement".concat(i)
+    });
+  });
+}
+function isHighlightJs(astGenerator) {
+  return astGenerator && typeof astGenerator.highlightAuto !== "undefined";
+}
+function getCodeTree(_ref6) {
+  var { astGenerator, language, code: code4, defaultCodeValue } = _ref6;
+  if (isHighlightJs(astGenerator)) {
+    var hasLanguage = checkForListedLanguage_default(astGenerator, language);
+    if (language === "text") {
+      return {
+        value: defaultCodeValue,
+        language: "text"
+      };
+    } else if (hasLanguage) {
+      return astGenerator.highlight(language, code4);
+    } else {
+      return astGenerator.highlightAuto(code4);
+    }
+  }
+  try {
+    return language && language !== "text" ? {
+      value: astGenerator.highlight(code4, language)
+    } : {
+      value: defaultCodeValue
+    };
+  } catch (e) {
+    return {
+      value: defaultCodeValue
+    };
+  }
+}
+function highlight_default(defaultAstGenerator, defaultStyle) {
+  return function SyntaxHighlighter(_ref7) {
+    var { language, children, style: _ref7$style } = _ref7, style3 = _ref7$style === undefined ? defaultStyle : _ref7$style, _ref7$customStyle = _ref7.customStyle, customStyle = _ref7$customStyle === undefined ? {} : _ref7$customStyle, _ref7$codeTagProps = _ref7.codeTagProps, codeTagProps = _ref7$codeTagProps === undefined ? {
+      className: language ? "language-".concat(language) : undefined,
+      style: _objectSpread2(_objectSpread2({}, style3['code[class*="language-"]']), style3['code[class*="language-'.concat(language, '"]')])
+    } : _ref7$codeTagProps, _ref7$useInlineStyles = _ref7.useInlineStyles, useInlineStyles = _ref7$useInlineStyles === undefined ? true : _ref7$useInlineStyles, _ref7$showLineNumbers = _ref7.showLineNumbers, showLineNumbers = _ref7$showLineNumbers === undefined ? false : _ref7$showLineNumbers, _ref7$showInlineLineN = _ref7.showInlineLineNumbers, showInlineLineNumbers = _ref7$showInlineLineN === undefined ? true : _ref7$showInlineLineN, _ref7$startingLineNum = _ref7.startingLineNumber, startingLineNumber = _ref7$startingLineNum === undefined ? 1 : _ref7$startingLineNum, lineNumberContainerStyle = _ref7.lineNumberContainerStyle, _ref7$lineNumberStyle = _ref7.lineNumberStyle, lineNumberStyle = _ref7$lineNumberStyle === undefined ? {} : _ref7$lineNumberStyle, wrapLines = _ref7.wrapLines, _ref7$wrapLongLines = _ref7.wrapLongLines, wrapLongLines = _ref7$wrapLongLines === undefined ? false : _ref7$wrapLongLines, _ref7$lineProps = _ref7.lineProps, lineProps = _ref7$lineProps === undefined ? {} : _ref7$lineProps, renderer = _ref7.renderer, _ref7$PreTag = _ref7.PreTag, PreTag = _ref7$PreTag === undefined ? "pre" : _ref7$PreTag, _ref7$CodeTag = _ref7.CodeTag, CodeTag = _ref7$CodeTag === undefined ? "code" : _ref7$CodeTag, _ref7$code = _ref7.code, code4 = _ref7$code === undefined ? (Array.isArray(children) ? children[0] : children) || "" : _ref7$code, astGenerator = _ref7.astGenerator, rest2 = import_objectWithoutProperties.default(_ref7, _excluded2);
+    astGenerator = astGenerator || defaultAstGenerator;
+    var allLineNumbers = showLineNumbers ? /* @__PURE__ */ import_react5.default.createElement(AllLineNumbers, {
+      containerStyle: lineNumberContainerStyle,
+      codeStyle: codeTagProps.style || {},
+      numberStyle: lineNumberStyle,
+      startingLineNumber,
+      codeString: code4
+    }) : null;
+    var defaultPreStyle = style3.hljs || style3['pre[class*="language-"]'] || {
+      backgroundColor: "#fff"
+    };
+    var generatorClassName = isHighlightJs(astGenerator) ? "hljs" : "prismjs";
+    var preProps = useInlineStyles ? Object.assign({}, rest2, {
+      style: Object.assign({}, defaultPreStyle, customStyle)
+    }) : Object.assign({}, rest2, {
+      className: rest2.className ? "".concat(generatorClassName, " ").concat(rest2.className) : generatorClassName,
+      style: Object.assign({}, customStyle)
+    });
+    if (wrapLongLines) {
+      codeTagProps.style = _objectSpread2({
+        whiteSpace: "pre-wrap"
+      }, codeTagProps.style);
+    } else {
+      codeTagProps.style = _objectSpread2({
+        whiteSpace: "pre"
+      }, codeTagProps.style);
+    }
+    if (!astGenerator) {
+      return /* @__PURE__ */ import_react5.default.createElement(PreTag, preProps, allLineNumbers, /* @__PURE__ */ import_react5.default.createElement(CodeTag, codeTagProps, code4));
+    }
+    if (wrapLines === undefined && renderer || wrapLongLines)
+      wrapLines = true;
+    renderer = renderer || defaultRenderer;
+    var defaultCodeValue = [{
+      type: "text",
+      value: code4
+    }];
+    var codeTree = getCodeTree({
+      astGenerator,
+      language,
+      code: code4,
+      defaultCodeValue
+    });
+    if (codeTree.language === null) {
+      codeTree.value = defaultCodeValue;
+    }
+    var lineCount = codeTree.value.length;
+    if (lineCount === 1 && codeTree.value[0].type === "text") {
+      lineCount = codeTree.value[0].value.split(`
+`).length;
+    }
+    var largestLineNumber = lineCount + startingLineNumber;
+    var rows = processLines(codeTree, wrapLines, lineProps, showLineNumbers, showInlineLineNumbers, startingLineNumber, largestLineNumber, lineNumberStyle, wrapLongLines);
+    return /* @__PURE__ */ import_react5.default.createElement(PreTag, preProps, /* @__PURE__ */ import_react5.default.createElement(CodeTag, codeTagProps, !showInlineLineNumbers && allLineNumbers, renderer({
+      rows,
+      stylesheet: style3,
+      useInlineStyles
+    })));
+  };
+}
+
+// node_modules/react-syntax-highlighter/dist/esm/languages/prism/supported-languages.js
+var supported_languages_default = ["abap", "abnf", "actionscript", "ada", "agda", "al", "antlr4", "apacheconf", "apex", "apl", "applescript", "aql", "arduino", "arff", "asciidoc", "asm6502", "asmatmel", "aspnet", "autohotkey", "autoit", "avisynth", "avro-idl", "bash", "basic", "batch", "bbcode", "bicep", "birb", "bison", "bnf", "brainfuck", "brightscript", "bro", "bsl", "c", "cfscript", "chaiscript", "cil", "clike", "clojure", "cmake", "cobol", "coffeescript", "concurnas", "coq", "cpp", "crystal", "csharp", "cshtml", "csp", "css-extras", "css", "csv", "cypher", "d", "dart", "dataweave", "dax", "dhall", "diff", "django", "dns-zone-file", "docker", "dot", "ebnf", "editorconfig", "eiffel", "ejs", "elixir", "elm", "erb", "erlang", "etlua", "excel-formula", "factor", "false", "firestore-security-rules", "flow", "fortran", "fsharp", "ftl", "gap", "gcode", "gdscript", "gedcom", "gherkin", "git", "glsl", "gml", "gn", "go-module", "go", "graphql", "groovy", "haml", "handlebars", "haskell", "haxe", "hcl", "hlsl", "hoon", "hpkp", "hsts", "http", "ichigojam", "icon", "icu-message-format", "idris", "iecst", "ignore", "inform7", "ini", "io", "j", "java", "javadoc", "javadoclike", "javascript", "javastacktrace", "jexl", "jolie", "jq", "js-extras", "js-templates", "jsdoc", "json", "json5", "jsonp", "jsstacktrace", "jsx", "julia", "keepalived", "keyman", "kotlin", "kumir", "kusto", "latex", "latte", "less", "lilypond", "liquid", "lisp", "livescript", "llvm", "log", "lolcode", "lua", "magma", "makefile", "markdown", "markup-templating", "markup", "matlab", "maxscript", "mel", "mermaid", "mizar", "mongodb", "monkey", "moonscript", "n1ql", "n4js", "nand2tetris-hdl", "naniscript", "nasm", "neon", "nevod", "nginx", "nim", "nix", "nsis", "objectivec", "ocaml", "opencl", "openqasm", "oz", "parigp", "parser", "pascal", "pascaligo", "pcaxis", "peoplecode", "perl", "php-extras", "php", "phpdoc", "plsql", "powerquery", "powershell", "processing", "prolog", "promql", "properties", "protobuf", "psl", "pug", "puppet", "pure", "purebasic", "purescript", "python", "q", "qml", "qore", "qsharp", "r", "racket", "reason", "regex", "rego", "renpy", "rest", "rip", "roboconf", "robotframework", "ruby", "rust", "sas", "sass", "scala", "scheme", "scss", "shell-session", "smali", "smalltalk", "smarty", "sml", "solidity", "solution-file", "soy", "sparql", "splunk-spl", "sqf", "sql", "squirrel", "stan", "stylus", "swift", "systemd", "t4-cs", "t4-templating", "t4-vb", "tap", "tcl", "textile", "toml", "tremor", "tsx", "tt2", "turtle", "twig", "typescript", "typoscript", "unrealscript", "uorazor", "uri", "v", "vala", "vbnet", "velocity", "verilog", "vhdl", "vim", "visual-basic", "warpscript", "wasm", "web-idl", "wiki", "wolfram", "wren", "xeora", "xml-doc", "xojo", "xquery", "yaml", "yang", "zig"];
+
+// node_modules/react-syntax-highlighter/dist/esm/styles/prism/prism.js
+var prism_default = {
+  'code[class*="language-"]': {
+    color: "black",
+    background: "none",
+    textShadow: "0 1px white",
+    fontFamily: "Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace",
+    fontSize: "1em",
+    textAlign: "left",
+    whiteSpace: "pre",
+    wordSpacing: "normal",
+    wordBreak: "normal",
+    wordWrap: "normal",
+    lineHeight: "1.5",
+    MozTabSize: "4",
+    OTabSize: "4",
+    tabSize: "4",
+    WebkitHyphens: "none",
+    MozHyphens: "none",
+    msHyphens: "none",
+    hyphens: "none"
+  },
+  'pre[class*="language-"]': {
+    color: "black",
+    background: "#f5f2f0",
+    textShadow: "0 1px white",
+    fontFamily: "Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace",
+    fontSize: "1em",
+    textAlign: "left",
+    whiteSpace: "pre",
+    wordSpacing: "normal",
+    wordBreak: "normal",
+    wordWrap: "normal",
+    lineHeight: "1.5",
+    MozTabSize: "4",
+    OTabSize: "4",
+    tabSize: "4",
+    WebkitHyphens: "none",
+    MozHyphens: "none",
+    msHyphens: "none",
+    hyphens: "none",
+    padding: "1em",
+    margin: ".5em 0",
+    overflow: "auto"
+  },
+  'pre[class*="language-"]::-moz-selection': {
+    textShadow: "none",
+    background: "#b3d4fc"
+  },
+  'pre[class*="language-"] ::-moz-selection': {
+    textShadow: "none",
+    background: "#b3d4fc"
+  },
+  'code[class*="language-"]::-moz-selection': {
+    textShadow: "none",
+    background: "#b3d4fc"
+  },
+  'code[class*="language-"] ::-moz-selection': {
+    textShadow: "none",
+    background: "#b3d4fc"
+  },
+  'pre[class*="language-"]::selection': {
+    textShadow: "none",
+    background: "#b3d4fc"
+  },
+  'pre[class*="language-"] ::selection': {
+    textShadow: "none",
+    background: "#b3d4fc"
+  },
+  'code[class*="language-"]::selection': {
+    textShadow: "none",
+    background: "#b3d4fc"
+  },
+  'code[class*="language-"] ::selection': {
+    textShadow: "none",
+    background: "#b3d4fc"
+  },
+  ':not(pre) > code[class*="language-"]': {
+    background: "#f5f2f0",
+    padding: ".1em",
+    borderRadius: ".3em",
+    whiteSpace: "normal"
+  },
+  comment: {
+    color: "slategray"
+  },
+  prolog: {
+    color: "slategray"
+  },
+  doctype: {
+    color: "slategray"
+  },
+  cdata: {
+    color: "slategray"
+  },
+  punctuation: {
+    color: "#999"
+  },
+  namespace: {
+    Opacity: ".7"
+  },
+  property: {
+    color: "#905"
+  },
+  tag: {
+    color: "#905"
+  },
+  boolean: {
+    color: "#905"
+  },
+  number: {
+    color: "#905"
+  },
+  constant: {
+    color: "#905"
+  },
+  symbol: {
+    color: "#905"
+  },
+  deleted: {
+    color: "#905"
+  },
+  selector: {
+    color: "#690"
+  },
+  "attr-name": {
+    color: "#690"
+  },
+  string: {
+    color: "#690"
+  },
+  char: {
+    color: "#690"
+  },
+  builtin: {
+    color: "#690"
+  },
+  inserted: {
+    color: "#690"
+  },
+  operator: {
+    color: "#9a6e3a",
+    background: "hsla(0, 0%, 100%, .5)"
+  },
+  entity: {
+    color: "#9a6e3a",
+    background: "hsla(0, 0%, 100%, .5)",
+    cursor: "help"
+  },
+  url: {
+    color: "#9a6e3a",
+    background: "hsla(0, 0%, 100%, .5)"
+  },
+  ".language-css .token.string": {
+    color: "#9a6e3a",
+    background: "hsla(0, 0%, 100%, .5)"
+  },
+  ".style .token.string": {
+    color: "#9a6e3a",
+    background: "hsla(0, 0%, 100%, .5)"
+  },
+  atrule: {
+    color: "#07a"
+  },
+  "attr-value": {
+    color: "#07a"
+  },
+  keyword: {
+    color: "#07a"
+  },
+  function: {
+    color: "#DD4A68"
+  },
+  "class-name": {
+    color: "#DD4A68"
+  },
+  regex: {
+    color: "#e90"
+  },
+  important: {
+    color: "#e90",
+    fontWeight: "bold"
+  },
+  variable: {
+    color: "#e90"
+  },
+  bold: {
+    fontWeight: "bold"
+  },
+  italic: {
+    fontStyle: "italic"
+  }
+};
+
+// node_modules/react-syntax-highlighter/dist/esm/prism.js
+var import_refractor = __toESM(require_refractor(), 1);
+var highlighter = highlight_default(import_refractor.default, prism_default);
+highlighter.supportedLanguages = supported_languages_default;
+var prism_default2 = highlighter;
+// node_modules/react-syntax-highlighter/dist/esm/styles/prism/dark.js
+var dark_default = {
+  'code[class*="language-"]': {
+    color: "white",
+    background: "none",
+    textShadow: "0 -.1em .2em black",
+    fontFamily: "Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace",
+    fontSize: "1em",
+    textAlign: "left",
+    whiteSpace: "pre",
+    wordSpacing: "normal",
+    wordBreak: "normal",
+    wordWrap: "normal",
+    lineHeight: "1.5",
+    MozTabSize: "4",
+    OTabSize: "4",
+    tabSize: "4",
+    WebkitHyphens: "none",
+    MozHyphens: "none",
+    msHyphens: "none",
+    hyphens: "none"
+  },
+  'pre[class*="language-"]': {
+    color: "white",
+    background: "hsl(30, 20%, 25%)",
+    textShadow: "0 -.1em .2em black",
+    fontFamily: "Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace",
+    fontSize: "1em",
+    textAlign: "left",
+    whiteSpace: "pre",
+    wordSpacing: "normal",
+    wordBreak: "normal",
+    wordWrap: "normal",
+    lineHeight: "1.5",
+    MozTabSize: "4",
+    OTabSize: "4",
+    tabSize: "4",
+    WebkitHyphens: "none",
+    MozHyphens: "none",
+    msHyphens: "none",
+    hyphens: "none",
+    padding: "1em",
+    margin: ".5em 0",
+    overflow: "auto",
+    border: ".3em solid hsl(30, 20%, 40%)",
+    borderRadius: ".5em",
+    boxShadow: "1px 1px .5em black inset"
+  },
+  ':not(pre) > code[class*="language-"]': {
+    background: "hsl(30, 20%, 25%)",
+    padding: ".15em .2em .05em",
+    borderRadius: ".3em",
+    border: ".13em solid hsl(30, 20%, 40%)",
+    boxShadow: "1px 1px .3em -.1em black inset",
+    whiteSpace: "normal"
+  },
+  comment: {
+    color: "hsl(30, 20%, 50%)"
+  },
+  prolog: {
+    color: "hsl(30, 20%, 50%)"
+  },
+  doctype: {
+    color: "hsl(30, 20%, 50%)"
+  },
+  cdata: {
+    color: "hsl(30, 20%, 50%)"
+  },
+  punctuation: {
+    Opacity: ".7"
+  },
+  namespace: {
+    Opacity: ".7"
+  },
+  property: {
+    color: "hsl(350, 40%, 70%)"
+  },
+  tag: {
+    color: "hsl(350, 40%, 70%)"
+  },
+  boolean: {
+    color: "hsl(350, 40%, 70%)"
+  },
+  number: {
+    color: "hsl(350, 40%, 70%)"
+  },
+  constant: {
+    color: "hsl(350, 40%, 70%)"
+  },
+  symbol: {
+    color: "hsl(350, 40%, 70%)"
+  },
+  selector: {
+    color: "hsl(75, 70%, 60%)"
+  },
+  "attr-name": {
+    color: "hsl(75, 70%, 60%)"
+  },
+  string: {
+    color: "hsl(75, 70%, 60%)"
+  },
+  char: {
+    color: "hsl(75, 70%, 60%)"
+  },
+  builtin: {
+    color: "hsl(75, 70%, 60%)"
+  },
+  inserted: {
+    color: "hsl(75, 70%, 60%)"
+  },
+  operator: {
+    color: "hsl(40, 90%, 60%)"
+  },
+  entity: {
+    color: "hsl(40, 90%, 60%)",
+    cursor: "help"
+  },
+  url: {
+    color: "hsl(40, 90%, 60%)"
+  },
+  ".language-css .token.string": {
+    color: "hsl(40, 90%, 60%)"
+  },
+  ".style .token.string": {
+    color: "hsl(40, 90%, 60%)"
+  },
+  variable: {
+    color: "hsl(40, 90%, 60%)"
+  },
+  atrule: {
+    color: "hsl(350, 40%, 70%)"
+  },
+  "attr-value": {
+    color: "hsl(350, 40%, 70%)"
+  },
+  keyword: {
+    color: "hsl(350, 40%, 70%)"
+  },
+  regex: {
+    color: "#e90"
+  },
+  important: {
+    color: "#e90",
+    fontWeight: "bold"
+  },
+  bold: {
+    fontWeight: "bold"
+  },
+  italic: {
+    fontStyle: "italic"
+  },
+  deleted: {
+    color: "red"
+  }
+};
+// assets/component/markdown.js
+var jsx_dev_runtime = __toESM(require_jsx_dev_runtime(), 1);
+var Component = (props = {}) => {
+  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV(Markdown, {
+    className: "markdown-body",
+    remarkPlugins: [remarkGfm],
+    components: {
+      code(props2) {
+        const { children, className: className2, node: node2, ...rest2 } = props2;
+        const match = /language-(\w+)/.exec(className2 || "");
+        return match ? /* @__PURE__ */ jsx_dev_runtime.jsxDEV(prism_default2, {
+          ...rest2,
+          PreTag: "div",
+          children: String(children).replace(/\n$/, ""),
+          language: match[1],
+          style: dark_default
+        }, undefined, false, undefined, this) : /* @__PURE__ */ jsx_dev_runtime.jsxDEV("code", {
+          ...rest2,
+          className: className2,
+          children
+        }, undefined, false, undefined, this);
+      }
+    },
+    children: props.data
+  }, undefined, false, undefined, this);
+};
+
+// assets/component/live_form.js
+var import_react37 = __toESM(require_react(), 1);
+
+// node_modules/@uiw/react-md-editor/esm/Editor.js
+var import_extends15 = __toESM(require_extends(), 1);
+var import_objectWithoutPropertiesLoose4 = __toESM(require_objectWithoutPropertiesLoose(), 1);
+var import_react36 = __toESM(require_react(), 1);
+
 // node_modules/@uiw/react-md-editor/esm/components/TextArea/index.js
-var import_extends11 = __toESM(require_extends(), 1);
+var import_extends12 = __toESM(require_extends(), 1);
 var import_objectWithoutPropertiesLoose3 = __toESM(require_objectWithoutPropertiesLoose(), 1);
-var import_react30 = __toESM(require_react(), 1);
+var import_react32 = __toESM(require_react(), 1);
 
 // node_modules/@uiw/react-md-editor/esm/Context.js
-var import_extends5 = __toESM(require_extends(), 1);
-var import_react4 = __toESM(require_react(), 1);
+var import_extends6 = __toESM(require_extends(), 1);
+var import_react6 = __toESM(require_react(), 1);
 function reducer(state, action) {
-  return import_extends5.default({}, state, action);
+  return import_extends6.default({}, state, action);
 }
-var EditorContext = /* @__PURE__ */ import_react4.default.createContext({
+var EditorContext = /* @__PURE__ */ import_react6.default.createContext({
   markdown: ""
 });
 
 // node_modules/@uiw/react-md-editor/esm/components/TextArea/shortcuts.js
-var import_extends6 = __toESM(require_extends(), 1);
+var import_extends7 = __toESM(require_extends(), 1);
 function getCommands(data, resulte) {
   if (data === undefined) {
     data = [];
@@ -81823,7 +82658,7 @@ function getCommands(data, resulte) {
   }
   data.forEach((item) => {
     if (item.children && Array.isArray(item.children)) {
-      resulte = import_extends6.default({}, resulte, getCommands(item.children || []));
+      resulte = import_extends7.default({}, resulte, getCommands(item.children || []));
     } else if (item.keyCommand && item.shortcuts && item.execute) {
       resulte[item.shortcuts.toLocaleLowerCase()] = item;
     }
@@ -81880,7 +82715,7 @@ function shortcutsHandle(e, commands, commandOrchestrator, dispatch, state) {
 
 // node_modules/@uiw/react-md-editor/esm/components/TextArea/Markdown.js
 var import_taggedTemplateLiteralLoose = __toESM(require_taggedTemplateLiteralLoose(), 1);
-var import_react5 = __toESM(require_react(), 1);
+var import_react7 = __toESM(require_react(), 1);
 
 // node_modules/hast-util-from-html/lib/errors.js
 var errors = {
@@ -83121,9 +83956,9 @@ function Markdown2(props) {
     markdown: markdown2 = "",
     highlightEnable,
     dispatch
-  } = import_react5.useContext(EditorContext);
-  var preRef = /* @__PURE__ */ import_react5.default.createRef();
-  import_react5.useEffect(() => {
+  } = import_react7.useContext(EditorContext);
+  var preRef = /* @__PURE__ */ import_react7.default.createRef();
+  import_react7.useEffect(() => {
     if (preRef.current && dispatch) {
       dispatch({
         textareaPre: preRef.current
@@ -83148,7 +83983,7 @@ function Markdown2(props) {
     } catch (error) {
     }
   }
-  return /* @__PURE__ */ import_react5.default.createElement("div", {
+  return /* @__PURE__ */ import_react7.default.createElement("div", {
     className: "wmde-markdown-color",
     dangerouslySetInnerHTML: {
       __html: mdStr || ""
@@ -83157,12 +83992,12 @@ function Markdown2(props) {
 }
 
 // node_modules/@uiw/react-md-editor/esm/components/TextArea/Textarea.js
-var import_extends10 = __toESM(require_extends(), 1);
+var import_extends11 = __toESM(require_extends(), 1);
 var import_objectWithoutPropertiesLoose2 = __toESM(require_objectWithoutPropertiesLoose(), 1);
-var import_react29 = __toESM(require_react(), 1);
+var import_react31 = __toESM(require_react(), 1);
 
 // node_modules/@uiw/react-md-editor/esm/commands/index.js
-var import_extends9 = __toESM(require_extends(), 1);
+var import_extends10 = __toESM(require_extends(), 1);
 
 // node_modules/@uiw/react-md-editor/esm/utils/InsertTextAtPosition.js
 var browserSupportsTextareaTextNodes;
@@ -83239,7 +84074,7 @@ function insertTextAtPosition(input, text10) {
 }
 
 // node_modules/@uiw/react-md-editor/esm/commands/bold.js
-var import_react6 = __toESM(require_react(), 1);
+var import_react8 = __toESM(require_react(), 1);
 
 // node_modules/@uiw/react-md-editor/esm/utils/markdownUtils.js
 function selectWord(_ref) {
@@ -83439,7 +84274,7 @@ var bold = {
 };
 
 // node_modules/@uiw/react-md-editor/esm/commands/code.js
-var import_react7 = __toESM(require_react(), 1);
+var import_react9 = __toESM(require_react(), 1);
 var import_jsx_runtime6 = __toESM(require_jsx_runtime(), 1);
 var codeBlock = {
   name: "codeBlock",
@@ -83540,7 +84375,7 @@ var code4 = {
 };
 
 // node_modules/@uiw/react-md-editor/esm/commands/comment.js
-var import_react8 = __toESM(require_react(), 1);
+var import_react10 = __toESM(require_react(), 1);
 var import_jsx_runtime7 = __toESM(require_jsx_runtime(), 1);
 var comment4 = {
   name: "comment",
@@ -83600,7 +84435,7 @@ var divider = {
 };
 
 // node_modules/@uiw/react-md-editor/esm/commands/fullscreen.js
-var import_react9 = __toESM(require_react(), 1);
+var import_react11 = __toESM(require_react(), 1);
 var import_jsx_runtime8 = __toESM(require_jsx_runtime(), 1);
 var fullscreen = {
   name: "fullscreen",
@@ -83632,11 +84467,11 @@ var fullscreen = {
 
 // node_modules/@uiw/react-md-editor/esm/commands/group.js
 var import_objectDestructuringEmpty = __toESM(require_objectDestructuringEmpty(), 1);
-var import_extends7 = __toESM(require_extends(), 1);
-var import_react10 = __toESM(require_react(), 1);
+var import_extends8 = __toESM(require_extends(), 1);
+var import_react12 = __toESM(require_react(), 1);
 var import_jsx_runtime9 = __toESM(require_jsx_runtime(), 1);
 var group = (arr, options) => {
-  var data = import_extends7.default({
+  var data = import_extends8.default({
     children: arr,
     icon: /* @__PURE__ */ import_jsx_runtime9.jsx("svg", {
       width: "12",
@@ -83654,16 +84489,16 @@ var group = (arr, options) => {
   });
   if (Array.isArray(data.children)) {
     data.children = data.children.map((_ref) => {
-      var item = import_extends7.default({}, (import_objectDestructuringEmpty.default(_ref), _ref));
+      var item = import_extends8.default({}, (import_objectDestructuringEmpty.default(_ref), _ref));
       item.parent = data;
-      return import_extends7.default({}, item);
+      return import_extends8.default({}, item);
     });
   }
   return data;
 };
 
 // node_modules/@uiw/react-md-editor/esm/commands/hr.js
-var import_react11 = __toESM(require_react(), 1);
+var import_react13 = __toESM(require_react(), 1);
 var import_jsx_runtime10 = __toESM(require_jsx_runtime(), 1);
 var hr = {
   name: "hr",
@@ -83721,7 +84556,7 @@ var hr = {
 };
 
 // node_modules/@uiw/react-md-editor/esm/commands/image.js
-var import_react12 = __toESM(require_react(), 1);
+var import_react14 = __toESM(require_react(), 1);
 var import_jsx_runtime11 = __toESM(require_jsx_runtime(), 1);
 var image3 = {
   name: "image",
@@ -83788,7 +84623,7 @@ var image3 = {
 };
 
 // node_modules/@uiw/react-md-editor/esm/commands/italic.js
-var import_react13 = __toESM(require_react(), 1);
+var import_react15 = __toESM(require_react(), 1);
 var import_jsx_runtime12 = __toESM(require_jsx_runtime(), 1);
 var italic = {
   name: "italic",
@@ -83827,7 +84662,7 @@ var italic = {
 };
 
 // node_modules/@uiw/react-md-editor/esm/commands/link.js
-var import_react14 = __toESM(require_react(), 1);
+var import_react16 = __toESM(require_react(), 1);
 var import_jsx_runtime13 = __toESM(require_jsx_runtime(), 1);
 var link3 = {
   name: "link",
@@ -83896,7 +84731,7 @@ var link3 = {
 };
 
 // node_modules/@uiw/react-md-editor/esm/commands/list.js
-var import_react15 = __toESM(require_react(), 1);
+var import_react17 = __toESM(require_react(), 1);
 var import_jsx_runtime14 = __toESM(require_jsx_runtime(), 1);
 var makeList = (state, api, insertBefore) => {
   var newSelectionRange = selectWord({
@@ -84018,7 +84853,7 @@ var checkedListCommand = {
 };
 
 // node_modules/@uiw/react-md-editor/esm/commands/preview.js
-var import_react16 = __toESM(require_react(), 1);
+var import_react18 = __toESM(require_react(), 1);
 var import_jsx_runtime15 = __toESM(require_jsx_runtime(), 1);
 var codePreview = {
   name: "preview",
@@ -84112,7 +84947,7 @@ var codeLive = {
 };
 
 // node_modules/@uiw/react-md-editor/esm/commands/quote.js
-var import_react17 = __toESM(require_react(), 1);
+var import_react19 = __toESM(require_react(), 1);
 var import_jsx_runtime16 = __toESM(require_jsx_runtime(), 1);
 var quote = {
   name: "quote",
@@ -84157,7 +84992,7 @@ var quote = {
 };
 
 // node_modules/@uiw/react-md-editor/esm/commands/strikeThrough.js
-var import_react18 = __toESM(require_react(), 1);
+var import_react20 = __toESM(require_react(), 1);
 var import_jsx_runtime17 = __toESM(require_jsx_runtime(), 1);
 var strikethrough2 = {
   name: "strikethrough",
@@ -84196,11 +85031,11 @@ var strikethrough2 = {
 };
 
 // node_modules/@uiw/react-md-editor/esm/commands/title.js
-var import_extends8 = __toESM(require_extends(), 1);
-var import_react20 = __toESM(require_react(), 1);
+var import_extends9 = __toESM(require_extends(), 1);
+var import_react22 = __toESM(require_react(), 1);
 
 // node_modules/@uiw/react-md-editor/esm/commands/title1.js
-var import_react19 = __toESM(require_react(), 1);
+var import_react21 = __toESM(require_react(), 1);
 var import_jsx_runtime18 = __toESM(require_jsx_runtime(), 1);
 var title1 = {
   name: "title1",
@@ -84251,7 +85086,7 @@ function titleExecute(_ref) {
     suffix: suffix2
   });
 }
-var title = import_extends8.default({}, title1, {
+var title = import_extends9.default({}, title1, {
   icon: /* @__PURE__ */ import_jsx_runtime19.jsx("svg", {
     width: "12",
     height: "12",
@@ -84264,7 +85099,7 @@ var title = import_extends8.default({}, title1, {
 });
 
 // node_modules/@uiw/react-md-editor/esm/commands/title2.js
-var import_react21 = __toESM(require_react(), 1);
+var import_react23 = __toESM(require_react(), 1);
 var import_jsx_runtime20 = __toESM(require_jsx_runtime(), 1);
 var title2 = {
   name: "title2",
@@ -84294,7 +85129,7 @@ var title2 = {
 };
 
 // node_modules/@uiw/react-md-editor/esm/commands/title3.js
-var import_react22 = __toESM(require_react(), 1);
+var import_react24 = __toESM(require_react(), 1);
 var import_jsx_runtime21 = __toESM(require_jsx_runtime(), 1);
 var title3 = {
   name: "title3",
@@ -84324,7 +85159,7 @@ var title3 = {
 };
 
 // node_modules/@uiw/react-md-editor/esm/commands/title4.js
-var import_react23 = __toESM(require_react(), 1);
+var import_react25 = __toESM(require_react(), 1);
 var import_jsx_runtime22 = __toESM(require_jsx_runtime(), 1);
 var title4 = {
   name: "title4",
@@ -84354,7 +85189,7 @@ var title4 = {
 };
 
 // node_modules/@uiw/react-md-editor/esm/commands/title5.js
-var import_react24 = __toESM(require_react(), 1);
+var import_react26 = __toESM(require_react(), 1);
 var import_jsx_runtime23 = __toESM(require_jsx_runtime(), 1);
 var title5 = {
   name: "title5",
@@ -84384,7 +85219,7 @@ var title5 = {
 };
 
 // node_modules/@uiw/react-md-editor/esm/commands/title6.js
-var import_react25 = __toESM(require_react(), 1);
+var import_react27 = __toESM(require_react(), 1);
 var import_jsx_runtime24 = __toESM(require_jsx_runtime(), 1);
 var title6 = {
   name: "title6",
@@ -84414,7 +85249,7 @@ var title6 = {
 };
 
 // node_modules/@uiw/react-md-editor/esm/commands/table.js
-var import_react26 = __toESM(require_react(), 1);
+var import_react28 = __toESM(require_react(), 1);
 var import_jsx_runtime25 = __toESM(require_jsx_runtime(), 1);
 var table2 = {
   name: "table",
@@ -84475,11 +85310,11 @@ var table2 = {
 };
 
 // node_modules/@uiw/react-md-editor/esm/commands/issue.js
-var import_react27 = __toESM(require_react(), 1);
+var import_react29 = __toESM(require_react(), 1);
 var import_jsx_runtime26 = __toESM(require_jsx_runtime(), 1);
 
 // node_modules/@uiw/react-md-editor/esm/commands/help.js
-var import_react28 = __toESM(require_react(), 1);
+var import_react30 = __toESM(require_react(), 1);
 var import_jsx_runtime27 = __toESM(require_jsx_runtime(), 1);
 var help = {
   name: "help",
@@ -84554,7 +85389,7 @@ class TextAreaCommandOrchestrator {
     return getStateFromTextArea(this.textArea);
   }
   executeCommand(command, dispatch, state, shortcuts) {
-    command.execute && command.execute(import_extends9.default({
+    command.execute && command.execute(import_extends10.default({
       command
     }, getStateFromTextArea(this.textArea)), this.textApi, dispatch, state, shortcuts);
   }
@@ -84721,14 +85556,14 @@ function handleKeyDown(e, tabSize, defaultTabEnable) {
 
 // node_modules/@uiw/react-md-editor/esm/components/TextArea/Textarea.js
 var import_jsx_runtime28 = __toESM(require_jsx_runtime(), 1);
-var _excluded2 = ["prefixCls", "onChange"];
+var _excluded3 = ["prefixCls", "onChange"];
 var _excluded22 = ["markdown", "commands", "fullscreen", "preview", "highlightEnable", "extraCommands", "tabSize", "defaultTabEnable", "dispatch"];
 function Textarea(props) {
   var {
     prefixCls,
     onChange: _onChange
-  } = props, other = import_objectWithoutPropertiesLoose2.default(props, _excluded2);
-  var _useContext = import_react29.useContext(EditorContext), {
+  } = props, other = import_objectWithoutPropertiesLoose2.default(props, _excluded3);
+  var _useContext = import_react31.useContext(EditorContext), {
     markdown: markdown2,
     commands,
     fullscreen: fullscreen2,
@@ -84739,20 +85574,20 @@ function Textarea(props) {
     defaultTabEnable,
     dispatch
   } = _useContext, otherStore = import_objectWithoutPropertiesLoose2.default(_useContext, _excluded22);
-  var textRef = import_react29.default.useRef(null);
-  var executeRef = import_react29.default.useRef();
-  var statesRef = import_react29.default.useRef({
+  var textRef = import_react31.default.useRef(null);
+  var executeRef = import_react31.default.useRef();
+  var statesRef = import_react31.default.useRef({
     fullscreen: fullscreen2,
     preview
   });
-  import_react29.useEffect(() => {
+  import_react31.useEffect(() => {
     statesRef.current = {
       fullscreen: fullscreen2,
       preview,
       highlightEnable
     };
   }, [fullscreen2, preview, highlightEnable]);
-  import_react29.useEffect(() => {
+  import_react31.useEffect(() => {
     if (textRef.current && dispatch) {
       var commandOrchestrator = new TextAreaCommandOrchestrator(textRef.current);
       executeRef.current = commandOrchestrator;
@@ -84766,7 +85601,7 @@ function Textarea(props) {
     handleKeyDown(e, tabSize, defaultTabEnable);
     shortcutsHandle(e, [...commands || [], ...extraCommands || []], executeRef.current, dispatch, statesRef.current);
   };
-  import_react29.useEffect(() => {
+  import_react31.useEffect(() => {
     if (textRef.current) {
       textRef.current.addEventListener("keydown", onKeyDown);
     }
@@ -84776,7 +85611,7 @@ function Textarea(props) {
       }
     };
   }, []);
-  return /* @__PURE__ */ import_jsx_runtime28.jsx("textarea", import_extends10.default({
+  return /* @__PURE__ */ import_jsx_runtime28.jsx("textarea", import_extends11.default({
     autoComplete: "off",
     autoCorrect: "off",
     autoCapitalize: "off",
@@ -84796,14 +85631,14 @@ function Textarea(props) {
 
 // node_modules/@uiw/react-md-editor/esm/components/TextArea/index.js
 var import_jsx_runtime29 = __toESM(require_jsx_runtime(), 1);
-var _excluded3 = ["prefixCls", "className", "onScroll", "renderTextarea"];
+var _excluded4 = ["prefixCls", "className", "onScroll", "renderTextarea"];
 function TextArea(props) {
   var _ref = props || {}, {
     prefixCls,
     className: className2,
     onScroll,
     renderTextarea
-  } = _ref, otherProps = import_objectWithoutPropertiesLoose3.default(_ref, _excluded3);
+  } = _ref, otherProps = import_objectWithoutPropertiesLoose3.default(_ref, _excluded4);
   var {
     markdown: markdown2,
     scrollTop,
@@ -84812,21 +85647,21 @@ function TextArea(props) {
     highlightEnable,
     extraCommands,
     dispatch
-  } = import_react30.useContext(EditorContext);
-  var textRef = import_react30.default.useRef(null);
-  var executeRef = import_react30.default.useRef();
-  var warp = /* @__PURE__ */ import_react30.default.createRef();
-  import_react30.useEffect(() => {
+  } = import_react32.useContext(EditorContext);
+  var textRef = import_react32.default.useRef(null);
+  var executeRef = import_react32.default.useRef();
+  var warp = /* @__PURE__ */ import_react32.default.createRef();
+  import_react32.useEffect(() => {
     var state = {};
     if (warp.current) {
       state.textareaWarp = warp.current || undefined;
       warp.current.scrollTop = scrollTop || 0;
     }
     if (dispatch) {
-      dispatch(import_extends11.default({}, state));
+      dispatch(import_extends12.default({}, state));
     }
   }, []);
-  import_react30.useEffect(() => {
+  import_react32.useEffect(() => {
     if (textRef.current && dispatch) {
       var commandOrchestrator = new TextAreaCommandOrchestrator(textRef.current);
       executeRef.current = commandOrchestrator;
@@ -84849,7 +85684,7 @@ function TextArea(props) {
       style: {
         minHeight
       },
-      children: renderTextarea ? /* @__PURE__ */ import_react30.default.cloneElement(renderTextarea(import_extends11.default({}, otherProps, {
+      children: renderTextarea ? /* @__PURE__ */ import_react32.default.cloneElement(renderTextarea(import_extends12.default({}, otherProps, {
         value: markdown2,
         autoComplete: "off",
         autoCorrect: "off",
@@ -84871,10 +85706,10 @@ function TextArea(props) {
         }
       }), {
         ref: textRef
-      }) : /* @__PURE__ */ import_jsx_runtime29.jsxs(import_react30.Fragment, {
+      }) : /* @__PURE__ */ import_jsx_runtime29.jsxs(import_react32.Fragment, {
         children: [highlightEnable && /* @__PURE__ */ import_jsx_runtime29.jsx(Markdown2, {
           prefixCls
-        }), /* @__PURE__ */ import_jsx_runtime29.jsx(Textarea, import_extends11.default({
+        }), /* @__PURE__ */ import_jsx_runtime29.jsx(Textarea, import_extends12.default({
           prefixCls
         }, otherProps, {
           style: textStyle
@@ -84885,12 +85720,12 @@ function TextArea(props) {
 }
 
 // node_modules/@uiw/react-md-editor/esm/components/Toolbar/index.js
-var import_extends13 = __toESM(require_extends(), 1);
-var import_react32 = __toESM(require_react(), 1);
+var import_extends14 = __toESM(require_extends(), 1);
+var import_react34 = __toESM(require_react(), 1);
 
 // node_modules/@uiw/react-md-editor/esm/components/Toolbar/Child.js
-var import_extends12 = __toESM(require_extends(), 1);
-var import_react31 = __toESM(require_react(), 1);
+var import_extends13 = __toESM(require_extends(), 1);
+var import_react33 = __toESM(require_react(), 1);
 var import_jsx_runtime30 = __toESM(require_jsx_runtime(), 1);
 function Child(props) {
   var {
@@ -84901,11 +85736,11 @@ function Child(props) {
   } = props || {};
   var {
     barPopup = {}
-  } = import_react31.useContext(EditorContext);
-  return import_react31.useMemo(() => /* @__PURE__ */ import_jsx_runtime30.jsx("div", {
+  } = import_react33.useContext(EditorContext);
+  return import_react33.useMemo(() => /* @__PURE__ */ import_jsx_runtime30.jsx("div", {
     className: prefixCls + "-toolbar-child " + (groupName && barPopup[groupName] ? "active" : ""),
     onClick: (e) => e.stopPropagation(),
-    children: Array.isArray(commands) ? /* @__PURE__ */ import_jsx_runtime30.jsx(Toolbar, import_extends12.default({
+    children: Array.isArray(commands) ? /* @__PURE__ */ import_jsx_runtime30.jsx(Toolbar, import_extends13.default({
       commands
     }, props, {
       isChild: true
@@ -84927,13 +85762,13 @@ function ToolbarItems(props) {
     components,
     commandOrchestrator,
     dispatch
-  } = import_react32.useContext(EditorContext);
-  var originalOverflow = import_react32.useRef("");
+  } = import_react34.useContext(EditorContext);
+  var originalOverflow = import_react34.useRef("");
   function handleClick(command, name3) {
     if (!dispatch)
       return;
     var state = {
-      barPopup: import_extends13.default({}, barPopup)
+      barPopup: import_extends14.default({}, barPopup)
     };
     if (command.keyCommand === "preview") {
       state.preview = command.value;
@@ -84955,11 +85790,11 @@ function ToolbarItems(props) {
       });
     }
     if (Object.keys(state).length) {
-      dispatch(import_extends13.default({}, state));
+      dispatch(import_extends14.default({}, state));
     }
     commandOrchestrator && commandOrchestrator.executeCommand(command);
   }
-  import_react32.useEffect(() => {
+  import_react34.useEffect(() => {
     if (document && overflow) {
       if (fullscreen2) {
         document.body.style.overflow = "hidden";
@@ -84974,12 +85809,12 @@ function ToolbarItems(props) {
   return /* @__PURE__ */ import_jsx_runtime31.jsx("ul", {
     children: (props.commands || []).map((item, idx) => {
       if (item.keyCommand === "divider") {
-        return /* @__PURE__ */ import_jsx_runtime31.jsx("li", import_extends13.default({}, item.liProps, {
+        return /* @__PURE__ */ import_jsx_runtime31.jsx("li", import_extends14.default({}, item.liProps, {
           className: prefixCls + "-toolbar-divider"
         }), idx);
       }
       if (!item.keyCommand)
-        return /* @__PURE__ */ import_jsx_runtime31.jsx(import_react32.Fragment, {}, idx);
+        return /* @__PURE__ */ import_jsx_runtime31.jsx(import_react34.Fragment, {}, idx);
       var activeBtn = fullscreen2 && item.keyCommand === "fullscreen" || item.keyCommand === "preview" && preview === item.value;
       var childNode = item.children && typeof item.children === "function" ? item.children({
         getState: () => commandOrchestrator.getState(),
@@ -84993,9 +85828,9 @@ function ToolbarItems(props) {
       var disabled2 = barPopup && preview && preview === "preview" && !/(preview|fullscreen)/.test(item.keyCommand);
       var render2 = (components == null ? undefined : components.toolbar) || item.render;
       var com = render2 && typeof render2 === "function" ? render2(item, !!disabled2, handleClick, idx) : null;
-      return /* @__PURE__ */ import_jsx_runtime31.jsxs("li", import_extends13.default({}, item.liProps, {
+      return /* @__PURE__ */ import_jsx_runtime31.jsxs("li", import_extends14.default({}, item.liProps, {
         className: activeBtn ? "active" : "",
-        children: [com && /* @__PURE__ */ import_react32.default.isValidElement(com) && com, !com && !item.buttonProps && item.icon, !com && item.buttonProps && /* @__PURE__ */ import_react32.default.createElement("button", import_extends13.default({
+        children: [com && /* @__PURE__ */ import_react34.default.isValidElement(com) && com, !com && !item.buttonProps && item.icon, !com && item.buttonProps && /* @__PURE__ */ import_react34.default.createElement("button", import_extends14.default({
           type: "button",
           key: idx,
           disabled: disabled2,
@@ -85028,12 +85863,12 @@ function Toolbar(props) {
   var {
     commands,
     extraCommands
-  } = import_react32.useContext(EditorContext);
+  } = import_react34.useContext(EditorContext);
   return /* @__PURE__ */ import_jsx_runtime31.jsxs("div", {
     className: prefixCls + "-toolbar " + className2,
-    children: [/* @__PURE__ */ import_jsx_runtime31.jsx(ToolbarItems, import_extends13.default({}, props, {
+    children: [/* @__PURE__ */ import_jsx_runtime31.jsx(ToolbarItems, import_extends14.default({}, props, {
       commands: props.commands || commands || []
-    })), !isChild2 && /* @__PURE__ */ import_jsx_runtime31.jsx(ToolbarItems, import_extends13.default({}, props, {
+    })), !isChild2 && /* @__PURE__ */ import_jsx_runtime31.jsx(ToolbarItems, import_extends14.default({}, props, {
       commands: extraCommands || []
     }))]
   });
@@ -85058,17 +85893,17 @@ function ToolbarVisibility(props) {
 }
 
 // node_modules/@uiw/react-md-editor/esm/components/DragBar/index.js
-var import_react33 = __toESM(require_react(), 1);
+var import_react35 = __toESM(require_react(), 1);
 var import_jsx_runtime32 = __toESM(require_jsx_runtime(), 1);
 var DragBar = (props) => {
   var {
     prefixCls,
     onChange
   } = props || {};
-  var $dom = import_react33.useRef(null);
-  var dragRef = import_react33.useRef();
-  var heightRef = import_react33.useRef(props.height);
-  import_react33.useEffect(() => {
+  var $dom = import_react35.useRef(null);
+  var dragRef = import_react35.useRef();
+  var heightRef = import_react35.useRef(props.height);
+  import_react35.useEffect(() => {
     if (heightRef.current !== props.height) {
       heightRef.current = props.height;
     }
@@ -85108,7 +85943,7 @@ var DragBar = (props) => {
       passive: false
     });
   }
-  import_react33.useEffect(() => {
+  import_react35.useEffect(() => {
     if (document) {
       var _$dom$current5, _$dom$current6;
       (_$dom$current5 = $dom.current) == null || _$dom$current5.addEventListener("touchstart", handleMouseDown, {
@@ -85124,7 +85959,7 @@ var DragBar = (props) => {
       }
     };
   }, []);
-  var svg3 = import_react33.useMemo(() => /* @__PURE__ */ import_jsx_runtime32.jsx("svg", {
+  var svg3 = import_react35.useMemo(() => /* @__PURE__ */ import_jsx_runtime32.jsx("svg", {
     viewBox: "0 0 512 512",
     height: "100%",
     children: /* @__PURE__ */ import_jsx_runtime32.jsx("path", {
@@ -85142,7 +85977,7 @@ var DragBar_default = DragBar;
 
 // node_modules/@uiw/react-md-editor/esm/Editor.js
 var import_jsx_runtime33 = __toESM(require_jsx_runtime(), 1);
-var _excluded4 = ["prefixCls", "className", "value", "commands", "commandsFilter", "direction", "extraCommands", "height", "enableScroll", "visibleDragbar", "highlightEnable", "preview", "fullscreen", "overflow", "previewOptions", "textareaProps", "maxHeight", "minHeight", "autoFocus", "tabSize", "defaultTabEnable", "onChange", "onStatistics", "onHeightChange", "hideToolbar", "toolbarBottom", "components", "renderTextarea"];
+var _excluded5 = ["prefixCls", "className", "value", "commands", "commandsFilter", "direction", "extraCommands", "height", "enableScroll", "visibleDragbar", "highlightEnable", "preview", "fullscreen", "overflow", "previewOptions", "textareaProps", "maxHeight", "minHeight", "autoFocus", "tabSize", "defaultTabEnable", "onChange", "onStatistics", "onHeightChange", "hideToolbar", "toolbarBottom", "components", "renderTextarea"];
 function setGroupPopFalse(data) {
   if (data === undefined) {
     data = {};
@@ -85152,7 +85987,7 @@ function setGroupPopFalse(data) {
   });
   return data;
 }
-var InternalMDEditor = /* @__PURE__ */ import_react34.default.forwardRef((props, ref) => {
+var InternalMDEditor = /* @__PURE__ */ import_react36.default.forwardRef((props, ref) => {
   var _ref = props || {}, {
     prefixCls = "w-md-editor",
     className: className2,
@@ -85182,10 +86017,10 @@ var InternalMDEditor = /* @__PURE__ */ import_react34.default.forwardRef((props,
     toolbarBottom = false,
     components,
     renderTextarea
-  } = _ref, other = import_objectWithoutPropertiesLoose4.default(_ref, _excluded4);
+  } = _ref, other = import_objectWithoutPropertiesLoose4.default(_ref, _excluded5);
   var cmds = commands.map((item) => commandsFilter ? commandsFilter(item, false) : item).filter(Boolean);
   var extraCmds = extraCommands.map((item) => commandsFilter ? commandsFilter(item, true) : item).filter(Boolean);
-  var [state, dispatch] = import_react34.useReducer(reducer, {
+  var [state, dispatch] = import_react36.useReducer(reducer, {
     markdown: propsValue,
     preview: previewType,
     components,
@@ -85201,15 +86036,15 @@ var InternalMDEditor = /* @__PURE__ */ import_react34.default.forwardRef((props,
     fullscreen: fullscreen2,
     barPopup: {}
   });
-  var container = import_react34.useRef(null);
-  var previewRef = import_react34.useRef(null);
-  var enableScrollRef = import_react34.useRef(enableScroll);
-  import_react34.useImperativeHandle(ref, () => import_extends14.default({}, state, {
+  var container = import_react36.useRef(null);
+  var previewRef = import_react36.useRef(null);
+  var enableScrollRef = import_react36.useRef(enableScroll);
+  import_react36.useImperativeHandle(ref, () => import_extends15.default({}, state, {
     container: container.current,
     dispatch
   }));
-  import_react34.useMemo(() => enableScrollRef.current = enableScroll, [enableScroll]);
-  import_react34.useEffect(() => {
+  import_react36.useMemo(() => enableScrollRef.current = enableScroll, [enableScroll]);
+  import_react36.useEffect(() => {
     var stateInit = {};
     if (container.current) {
       stateInit.container = container.current || undefined;
@@ -85217,42 +86052,42 @@ var InternalMDEditor = /* @__PURE__ */ import_react34.default.forwardRef((props,
     stateInit.markdown = propsValue || "";
     stateInit.barPopup = {};
     if (dispatch) {
-      dispatch(import_extends14.default({}, state, stateInit));
+      dispatch(import_extends15.default({}, state, stateInit));
     }
   }, []);
   var cls = [className2, "wmde-markdown-var", direction2 ? prefixCls + "-" + direction2 : null, prefixCls, state.preview ? prefixCls + "-show-" + state.preview : null, state.fullscreen ? prefixCls + "-fullscreen" : null].filter(Boolean).join(" ").trim();
-  import_react34.useMemo(() => propsValue !== state.markdown && dispatch({
+  import_react36.useMemo(() => propsValue !== state.markdown && dispatch({
     markdown: propsValue || ""
   }), [propsValue, state.markdown]);
-  import_react34.useMemo(() => previewType !== state.preview && dispatch({
+  import_react36.useMemo(() => previewType !== state.preview && dispatch({
     preview: previewType
   }), [previewType]);
-  import_react34.useMemo(() => tabSize !== state.tabSize && dispatch({
+  import_react36.useMemo(() => tabSize !== state.tabSize && dispatch({
     tabSize
   }), [tabSize]);
-  import_react34.useMemo(() => highlightEnable !== state.highlightEnable && dispatch({
+  import_react36.useMemo(() => highlightEnable !== state.highlightEnable && dispatch({
     highlightEnable
   }), [highlightEnable]);
-  import_react34.useMemo(() => autoFocus !== state.autoFocus && dispatch({
+  import_react36.useMemo(() => autoFocus !== state.autoFocus && dispatch({
     autoFocus
   }), [autoFocus]);
-  import_react34.useMemo(() => fullscreen2 !== state.fullscreen && dispatch({
+  import_react36.useMemo(() => fullscreen2 !== state.fullscreen && dispatch({
     fullscreen: fullscreen2
   }), [fullscreen2]);
-  import_react34.useMemo(() => height !== state.height && dispatch({
+  import_react36.useMemo(() => height !== state.height && dispatch({
     height
   }), [height]);
-  import_react34.useMemo(() => height !== state.height && onHeightChange && onHeightChange(state.height, height, state), [height, onHeightChange, state]);
-  import_react34.useMemo(() => commands !== state.commands && dispatch({
+  import_react36.useMemo(() => height !== state.height && onHeightChange && onHeightChange(state.height, height, state), [height, onHeightChange, state]);
+  import_react36.useMemo(() => commands !== state.commands && dispatch({
     commands: cmds
   }), [props.commands]);
-  import_react34.useMemo(() => extraCommands !== state.extraCommands && dispatch({
+  import_react36.useMemo(() => extraCommands !== state.extraCommands && dispatch({
     extraCommands: extraCmds
   }), [props.extraCommands]);
-  var textareaDomRef = import_react34.useRef();
-  var active = import_react34.useRef("preview");
-  var initScroll = import_react34.useRef(false);
-  import_react34.useMemo(() => {
+  var textareaDomRef = import_react36.useRef();
+  var active = import_react36.useRef("preview");
+  var initScroll = import_react36.useRef(false);
+  import_react36.useMemo(() => {
     textareaDomRef.current = state.textareaWarp;
     if (state.textareaWarp) {
       state.textareaWarp.addEventListener("mouseover", () => {
@@ -85293,16 +86128,16 @@ var InternalMDEditor = /* @__PURE__ */ import_react34.default.forwardRef((props,
   };
   var previewClassName = prefixCls + "-preview " + (previewOptions.className || "");
   var handlePreviewScroll = (e) => handleScroll(e, "preview");
-  var mdPreview = import_react34.useMemo(() => /* @__PURE__ */ import_jsx_runtime33.jsx("div", {
+  var mdPreview = import_react36.useMemo(() => /* @__PURE__ */ import_jsx_runtime33.jsx("div", {
     ref: previewRef,
     className: previewClassName,
-    children: /* @__PURE__ */ import_jsx_runtime33.jsx(esm_default3, import_extends14.default({}, previewOptions, {
+    children: /* @__PURE__ */ import_jsx_runtime33.jsx(esm_default3, import_extends15.default({}, previewOptions, {
       onScroll: handlePreviewScroll,
       source: state.markdown || ""
     }))
   }), [previewClassName, previewOptions, state.markdown]);
   var preview = (components == null ? undefined : components.preview) && (components == null ? undefined : components.preview(state.markdown || "", state, dispatch));
-  if (preview && /* @__PURE__ */ import_react34.default.isValidElement(preview)) {
+  if (preview && /* @__PURE__ */ import_react36.default.isValidElement(preview)) {
     mdPreview = /* @__PURE__ */ import_jsx_runtime33.jsx("div", {
       className: previewClassName,
       ref: previewRef,
@@ -85310,11 +86145,11 @@ var InternalMDEditor = /* @__PURE__ */ import_react34.default.forwardRef((props,
       children: preview
     });
   }
-  var containerStyle = import_extends14.default({}, other.style, {
+  var containerStyle = import_extends15.default({}, other.style, {
     height: state.height || "100%"
   });
   var containerClick = () => dispatch({
-    barPopup: import_extends14.default({}, setGroupPopFalse(state.barPopup))
+    barPopup: import_extends15.default({}, setGroupPopFalse(state.barPopup))
   });
   var dragBarChange = (newHeight) => dispatch({
     height: newHeight
@@ -85327,7 +86162,7 @@ var InternalMDEditor = /* @__PURE__ */ import_react34.default.forwardRef((props,
     if (state.textarea && state.textarea instanceof HTMLTextAreaElement && onStatistics) {
       var obj = new TextAreaCommandOrchestrator(state.textarea);
       var objState = obj.getState() || {};
-      onStatistics(import_extends14.default({}, objState, {
+      onStatistics(import_extends15.default({}, objState, {
         lineCount: evn.target.value.split(`
 `).length,
         length: evn.target.value.length
@@ -85335,10 +86170,10 @@ var InternalMDEditor = /* @__PURE__ */ import_react34.default.forwardRef((props,
     }
   };
   return /* @__PURE__ */ import_jsx_runtime33.jsx(EditorContext.Provider, {
-    value: import_extends14.default({}, state, {
+    value: import_extends15.default({}, state, {
       dispatch
     }),
-    children: /* @__PURE__ */ import_jsx_runtime33.jsxs("div", import_extends14.default({
+    children: /* @__PURE__ */ import_jsx_runtime33.jsxs("div", import_extends15.default({
       ref: container,
       className: cls
     }, other, {
@@ -85352,7 +86187,7 @@ var InternalMDEditor = /* @__PURE__ */ import_react34.default.forwardRef((props,
         placement: "top"
       }), /* @__PURE__ */ import_jsx_runtime33.jsxs("div", {
         className: prefixCls + "-content",
-        children: [/(edit|live)/.test(state.preview || "") && /* @__PURE__ */ import_jsx_runtime33.jsx(TextArea, import_extends14.default({
+        children: [/(edit|live)/.test(state.preview || "") && /* @__PURE__ */ import_jsx_runtime33.jsx(TextArea, import_extends15.default({
           className: prefixCls + "-input",
           prefixCls,
           autoFocus
@@ -85383,840 +86218,7 @@ var Editor_default = Editor;
 // node_modules/@uiw/react-md-editor/esm/index.js
 var esm_default4 = Editor_default;
 
-// node_modules/react-syntax-highlighter/dist/esm/highlight.js
-var import_objectWithoutProperties = __toESM(require_objectWithoutProperties(), 1);
-var import_toConsumableArray = __toESM(require_toConsumableArray(), 1);
-var import_defineProperty2 = __toESM(require_defineProperty(), 1);
-var import_react36 = __toESM(require_react(), 1);
-
-// node_modules/react-syntax-highlighter/dist/esm/create-element.js
-var import_extends15 = __toESM(require_extends(), 1);
-var import_defineProperty = __toESM(require_defineProperty(), 1);
-var import_react35 = __toESM(require_react(), 1);
-function ownKeys(e, r2) {
-  var t = Object.keys(e);
-  if (Object.getOwnPropertySymbols) {
-    var o = Object.getOwnPropertySymbols(e);
-    r2 && (o = o.filter(function(r3) {
-      return Object.getOwnPropertyDescriptor(e, r3).enumerable;
-    })), t.push.apply(t, o);
-  }
-  return t;
-}
-function _objectSpread(e) {
-  for (var r2 = 1;r2 < arguments.length; r2++) {
-    var t = arguments[r2] != null ? arguments[r2] : {};
-    r2 % 2 ? ownKeys(Object(t), true).forEach(function(r3) {
-      import_defineProperty.default(e, r3, t[r3]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function(r3) {
-      Object.defineProperty(e, r3, Object.getOwnPropertyDescriptor(t, r3));
-    });
-  }
-  return e;
-}
-function powerSetPermutations(arr) {
-  var arrLength = arr.length;
-  if (arrLength === 0 || arrLength === 1)
-    return arr;
-  if (arrLength === 2) {
-    return [arr[0], arr[1], "".concat(arr[0], ".").concat(arr[1]), "".concat(arr[1], ".").concat(arr[0])];
-  }
-  if (arrLength === 3) {
-    return [arr[0], arr[1], arr[2], "".concat(arr[0], ".").concat(arr[1]), "".concat(arr[0], ".").concat(arr[2]), "".concat(arr[1], ".").concat(arr[0]), "".concat(arr[1], ".").concat(arr[2]), "".concat(arr[2], ".").concat(arr[0]), "".concat(arr[2], ".").concat(arr[1]), "".concat(arr[0], ".").concat(arr[1], ".").concat(arr[2]), "".concat(arr[0], ".").concat(arr[2], ".").concat(arr[1]), "".concat(arr[1], ".").concat(arr[0], ".").concat(arr[2]), "".concat(arr[1], ".").concat(arr[2], ".").concat(arr[0]), "".concat(arr[2], ".").concat(arr[0], ".").concat(arr[1]), "".concat(arr[2], ".").concat(arr[1], ".").concat(arr[0])];
-  }
-  if (arrLength >= 4) {
-    return [arr[0], arr[1], arr[2], arr[3], "".concat(arr[0], ".").concat(arr[1]), "".concat(arr[0], ".").concat(arr[2]), "".concat(arr[0], ".").concat(arr[3]), "".concat(arr[1], ".").concat(arr[0]), "".concat(arr[1], ".").concat(arr[2]), "".concat(arr[1], ".").concat(arr[3]), "".concat(arr[2], ".").concat(arr[0]), "".concat(arr[2], ".").concat(arr[1]), "".concat(arr[2], ".").concat(arr[3]), "".concat(arr[3], ".").concat(arr[0]), "".concat(arr[3], ".").concat(arr[1]), "".concat(arr[3], ".").concat(arr[2]), "".concat(arr[0], ".").concat(arr[1], ".").concat(arr[2]), "".concat(arr[0], ".").concat(arr[1], ".").concat(arr[3]), "".concat(arr[0], ".").concat(arr[2], ".").concat(arr[1]), "".concat(arr[0], ".").concat(arr[2], ".").concat(arr[3]), "".concat(arr[0], ".").concat(arr[3], ".").concat(arr[1]), "".concat(arr[0], ".").concat(arr[3], ".").concat(arr[2]), "".concat(arr[1], ".").concat(arr[0], ".").concat(arr[2]), "".concat(arr[1], ".").concat(arr[0], ".").concat(arr[3]), "".concat(arr[1], ".").concat(arr[2], ".").concat(arr[0]), "".concat(arr[1], ".").concat(arr[2], ".").concat(arr[3]), "".concat(arr[1], ".").concat(arr[3], ".").concat(arr[0]), "".concat(arr[1], ".").concat(arr[3], ".").concat(arr[2]), "".concat(arr[2], ".").concat(arr[0], ".").concat(arr[1]), "".concat(arr[2], ".").concat(arr[0], ".").concat(arr[3]), "".concat(arr[2], ".").concat(arr[1], ".").concat(arr[0]), "".concat(arr[2], ".").concat(arr[1], ".").concat(arr[3]), "".concat(arr[2], ".").concat(arr[3], ".").concat(arr[0]), "".concat(arr[2], ".").concat(arr[3], ".").concat(arr[1]), "".concat(arr[3], ".").concat(arr[0], ".").concat(arr[1]), "".concat(arr[3], ".").concat(arr[0], ".").concat(arr[2]), "".concat(arr[3], ".").concat(arr[1], ".").concat(arr[0]), "".concat(arr[3], ".").concat(arr[1], ".").concat(arr[2]), "".concat(arr[3], ".").concat(arr[2], ".").concat(arr[0]), "".concat(arr[3], ".").concat(arr[2], ".").concat(arr[1]), "".concat(arr[0], ".").concat(arr[1], ".").concat(arr[2], ".").concat(arr[3]), "".concat(arr[0], ".").concat(arr[1], ".").concat(arr[3], ".").concat(arr[2]), "".concat(arr[0], ".").concat(arr[2], ".").concat(arr[1], ".").concat(arr[3]), "".concat(arr[0], ".").concat(arr[2], ".").concat(arr[3], ".").concat(arr[1]), "".concat(arr[0], ".").concat(arr[3], ".").concat(arr[1], ".").concat(arr[2]), "".concat(arr[0], ".").concat(arr[3], ".").concat(arr[2], ".").concat(arr[1]), "".concat(arr[1], ".").concat(arr[0], ".").concat(arr[2], ".").concat(arr[3]), "".concat(arr[1], ".").concat(arr[0], ".").concat(arr[3], ".").concat(arr[2]), "".concat(arr[1], ".").concat(arr[2], ".").concat(arr[0], ".").concat(arr[3]), "".concat(arr[1], ".").concat(arr[2], ".").concat(arr[3], ".").concat(arr[0]), "".concat(arr[1], ".").concat(arr[3], ".").concat(arr[0], ".").concat(arr[2]), "".concat(arr[1], ".").concat(arr[3], ".").concat(arr[2], ".").concat(arr[0]), "".concat(arr[2], ".").concat(arr[0], ".").concat(arr[1], ".").concat(arr[3]), "".concat(arr[2], ".").concat(arr[0], ".").concat(arr[3], ".").concat(arr[1]), "".concat(arr[2], ".").concat(arr[1], ".").concat(arr[0], ".").concat(arr[3]), "".concat(arr[2], ".").concat(arr[1], ".").concat(arr[3], ".").concat(arr[0]), "".concat(arr[2], ".").concat(arr[3], ".").concat(arr[0], ".").concat(arr[1]), "".concat(arr[2], ".").concat(arr[3], ".").concat(arr[1], ".").concat(arr[0]), "".concat(arr[3], ".").concat(arr[0], ".").concat(arr[1], ".").concat(arr[2]), "".concat(arr[3], ".").concat(arr[0], ".").concat(arr[2], ".").concat(arr[1]), "".concat(arr[3], ".").concat(arr[1], ".").concat(arr[0], ".").concat(arr[2]), "".concat(arr[3], ".").concat(arr[1], ".").concat(arr[2], ".").concat(arr[0]), "".concat(arr[3], ".").concat(arr[2], ".").concat(arr[0], ".").concat(arr[1]), "".concat(arr[3], ".").concat(arr[2], ".").concat(arr[1], ".").concat(arr[0])];
-  }
-}
-var classNameCombinations = {};
-function getClassNameCombinations(classNames) {
-  if (classNames.length === 0 || classNames.length === 1)
-    return classNames;
-  var key2 = classNames.join(".");
-  if (!classNameCombinations[key2]) {
-    classNameCombinations[key2] = powerSetPermutations(classNames);
-  }
-  return classNameCombinations[key2];
-}
-function createStyleObject(classNames) {
-  var elementStyle = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var stylesheet = arguments.length > 2 ? arguments[2] : undefined;
-  var nonTokenClassNames = classNames.filter(function(className2) {
-    return className2 !== "token";
-  });
-  var classNamesCombinations = getClassNameCombinations(nonTokenClassNames);
-  return classNamesCombinations.reduce(function(styleObject, className2) {
-    return _objectSpread(_objectSpread({}, styleObject), stylesheet[className2]);
-  }, elementStyle);
-}
-function createClassNameString(classNames) {
-  return classNames.join(" ");
-}
-function createChildren2(stylesheet, useInlineStyles) {
-  var childrenCount = 0;
-  return function(children) {
-    childrenCount += 1;
-    return children.map(function(child, i) {
-      return createElement({
-        node: child,
-        stylesheet,
-        useInlineStyles,
-        key: "code-segment-".concat(childrenCount, "-").concat(i)
-      });
-    });
-  };
-}
-function createElement(_ref) {
-  var { node: node2, stylesheet, style: _ref$style } = _ref, style3 = _ref$style === undefined ? {} : _ref$style, useInlineStyles = _ref.useInlineStyles, key2 = _ref.key;
-  var { properties: properties2, type, tagName: TagName, value } = node2;
-  if (type === "text") {
-    return value;
-  } else if (TagName) {
-    var childrenCreator = createChildren2(stylesheet, useInlineStyles);
-    var props;
-    if (!useInlineStyles) {
-      props = _objectSpread(_objectSpread({}, properties2), {}, {
-        className: createClassNameString(properties2.className)
-      });
-    } else {
-      var allStylesheetSelectors = Object.keys(stylesheet).reduce(function(classes, selector) {
-        selector.split(".").forEach(function(className3) {
-          if (!classes.includes(className3))
-            classes.push(className3);
-        });
-        return classes;
-      }, []);
-      var startingClassName = properties2.className && properties2.className.includes("token") ? ["token"] : [];
-      var className2 = properties2.className && startingClassName.concat(properties2.className.filter(function(className3) {
-        return !allStylesheetSelectors.includes(className3);
-      }));
-      props = _objectSpread(_objectSpread({}, properties2), {}, {
-        className: createClassNameString(className2) || undefined,
-        style: createStyleObject(properties2.className, Object.assign({}, properties2.style, style3), stylesheet)
-      });
-    }
-    var children = childrenCreator(node2.children);
-    return /* @__PURE__ */ import_react35.default.createElement(TagName, import_extends15.default({
-      key: key2
-    }, props), children);
-  }
-}
-
-// node_modules/react-syntax-highlighter/dist/esm/checkForListedLanguage.js
-var checkForListedLanguage_default = function(astGenerator, language) {
-  var langs = astGenerator.listLanguages();
-  return langs.indexOf(language) !== -1;
-};
-
-// node_modules/react-syntax-highlighter/dist/esm/highlight.js
-var _excluded5 = ["language", "children", "style", "customStyle", "codeTagProps", "useInlineStyles", "showLineNumbers", "showInlineLineNumbers", "startingLineNumber", "lineNumberContainerStyle", "lineNumberStyle", "wrapLines", "wrapLongLines", "lineProps", "renderer", "PreTag", "CodeTag", "code", "astGenerator"];
-function ownKeys2(e, r2) {
-  var t = Object.keys(e);
-  if (Object.getOwnPropertySymbols) {
-    var o = Object.getOwnPropertySymbols(e);
-    r2 && (o = o.filter(function(r3) {
-      return Object.getOwnPropertyDescriptor(e, r3).enumerable;
-    })), t.push.apply(t, o);
-  }
-  return t;
-}
-function _objectSpread2(e) {
-  for (var r2 = 1;r2 < arguments.length; r2++) {
-    var t = arguments[r2] != null ? arguments[r2] : {};
-    r2 % 2 ? ownKeys2(Object(t), true).forEach(function(r3) {
-      import_defineProperty2.default(e, r3, t[r3]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys2(Object(t)).forEach(function(r3) {
-      Object.defineProperty(e, r3, Object.getOwnPropertyDescriptor(t, r3));
-    });
-  }
-  return e;
-}
-var newLineRegex = /\n/g;
-function getNewLines(str) {
-  return str.match(newLineRegex);
-}
-function getAllLineNumbers(_ref) {
-  var { lines, startingLineNumber, style: style3 } = _ref;
-  return lines.map(function(_2, i) {
-    var number2 = i + startingLineNumber;
-    return /* @__PURE__ */ import_react36.default.createElement("span", {
-      key: "line-".concat(i),
-      className: "react-syntax-highlighter-line-number",
-      style: typeof style3 === "function" ? style3(number2) : style3
-    }, "".concat(number2, `
-`));
-  });
-}
-function AllLineNumbers(_ref2) {
-  var { codeString, codeStyle, containerStyle: _ref2$containerStyle } = _ref2, containerStyle = _ref2$containerStyle === undefined ? {
-    float: "left",
-    paddingRight: "10px"
-  } : _ref2$containerStyle, _ref2$numberStyle = _ref2.numberStyle, numberStyle = _ref2$numberStyle === undefined ? {} : _ref2$numberStyle, startingLineNumber = _ref2.startingLineNumber;
-  return /* @__PURE__ */ import_react36.default.createElement("code", {
-    style: Object.assign({}, codeStyle, containerStyle)
-  }, getAllLineNumbers({
-    lines: codeString.replace(/\n$/, "").split(`
-`),
-    style: numberStyle,
-    startingLineNumber
-  }));
-}
-function getEmWidthOfNumber(num) {
-  return "".concat(num.toString().length, ".25em");
-}
-function getInlineLineNumber(lineNumber, inlineLineNumberStyle) {
-  return {
-    type: "element",
-    tagName: "span",
-    properties: {
-      key: "line-number--".concat(lineNumber),
-      className: ["comment", "linenumber", "react-syntax-highlighter-line-number"],
-      style: inlineLineNumberStyle
-    },
-    children: [{
-      type: "text",
-      value: lineNumber
-    }]
-  };
-}
-function assembleLineNumberStyles(lineNumberStyle, lineNumber, largestLineNumber) {
-  var defaultLineNumberStyle = {
-    display: "inline-block",
-    minWidth: getEmWidthOfNumber(largestLineNumber),
-    paddingRight: "1em",
-    textAlign: "right",
-    userSelect: "none"
-  };
-  var customLineNumberStyle = typeof lineNumberStyle === "function" ? lineNumberStyle(lineNumber) : lineNumberStyle;
-  var assembledStyle = _objectSpread2(_objectSpread2({}, defaultLineNumberStyle), customLineNumberStyle);
-  return assembledStyle;
-}
-function createLineElement(_ref3) {
-  var { children, lineNumber, lineNumberStyle, largestLineNumber, showInlineLineNumbers, lineProps: _ref3$lineProps } = _ref3, lineProps = _ref3$lineProps === undefined ? {} : _ref3$lineProps, _ref3$className = _ref3.className, className2 = _ref3$className === undefined ? [] : _ref3$className, showLineNumbers = _ref3.showLineNumbers, wrapLongLines = _ref3.wrapLongLines, _ref3$wrapLines = _ref3.wrapLines, wrapLines = _ref3$wrapLines === undefined ? false : _ref3$wrapLines;
-  var properties2 = wrapLines ? _objectSpread2({}, typeof lineProps === "function" ? lineProps(lineNumber) : lineProps) : {};
-  properties2["className"] = properties2["className"] ? [].concat(import_toConsumableArray.default(properties2["className"].trim().split(/\s+/)), import_toConsumableArray.default(className2)) : className2;
-  if (lineNumber && showInlineLineNumbers) {
-    var inlineLineNumberStyle = assembleLineNumberStyles(lineNumberStyle, lineNumber, largestLineNumber);
-    children.unshift(getInlineLineNumber(lineNumber, inlineLineNumberStyle));
-  }
-  if (wrapLongLines & showLineNumbers) {
-    properties2.style = _objectSpread2({
-      display: "flex"
-    }, properties2.style);
-  }
-  return {
-    type: "element",
-    tagName: "span",
-    properties: properties2,
-    children
-  };
-}
-function flattenCodeTree(tree) {
-  var className2 = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-  var newTree = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-  for (var i = 0;i < tree.length; i++) {
-    var node2 = tree[i];
-    if (node2.type === "text") {
-      newTree.push(createLineElement({
-        children: [node2],
-        className: import_toConsumableArray.default(new Set(className2))
-      }));
-    } else if (node2.children) {
-      var classNames = className2.concat(node2.properties.className);
-      flattenCodeTree(node2.children, classNames).forEach(function(i2) {
-        return newTree.push(i2);
-      });
-    }
-  }
-  return newTree;
-}
-function processLines(codeTree, wrapLines, lineProps, showLineNumbers, showInlineLineNumbers, startingLineNumber, largestLineNumber, lineNumberStyle, wrapLongLines) {
-  var _ref4;
-  var tree = flattenCodeTree(codeTree.value);
-  var newTree = [];
-  var lastLineBreakIndex = -1;
-  var index2 = 0;
-  function createWrappedLine(children2, lineNumber2) {
-    var className2 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-    return createLineElement({
-      children: children2,
-      lineNumber: lineNumber2,
-      lineNumberStyle,
-      largestLineNumber,
-      showInlineLineNumbers,
-      lineProps,
-      className: className2,
-      showLineNumbers,
-      wrapLongLines,
-      wrapLines
-    });
-  }
-  function createUnwrappedLine(children2, lineNumber2) {
-    if (showLineNumbers && lineNumber2 && showInlineLineNumbers) {
-      var inlineLineNumberStyle = assembleLineNumberStyles(lineNumberStyle, lineNumber2, largestLineNumber);
-      children2.unshift(getInlineLineNumber(lineNumber2, inlineLineNumberStyle));
-    }
-    return children2;
-  }
-  function createLine(children2, lineNumber2) {
-    var className2 = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
-    return wrapLines || className2.length > 0 ? createWrappedLine(children2, lineNumber2, className2) : createUnwrappedLine(children2, lineNumber2);
-  }
-  var _loop = function _loop() {
-    var node2 = tree[index2];
-    var value = node2.children[0].value;
-    var newLines = getNewLines(value);
-    if (newLines) {
-      var splitValue = value.split(`
-`);
-      splitValue.forEach(function(text10, i) {
-        var lineNumber2 = showLineNumbers && newTree.length + startingLineNumber;
-        var newChild = {
-          type: "text",
-          value: "".concat(text10, `
-`)
-        };
-        if (i === 0) {
-          var _children = tree.slice(lastLineBreakIndex + 1, index2).concat(createLineElement({
-            children: [newChild],
-            className: node2.properties.className
-          }));
-          var _line = createLine(_children, lineNumber2);
-          newTree.push(_line);
-        } else if (i === splitValue.length - 1) {
-          var stringChild = tree[index2 + 1] && tree[index2 + 1].children && tree[index2 + 1].children[0];
-          var lastLineInPreviousSpan = {
-            type: "text",
-            value: "".concat(text10)
-          };
-          if (stringChild) {
-            var newElem = createLineElement({
-              children: [lastLineInPreviousSpan],
-              className: node2.properties.className
-            });
-            tree.splice(index2 + 1, 0, newElem);
-          } else {
-            var _children2 = [lastLineInPreviousSpan];
-            var _line2 = createLine(_children2, lineNumber2, node2.properties.className);
-            newTree.push(_line2);
-          }
-        } else {
-          var _children3 = [newChild];
-          var _line3 = createLine(_children3, lineNumber2, node2.properties.className);
-          newTree.push(_line3);
-        }
-      });
-      lastLineBreakIndex = index2;
-    }
-    index2++;
-  };
-  while (index2 < tree.length) {
-    _loop();
-  }
-  if (lastLineBreakIndex !== tree.length - 1) {
-    var children = tree.slice(lastLineBreakIndex + 1, tree.length);
-    if (children && children.length) {
-      var lineNumber = showLineNumbers && newTree.length + startingLineNumber;
-      var line = createLine(children, lineNumber);
-      newTree.push(line);
-    }
-  }
-  return wrapLines ? newTree : (_ref4 = []).concat.apply(_ref4, newTree);
-}
-function defaultRenderer(_ref5) {
-  var { rows, stylesheet, useInlineStyles } = _ref5;
-  return rows.map(function(node2, i) {
-    return createElement({
-      node: node2,
-      stylesheet,
-      useInlineStyles,
-      key: "code-segement".concat(i)
-    });
-  });
-}
-function isHighlightJs(astGenerator) {
-  return astGenerator && typeof astGenerator.highlightAuto !== "undefined";
-}
-function getCodeTree(_ref6) {
-  var { astGenerator, language, code: code5, defaultCodeValue } = _ref6;
-  if (isHighlightJs(astGenerator)) {
-    var hasLanguage = checkForListedLanguage_default(astGenerator, language);
-    if (language === "text") {
-      return {
-        value: defaultCodeValue,
-        language: "text"
-      };
-    } else if (hasLanguage) {
-      return astGenerator.highlight(language, code5);
-    } else {
-      return astGenerator.highlightAuto(code5);
-    }
-  }
-  try {
-    return language && language !== "text" ? {
-      value: astGenerator.highlight(code5, language)
-    } : {
-      value: defaultCodeValue
-    };
-  } catch (e) {
-    return {
-      value: defaultCodeValue
-    };
-  }
-}
-function highlight_default(defaultAstGenerator, defaultStyle) {
-  return function SyntaxHighlighter(_ref7) {
-    var { language, children, style: _ref7$style } = _ref7, style3 = _ref7$style === undefined ? defaultStyle : _ref7$style, _ref7$customStyle = _ref7.customStyle, customStyle = _ref7$customStyle === undefined ? {} : _ref7$customStyle, _ref7$codeTagProps = _ref7.codeTagProps, codeTagProps = _ref7$codeTagProps === undefined ? {
-      className: language ? "language-".concat(language) : undefined,
-      style: _objectSpread2(_objectSpread2({}, style3['code[class*="language-"]']), style3['code[class*="language-'.concat(language, '"]')])
-    } : _ref7$codeTagProps, _ref7$useInlineStyles = _ref7.useInlineStyles, useInlineStyles = _ref7$useInlineStyles === undefined ? true : _ref7$useInlineStyles, _ref7$showLineNumbers = _ref7.showLineNumbers, showLineNumbers = _ref7$showLineNumbers === undefined ? false : _ref7$showLineNumbers, _ref7$showInlineLineN = _ref7.showInlineLineNumbers, showInlineLineNumbers = _ref7$showInlineLineN === undefined ? true : _ref7$showInlineLineN, _ref7$startingLineNum = _ref7.startingLineNumber, startingLineNumber = _ref7$startingLineNum === undefined ? 1 : _ref7$startingLineNum, lineNumberContainerStyle = _ref7.lineNumberContainerStyle, _ref7$lineNumberStyle = _ref7.lineNumberStyle, lineNumberStyle = _ref7$lineNumberStyle === undefined ? {} : _ref7$lineNumberStyle, wrapLines = _ref7.wrapLines, _ref7$wrapLongLines = _ref7.wrapLongLines, wrapLongLines = _ref7$wrapLongLines === undefined ? false : _ref7$wrapLongLines, _ref7$lineProps = _ref7.lineProps, lineProps = _ref7$lineProps === undefined ? {} : _ref7$lineProps, renderer = _ref7.renderer, _ref7$PreTag = _ref7.PreTag, PreTag = _ref7$PreTag === undefined ? "pre" : _ref7$PreTag, _ref7$CodeTag = _ref7.CodeTag, CodeTag = _ref7$CodeTag === undefined ? "code" : _ref7$CodeTag, _ref7$code = _ref7.code, code5 = _ref7$code === undefined ? (Array.isArray(children) ? children[0] : children) || "" : _ref7$code, astGenerator = _ref7.astGenerator, rest2 = import_objectWithoutProperties.default(_ref7, _excluded5);
-    astGenerator = astGenerator || defaultAstGenerator;
-    var allLineNumbers = showLineNumbers ? /* @__PURE__ */ import_react36.default.createElement(AllLineNumbers, {
-      containerStyle: lineNumberContainerStyle,
-      codeStyle: codeTagProps.style || {},
-      numberStyle: lineNumberStyle,
-      startingLineNumber,
-      codeString: code5
-    }) : null;
-    var defaultPreStyle = style3.hljs || style3['pre[class*="language-"]'] || {
-      backgroundColor: "#fff"
-    };
-    var generatorClassName = isHighlightJs(astGenerator) ? "hljs" : "prismjs";
-    var preProps = useInlineStyles ? Object.assign({}, rest2, {
-      style: Object.assign({}, defaultPreStyle, customStyle)
-    }) : Object.assign({}, rest2, {
-      className: rest2.className ? "".concat(generatorClassName, " ").concat(rest2.className) : generatorClassName,
-      style: Object.assign({}, customStyle)
-    });
-    if (wrapLongLines) {
-      codeTagProps.style = _objectSpread2({
-        whiteSpace: "pre-wrap"
-      }, codeTagProps.style);
-    } else {
-      codeTagProps.style = _objectSpread2({
-        whiteSpace: "pre"
-      }, codeTagProps.style);
-    }
-    if (!astGenerator) {
-      return /* @__PURE__ */ import_react36.default.createElement(PreTag, preProps, allLineNumbers, /* @__PURE__ */ import_react36.default.createElement(CodeTag, codeTagProps, code5));
-    }
-    if (wrapLines === undefined && renderer || wrapLongLines)
-      wrapLines = true;
-    renderer = renderer || defaultRenderer;
-    var defaultCodeValue = [{
-      type: "text",
-      value: code5
-    }];
-    var codeTree = getCodeTree({
-      astGenerator,
-      language,
-      code: code5,
-      defaultCodeValue
-    });
-    if (codeTree.language === null) {
-      codeTree.value = defaultCodeValue;
-    }
-    var lineCount = codeTree.value.length;
-    if (lineCount === 1 && codeTree.value[0].type === "text") {
-      lineCount = codeTree.value[0].value.split(`
-`).length;
-    }
-    var largestLineNumber = lineCount + startingLineNumber;
-    var rows = processLines(codeTree, wrapLines, lineProps, showLineNumbers, showInlineLineNumbers, startingLineNumber, largestLineNumber, lineNumberStyle, wrapLongLines);
-    return /* @__PURE__ */ import_react36.default.createElement(PreTag, preProps, /* @__PURE__ */ import_react36.default.createElement(CodeTag, codeTagProps, !showInlineLineNumbers && allLineNumbers, renderer({
-      rows,
-      stylesheet: style3,
-      useInlineStyles
-    })));
-  };
-}
-
-// node_modules/react-syntax-highlighter/dist/esm/languages/prism/supported-languages.js
-var supported_languages_default = ["abap", "abnf", "actionscript", "ada", "agda", "al", "antlr4", "apacheconf", "apex", "apl", "applescript", "aql", "arduino", "arff", "asciidoc", "asm6502", "asmatmel", "aspnet", "autohotkey", "autoit", "avisynth", "avro-idl", "bash", "basic", "batch", "bbcode", "bicep", "birb", "bison", "bnf", "brainfuck", "brightscript", "bro", "bsl", "c", "cfscript", "chaiscript", "cil", "clike", "clojure", "cmake", "cobol", "coffeescript", "concurnas", "coq", "cpp", "crystal", "csharp", "cshtml", "csp", "css-extras", "css", "csv", "cypher", "d", "dart", "dataweave", "dax", "dhall", "diff", "django", "dns-zone-file", "docker", "dot", "ebnf", "editorconfig", "eiffel", "ejs", "elixir", "elm", "erb", "erlang", "etlua", "excel-formula", "factor", "false", "firestore-security-rules", "flow", "fortran", "fsharp", "ftl", "gap", "gcode", "gdscript", "gedcom", "gherkin", "git", "glsl", "gml", "gn", "go-module", "go", "graphql", "groovy", "haml", "handlebars", "haskell", "haxe", "hcl", "hlsl", "hoon", "hpkp", "hsts", "http", "ichigojam", "icon", "icu-message-format", "idris", "iecst", "ignore", "inform7", "ini", "io", "j", "java", "javadoc", "javadoclike", "javascript", "javastacktrace", "jexl", "jolie", "jq", "js-extras", "js-templates", "jsdoc", "json", "json5", "jsonp", "jsstacktrace", "jsx", "julia", "keepalived", "keyman", "kotlin", "kumir", "kusto", "latex", "latte", "less", "lilypond", "liquid", "lisp", "livescript", "llvm", "log", "lolcode", "lua", "magma", "makefile", "markdown", "markup-templating", "markup", "matlab", "maxscript", "mel", "mermaid", "mizar", "mongodb", "monkey", "moonscript", "n1ql", "n4js", "nand2tetris-hdl", "naniscript", "nasm", "neon", "nevod", "nginx", "nim", "nix", "nsis", "objectivec", "ocaml", "opencl", "openqasm", "oz", "parigp", "parser", "pascal", "pascaligo", "pcaxis", "peoplecode", "perl", "php-extras", "php", "phpdoc", "plsql", "powerquery", "powershell", "processing", "prolog", "promql", "properties", "protobuf", "psl", "pug", "puppet", "pure", "purebasic", "purescript", "python", "q", "qml", "qore", "qsharp", "r", "racket", "reason", "regex", "rego", "renpy", "rest", "rip", "roboconf", "robotframework", "ruby", "rust", "sas", "sass", "scala", "scheme", "scss", "shell-session", "smali", "smalltalk", "smarty", "sml", "solidity", "solution-file", "soy", "sparql", "splunk-spl", "sqf", "sql", "squirrel", "stan", "stylus", "swift", "systemd", "t4-cs", "t4-templating", "t4-vb", "tap", "tcl", "textile", "toml", "tremor", "tsx", "tt2", "turtle", "twig", "typescript", "typoscript", "unrealscript", "uorazor", "uri", "v", "vala", "vbnet", "velocity", "verilog", "vhdl", "vim", "visual-basic", "warpscript", "wasm", "web-idl", "wiki", "wolfram", "wren", "xeora", "xml-doc", "xojo", "xquery", "yaml", "yang", "zig"];
-
-// node_modules/react-syntax-highlighter/dist/esm/styles/prism/prism.js
-var prism_default = {
-  'code[class*="language-"]': {
-    color: "black",
-    background: "none",
-    textShadow: "0 1px white",
-    fontFamily: "Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace",
-    fontSize: "1em",
-    textAlign: "left",
-    whiteSpace: "pre",
-    wordSpacing: "normal",
-    wordBreak: "normal",
-    wordWrap: "normal",
-    lineHeight: "1.5",
-    MozTabSize: "4",
-    OTabSize: "4",
-    tabSize: "4",
-    WebkitHyphens: "none",
-    MozHyphens: "none",
-    msHyphens: "none",
-    hyphens: "none"
-  },
-  'pre[class*="language-"]': {
-    color: "black",
-    background: "#f5f2f0",
-    textShadow: "0 1px white",
-    fontFamily: "Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace",
-    fontSize: "1em",
-    textAlign: "left",
-    whiteSpace: "pre",
-    wordSpacing: "normal",
-    wordBreak: "normal",
-    wordWrap: "normal",
-    lineHeight: "1.5",
-    MozTabSize: "4",
-    OTabSize: "4",
-    tabSize: "4",
-    WebkitHyphens: "none",
-    MozHyphens: "none",
-    msHyphens: "none",
-    hyphens: "none",
-    padding: "1em",
-    margin: ".5em 0",
-    overflow: "auto"
-  },
-  'pre[class*="language-"]::-moz-selection': {
-    textShadow: "none",
-    background: "#b3d4fc"
-  },
-  'pre[class*="language-"] ::-moz-selection': {
-    textShadow: "none",
-    background: "#b3d4fc"
-  },
-  'code[class*="language-"]::-moz-selection': {
-    textShadow: "none",
-    background: "#b3d4fc"
-  },
-  'code[class*="language-"] ::-moz-selection': {
-    textShadow: "none",
-    background: "#b3d4fc"
-  },
-  'pre[class*="language-"]::selection': {
-    textShadow: "none",
-    background: "#b3d4fc"
-  },
-  'pre[class*="language-"] ::selection': {
-    textShadow: "none",
-    background: "#b3d4fc"
-  },
-  'code[class*="language-"]::selection': {
-    textShadow: "none",
-    background: "#b3d4fc"
-  },
-  'code[class*="language-"] ::selection': {
-    textShadow: "none",
-    background: "#b3d4fc"
-  },
-  ':not(pre) > code[class*="language-"]': {
-    background: "#f5f2f0",
-    padding: ".1em",
-    borderRadius: ".3em",
-    whiteSpace: "normal"
-  },
-  comment: {
-    color: "slategray"
-  },
-  prolog: {
-    color: "slategray"
-  },
-  doctype: {
-    color: "slategray"
-  },
-  cdata: {
-    color: "slategray"
-  },
-  punctuation: {
-    color: "#999"
-  },
-  namespace: {
-    Opacity: ".7"
-  },
-  property: {
-    color: "#905"
-  },
-  tag: {
-    color: "#905"
-  },
-  boolean: {
-    color: "#905"
-  },
-  number: {
-    color: "#905"
-  },
-  constant: {
-    color: "#905"
-  },
-  symbol: {
-    color: "#905"
-  },
-  deleted: {
-    color: "#905"
-  },
-  selector: {
-    color: "#690"
-  },
-  "attr-name": {
-    color: "#690"
-  },
-  string: {
-    color: "#690"
-  },
-  char: {
-    color: "#690"
-  },
-  builtin: {
-    color: "#690"
-  },
-  inserted: {
-    color: "#690"
-  },
-  operator: {
-    color: "#9a6e3a",
-    background: "hsla(0, 0%, 100%, .5)"
-  },
-  entity: {
-    color: "#9a6e3a",
-    background: "hsla(0, 0%, 100%, .5)",
-    cursor: "help"
-  },
-  url: {
-    color: "#9a6e3a",
-    background: "hsla(0, 0%, 100%, .5)"
-  },
-  ".language-css .token.string": {
-    color: "#9a6e3a",
-    background: "hsla(0, 0%, 100%, .5)"
-  },
-  ".style .token.string": {
-    color: "#9a6e3a",
-    background: "hsla(0, 0%, 100%, .5)"
-  },
-  atrule: {
-    color: "#07a"
-  },
-  "attr-value": {
-    color: "#07a"
-  },
-  keyword: {
-    color: "#07a"
-  },
-  function: {
-    color: "#DD4A68"
-  },
-  "class-name": {
-    color: "#DD4A68"
-  },
-  regex: {
-    color: "#e90"
-  },
-  important: {
-    color: "#e90",
-    fontWeight: "bold"
-  },
-  variable: {
-    color: "#e90"
-  },
-  bold: {
-    fontWeight: "bold"
-  },
-  italic: {
-    fontStyle: "italic"
-  }
-};
-
-// node_modules/react-syntax-highlighter/dist/esm/prism.js
-var import_refractor = __toESM(require_refractor(), 1);
-var highlighter = highlight_default(import_refractor.default, prism_default);
-highlighter.supportedLanguages = supported_languages_default;
-var prism_default2 = highlighter;
-// node_modules/react-syntax-highlighter/dist/esm/styles/prism/dark.js
-var dark_default = {
-  'code[class*="language-"]': {
-    color: "white",
-    background: "none",
-    textShadow: "0 -.1em .2em black",
-    fontFamily: "Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace",
-    fontSize: "1em",
-    textAlign: "left",
-    whiteSpace: "pre",
-    wordSpacing: "normal",
-    wordBreak: "normal",
-    wordWrap: "normal",
-    lineHeight: "1.5",
-    MozTabSize: "4",
-    OTabSize: "4",
-    tabSize: "4",
-    WebkitHyphens: "none",
-    MozHyphens: "none",
-    msHyphens: "none",
-    hyphens: "none"
-  },
-  'pre[class*="language-"]': {
-    color: "white",
-    background: "hsl(30, 20%, 25%)",
-    textShadow: "0 -.1em .2em black",
-    fontFamily: "Consolas, Monaco, 'Andale Mono', 'Ubuntu Mono', monospace",
-    fontSize: "1em",
-    textAlign: "left",
-    whiteSpace: "pre",
-    wordSpacing: "normal",
-    wordBreak: "normal",
-    wordWrap: "normal",
-    lineHeight: "1.5",
-    MozTabSize: "4",
-    OTabSize: "4",
-    tabSize: "4",
-    WebkitHyphens: "none",
-    MozHyphens: "none",
-    msHyphens: "none",
-    hyphens: "none",
-    padding: "1em",
-    margin: ".5em 0",
-    overflow: "auto",
-    border: ".3em solid hsl(30, 20%, 40%)",
-    borderRadius: ".5em",
-    boxShadow: "1px 1px .5em black inset"
-  },
-  ':not(pre) > code[class*="language-"]': {
-    background: "hsl(30, 20%, 25%)",
-    padding: ".15em .2em .05em",
-    borderRadius: ".3em",
-    border: ".13em solid hsl(30, 20%, 40%)",
-    boxShadow: "1px 1px .3em -.1em black inset",
-    whiteSpace: "normal"
-  },
-  comment: {
-    color: "hsl(30, 20%, 50%)"
-  },
-  prolog: {
-    color: "hsl(30, 20%, 50%)"
-  },
-  doctype: {
-    color: "hsl(30, 20%, 50%)"
-  },
-  cdata: {
-    color: "hsl(30, 20%, 50%)"
-  },
-  punctuation: {
-    Opacity: ".7"
-  },
-  namespace: {
-    Opacity: ".7"
-  },
-  property: {
-    color: "hsl(350, 40%, 70%)"
-  },
-  tag: {
-    color: "hsl(350, 40%, 70%)"
-  },
-  boolean: {
-    color: "hsl(350, 40%, 70%)"
-  },
-  number: {
-    color: "hsl(350, 40%, 70%)"
-  },
-  constant: {
-    color: "hsl(350, 40%, 70%)"
-  },
-  symbol: {
-    color: "hsl(350, 40%, 70%)"
-  },
-  selector: {
-    color: "hsl(75, 70%, 60%)"
-  },
-  "attr-name": {
-    color: "hsl(75, 70%, 60%)"
-  },
-  string: {
-    color: "hsl(75, 70%, 60%)"
-  },
-  char: {
-    color: "hsl(75, 70%, 60%)"
-  },
-  builtin: {
-    color: "hsl(75, 70%, 60%)"
-  },
-  inserted: {
-    color: "hsl(75, 70%, 60%)"
-  },
-  operator: {
-    color: "hsl(40, 90%, 60%)"
-  },
-  entity: {
-    color: "hsl(40, 90%, 60%)",
-    cursor: "help"
-  },
-  url: {
-    color: "hsl(40, 90%, 60%)"
-  },
-  ".language-css .token.string": {
-    color: "hsl(40, 90%, 60%)"
-  },
-  ".style .token.string": {
-    color: "hsl(40, 90%, 60%)"
-  },
-  variable: {
-    color: "hsl(40, 90%, 60%)"
-  },
-  atrule: {
-    color: "hsl(350, 40%, 70%)"
-  },
-  "attr-value": {
-    color: "hsl(350, 40%, 70%)"
-  },
-  keyword: {
-    color: "hsl(350, 40%, 70%)"
-  },
-  regex: {
-    color: "#e90"
-  },
-  important: {
-    color: "#e90",
-    fontWeight: "bold"
-  },
-  bold: {
-    fontWeight: "bold"
-  },
-  italic: {
-    fontStyle: "italic"
-  },
-  deleted: {
-    color: "red"
-  }
-};
-// assets/component/markdown.js
-var jsx_dev_runtime = __toESM(require_jsx_dev_runtime(), 1);
-var Component = (props = {}) => {
-  return /* @__PURE__ */ jsx_dev_runtime.jsxDEV(Markdown, {
-    className: "markdown-body",
-    remarkPlugins: [remarkGfm],
-    components: {
-      code(props2) {
-        const { children, className: className2, node: node2, ...rest2 } = props2;
-        const match = /language-(\w+)/.exec(className2 || "");
-        return match ? /* @__PURE__ */ jsx_dev_runtime.jsxDEV(prism_default2, {
-          ...rest2,
-          PreTag: "div",
-          children: String(children).replace(/\n$/, ""),
-          language: match[1],
-          style: dark_default
-        }, undefined, false, undefined, this) : /* @__PURE__ */ jsx_dev_runtime.jsxDEV("code", {
-          ...rest2,
-          className: className2,
-          children
-        }, undefined, false, undefined, this);
-      }
-    },
-    children: props.data
-  }, undefined, false, undefined, this);
-};
-
 // assets/component/live_form.js
-var import_react37 = __toESM(require_react(), 1);
 var jsx_dev_runtime2 = __toESM(require_jsx_dev_runtime(), 1);
 function Component2({ data = "", setData }) {
   const { content: content3 } = data;

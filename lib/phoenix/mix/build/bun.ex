@@ -10,6 +10,8 @@ defmodule Mix.Tasks.Phx.React.Bun.Bundle do
   ```
 
   """
+  require Logger
+
   use Mix.Task
 
   @shortdoc "Bundle components into server.js"
@@ -28,7 +30,9 @@ defmodule Mix.Tasks.Phx.React.Bun.Bundle do
       end
 
     output = Keyword.get(opts, :output)
-    IO.puts("Bundle component in directory [#{component_base}] into #{output}")
+    Logger.info("Bundle component in directory [#{component_base}] into #{output}")
+
+    cd = Keyword.get(opts, :cd, File.cwd!())
 
     files =
       components
@@ -41,10 +45,8 @@ defmodule Mix.Tasks.Phx.React.Bun.Bundle do
 
     quoted = EEx.compile_file("#{__DIR__}/server.js.eex")
     {result, _bindings} = Code.eval_quoted(quoted, files: files, base_dir: base_dir)
-    tmp_file = "#{File.cwd!()}/server.js"
+    tmp_file = "#{cd}/server.js"
     File.write!(tmp_file, result)
-
-    cd = Keyword.get(opts, :cd, File.cwd!())
 
     outdir = Path.dirname(output)
 
@@ -55,8 +57,8 @@ defmodule Mix.Tasks.Phx.React.Bun.Bundle do
     {out, code} =
       System.cmd("bun", ["build", "--target=bun", "--outdir=#{outdir}", tmp_file], cd: cd)
 
-    IO.puts(~s[cd #{cd}; bun build --target=bun --outdir=#{outdir} #{tmp_file}])
-    IO.puts("out #{code}: #{out}")
+    Logger.info(~s[cd #{cd}; bun build --target=bun --outdir=#{outdir} #{tmp_file}])
+    Logger.info("out #{code}: #{out}")
 
     if code != 0 do
       throw("bun build failed(#{code})")

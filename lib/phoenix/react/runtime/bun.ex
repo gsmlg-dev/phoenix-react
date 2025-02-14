@@ -23,7 +23,6 @@ defmodule Phoenix.React.Runtime.Bun do
   use Phoenix.React.Runtime
 
   def start_link(init_arg) do
-    IO.inspect(init_arg)
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
   end
 
@@ -44,6 +43,7 @@ defmodule Phoenix.React.Runtime.Bun do
   def handle_continue(:start_port, %Runtime{component_base: component_base} = state) do
     if config()[:env] == :dev do
       start_file_watcher(component_base)
+      Phoenix.React.Runtime.FileWatcher.set_ref(self())
     end
 
     port = start(component_base: component_base)
@@ -146,7 +146,10 @@ defmodule Phoenix.React.Runtime.Bun do
         "--cd",
         state.cd
       ])
+
+      Logger.debug("component_base rebuilt #{path}")
     end)
+    |> Task.await()
 
     {:noreply, state}
   end
