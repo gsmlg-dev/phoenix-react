@@ -109,14 +109,13 @@ jobs:
         run: |
           mix hex.publish --yes
 
-## maybe check tag exists and create tag
-#      - name: Create Git Tag
-#        uses: actions/github-script@v7
-#        with:
-#          script: |
-#            github.rest.git.createRef({
-#              owner: context.repo.owner,
-#              repo: context.repo.repo,
-#              ref: 'refs/tags/${{ github.event.inputs.release-version }}',
-#              sha: context.sha
-#            })
+     - name: Create Git Tag
+       uses: actions/github-script@v7
+       with:
+         script: |
+           github.rest.git.createRef({
+             owner: context.repo.owner,
+             repo: context.repo.repo,
+             ref: 'refs/tags/${{ github.event.inputs.release-version }}',
+             sha: context.sha
+           })

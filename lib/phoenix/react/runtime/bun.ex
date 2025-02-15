@@ -309,10 +309,10 @@ defmodule Phoenix.React.Runtime.Bun do
 
   @impl true
   def process_request_options(options) do
-    # timeout: 30_000, recv_timeout: 120_000
     options
     |> Keyword.put(:timeout, 30_000)
     |> Keyword.put(:recv_timeout, 120_000)
+    |> Keyword.put(:hackney, proxy: nil)
   end
 
   defp get_rendered_component(server_port, component, props, :static_markup) do
