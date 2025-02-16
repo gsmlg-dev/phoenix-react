@@ -128,7 +128,12 @@ Then you can use react server rendered component in Phoenix Component
       This <code class="text-primary">Table</code> is rendered with <code class="text-secondary">react-dom/server</code>
     </h3>
     <!-- Notice: Remove white space in the react render node or it will break hydrate -->
-    <div class="w-full h-full" id="system_usage_container"><.react_system_stats
+    <!-- Add `phx-no-format` to avoid mix format change the code here -->
+    <div
+      id="system_usage_container"
+      class="w-full h-full"
+      phx-no-format
+    ><.react_system_stats
       data={@data}
     /></div>
   </div>
