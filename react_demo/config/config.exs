@@ -51,8 +51,17 @@ config :logger, :console,
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
+# Configure Phoenix.React server runtime
+# Use environment variable REACT_RUNTIME to switch between :bun and :deno
+runtime =
+  case System.get_env("REACT_RUNTIME", "bun") do
+    "bun" -> Phoenix.React.Runtime.Bun
+    "deno" -> Phoenix.React.Runtime.Deno
+    _ -> Phoenix.React.Runtime.Bun
+  end
+
 config :phoenix_react_server, Phoenix.React,
-  runtime: Phoenix.React.Runtime.Bun,
+  runtime: runtime,
   component_base: Path.expand("../assets/component", __DIR__),
   cache_ttl: 60
 

@@ -47,7 +47,44 @@ config :phoenix_react_server, Phoenix.React,
 Supported `runtime`
 
 - [x] `Phoenix.React.Runtime.Bun`
-- [ ] `Phoenix.React.Runtime.Deno`
+- [x] `Phoenix.React.Runtime.Deno`
+
+### Using Deno Runtime
+
+To use Deno instead of Bun, configure the runtime and its specific settings:
+
+```elixir
+config :phoenix_react_server, Phoenix.React,
+  runtime: Phoenix.React.Runtime.Deno,
+  component_base: Path.expand("../assets/component", __DIR__),
+  cache_ttl: 60
+
+# Deno-specific configuration
+config :phoenix_react_server, Phoenix.React.Runtime.Deno,
+  cmd: System.find_executable("deno"),
+  server_js: Path.expand("../priv/react/server.js", __DIR__),
+  port: 5125,
+  env: :dev  # Use :prod for production
+```
+
+**Deno Requirements:**
+- Deno 2.x (recommended)
+- Components must use `.jsx` file extension for proper JSX parsing
+- Deno automatically downloads npm packages via `--node-modules-dir` flag
+
+**Environment Variable Switching:**
+You can also use environment variable to switch runtimes:
+
+```elixir
+runtime =
+  case System.get_env("REACT_RUNTIME", "bun") do
+    "bun" -> Phoenix.React.Runtime.Bun
+    "deno" -> Phoenix.React.Runtime.Deno
+    _ -> Phoenix.React.Runtime.Bun
+  end
+
+config :phoenix_react_server, Phoenix.React, runtime: runtime
+```
 
 Add Render Server in your application Supervisor tree.
 

@@ -37,10 +37,10 @@ defmodule Phoenix.React do
     cache_ttl: 60
   ```
 
-  Supported `runtime`
+   Supported `runtime`
 
-  - [x] `Phoenix.React.Runtime.Bun`
-  - [ ] `Phoenix.React.Runtime.Deno`
+   - [x] `Phoenix.React.Runtime.Bun`
+   - [x] `Phoenix.React.Runtime.Deno`
 
   Add Render Server in your application Supervisor tree.
 
@@ -215,24 +215,43 @@ defmodule Phoenix.React do
   }
   ```
 
-  ## Run in release mode
+   ## Run in release mode
 
-  Bundle components with server.js to one file.
+   Bundle components with server.js to one file.
 
-  ```shell
-  mix phx.react.bun.bundle --component-base=assets/component --output=priv/react/server.js
-  ```
+   ### For Bun runtime
 
-  Config `runtime` to `Phoenix.React.Runtime.Bun` in `runtime.exs`
+   ```shell
+   mix phx.react.bun.bundle --component-base=assets/component --output=priv/react/server.js
+   ```
 
-  ```elixir
+   Config `runtime` to `Phoenix.React.Runtime.Bun` in `runtime.exs`
 
-  config :phoenix_react_server, Phoenix.React.Runtime.Bun,
-    cmd: System.find_executable("bun"),
-    server_js: Path.expand("../priv/react/server.js", __DIR__),
-    port: 12666,
-    env: :prod
-  ```
+   ```elixir
+
+   config :phoenix_react_server, Phoenix.React.Runtime.Bun,
+     cmd: System.find_executable("bun"),
+     server_js: Path.expand("../priv/react/server.js", __DIR__),
+     port: 12666,
+     env: :prod
+   ```
+
+   ### For Deno runtime
+
+   ```shell
+   mix phx.react.deno.bundle --component-base=assets/component --output=priv/react/server.js
+   ```
+
+   Config `runtime` to `Phoenix.React.Runtime.Deno` in `runtime.exs`
+
+   ```elixir
+
+   config :phoenix_react_server, Phoenix.React.Runtime.Deno,
+     cmd: System.find_executable("deno"),
+     server_js: Path.expand("../priv/react/server.js", __DIR__),
+     port: 12667,
+     env: :prod
+   ```
 
   ## Hydrate at client side with CDN
 

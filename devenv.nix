@@ -24,6 +24,9 @@ in
   languages.javascript.bun.enable = true;
   languages.javascript.bun.package = pkgs-stable.bun;
 
+  languages.deno.enable = true;
+  languages.deno.package = pkgs-stable.deno;
+
   scripts.hello.exec = ''
     figlet -w 120 $GREET | lolcat
   '';

@@ -14,11 +14,30 @@ config :react_demo, ReactDemoWeb.Endpoint,
 config :react_demo, ReactDemoWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json"
 
+# Configure Phoenix.React server for production
+# Use environment variable REACT_RUNTIME to switch between :bun and :deno
+runtime =
+  case System.get_env("REACT_RUNTIME", "bun") do
+    "bun" -> Phoenix.React.Runtime.Bun
+    "deno" -> Phoenix.React.Runtime.Deno
+    _ -> Phoenix.React.Runtime.Bun
+  end
+
+config :phoenix_react_server, Phoenix.React, runtime: runtime
+
+# Bun configuration for production
 config :phoenix_react_server, Phoenix.React.Runtime.Bun,
   cmd: System.find_executable("bun"),
-  server_js: Path.expand("../priv/react/server.js", __DIR__),
+  server_js: Path.expand("../priv/react/bun/server.js", __DIR__),
   port: 5124,
-  env: :dev
+  env: :prod
+
+# Deno configuration for production
+config :phoenix_react_server, Phoenix.React.Runtime.Deno,
+  cmd: System.find_executable("deno"),
+  server_js: Path.expand("../priv/react/server.js", __DIR__),
+  port: 5125,
+  env: :prod
 
 # Do not print debug messages in production
 config :logger, :console, format: "[$level] $message\n"
