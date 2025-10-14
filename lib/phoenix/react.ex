@@ -286,6 +286,22 @@ defmodule Phoenix.React do
 
   @impl true
   def init(_init_arg) do
+    # Start HTTP client for runtime communication
+    {:ok, _} = Application.ensure_all_started(:inets)
+
+    case :httpc.start_service([{:profile, :default}]) do
+      {:ok, _pid} ->
+        :ok
+
+      {:error, {:already_started, _pid}} ->
+        :ok
+
+      error ->
+        require Logger
+        Logger.error("Failed to start HTTP client: #{inspect(error)}")
+        raise "Failed to start HTTP client: #{inspect(error)}"
+    end
+
     children = [
       {Phoenix.React.Cache, []},
       {Phoenix.React.Runtime, []},

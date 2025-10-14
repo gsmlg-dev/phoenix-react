@@ -20,6 +20,7 @@ defmodule Phoenix.React.Runtime.Bun do
   require Logger
 
   use Phoenix.React.Runtime
+  import Phoenix.React.Runtime.Common
 
   def start_link(init_arg) do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
@@ -58,74 +59,67 @@ defmodule Phoenix.React.Runtime.Bun do
 
   @impl true
   def config() do
-    cfg = Application.get_env(:phoenix_react_server, Phoenix.React.Runtime.Bun, [])
-    cmd = cfg[:cmd] || System.find_executable("bun")
+    user_config = Application.get_env(:phoenix_react_server, Phoenix.React.Runtime.Bun, [])
 
-    server_js =
-      cfg[:server_js] || Path.expand("bun/server.js", :code.priv_dir(:phoenix_react_server))
+    # Convert user config to map for new config system
+    user_config_map =
+      user_config
+      |> Enum.into(%{})
+      |> Map.put(:cd, Keyword.get(user_config, :cd, File.cwd!()))
+      |> Map.put(:cmd, Keyword.get(user_config, :cmd, System.find_executable("bun")))
+      |> Map.put(
+        :server_js,
+        Keyword.get(
+          user_config,
+          :server_js,
+          Path.expand("bun/server.js", :code.priv_dir(:phoenix_react_server))
+        )
+      )
 
-    [
-      {:cd, cfg[:cd] || File.cwd!()},
-      {:cmd, cmd},
-      {:server_js, server_js},
-      {:port, cfg[:port] || 5225},
-      {:env, cfg[:env] || :dev}
-    ]
+    case Phoenix.React.Config.runtime_config(:bun, user_config_map) do
+      {:ok, config} -> Phoenix.React.Config.to_keyword_list(config)
+      {:error, reason} -> raise ArgumentError, reason
+    end
   end
 
   @impl true
-  def start(component_base: component_base) do
-    cd = config()[:cd]
-    cmd = config()[:cmd]
-    bun_port = Integer.to_string(config()[:port])
-    args = ["--port", bun_port, config()[:server_js]]
+  def start(component_base: _component_base) do
+    config = config()
+    cmd = config[:cmd]
+    bun_port = Integer.to_string(config[:port])
+    server_js = config[:server_js]
 
-    is_dev = config()[:env] == :dev
-
-    bun_env = if(is_dev, do: "development", else: "production")
+    args = ["--port", bun_port, server_js]
 
     args =
-      if config()[:env] == :dev do
+      if config[:env] == :dev do
         ["--watch" | args]
       else
         args
       end
 
-    env = [
-      {~c"PORT", ~c"#{bun_port}"},
-      {~c"BUN_PORT", ~c"#{bun_port}"},
-      {~c"BUN_ENV", ~c"#{bun_env}"},
-      {~c"COMPONENT_BASE", ~c"#{component_base}"}
-    ]
+    bun_env = if(config[:env] == :dev, do: "development", else: "production")
+    env = runtime_env("BUN_PORT", bun_port, "BUN_ENV", bun_env)
 
-    Port.open(
-      {:spawn_executable, cmd},
-      [
-        {:args, args},
-        {:cd, cd},
-        {:env, env},
-        :stream,
-        :binary,
-        :exit_status,
-        # :hide,
-        :use_stdio,
-        :stderr_to_stdout
-      ]
-    )
+    Port.open({:spawn_executable, cmd}, port_options(cmd, args, cd: config[:cd], env: env))
   end
 
   @impl true
   def start_file_watcher(component_base) do
     Logger.debug("Building server.js bundle")
 
-    Mix.Tasks.Phx.React.Bun.Bundle.run([
+    config = config()
+
+    bundle_args = [
       "--component-base",
       component_base,
       "--output",
-      config()[:server_js],
+      config[:server_js],
       "--cd",
-      config()[:cd]
-    ])
+      config[:cd]
+    ]
+
+    Mix.Tasks.Phx.React.Bun.Bundle.run(bundle_args)
 
     Logger.debug("Starting file watcher")
     Runtime.start_file_watcher(ref: self(), path: component_base)
@@ -133,103 +127,61 @@ defmodule Phoenix.React.Runtime.Bun do
 
   @impl true
   def handle_info({:component_base_changed, path}, state) do
-    Task.async(fn ->
-      Logger.debug("component_base changed: #{path}, rebuilding...")
+    bundle_args = [
+      "--component-base",
+      state.component_base,
+      "--output",
+      state.server_js,
+      "--cd",
+      state.cd
+    ]
 
-      Mix.Tasks.Phx.React.Bun.Bundle.run([
-        "--component-base",
-        state.component_base,
-        "--output",
-        state.server_js,
-        "--cd",
-        state.cd
-      ])
-
-      Logger.debug("component_base rebuilt #{path}")
-    end)
-    |> Task.await()
-
+    handle_file_change(path, Mix.Tasks.Phx.React.Bun.Bundle, bundle_args)
     {:noreply, state}
   end
 
+  @impl true
   def handle_info({_ref, :ok}, state) do
     {:noreply, state}
   end
 
+  @impl true
   def handle_info({_port, {:data, msg}}, state) do
     Logger.debug(msg)
     {:noreply, state}
   end
 
+  @impl true
   def handle_info({port, {:exit_status, exit_status}}, state) do
     Logger.warning("Bun#{inspect(port)}: exit_status: #{exit_status}")
     Process.exit(self(), :normal)
     {:noreply, state}
   end
 
-  # handle the trapped exit call
+  @impl true
   def handle_info({:EXIT, _from, reason}, state) do
     Logger.debug("Bun.Server exiting")
-    cleanup(reason, state)
+    cleanup_runtime_process(state.runtime_port, reason)
     {:stop, reason, state}
+  end
+
+  @impl true
+  def handle_cast(:shutdown, state) do
+    {:stop, :normal, state}
   end
 
   @impl true
   def get_rendered_component(method, component, props, state)
       when method in [:render_to_readable_stream, :render_to_string, :render_to_static_markup] do
     server_port = config()[:port]
-
-    url = ~c"http://localhost:#{server_port}/#{method}/#{component}"
-    headers = [{~c"Content-Type", ~c"application/json"}]
-    body = Jason.encode!(props)
-
     timeout = state.render_timeout
 
-    case :httpc.request(
-           :post,
-           {~c"#{url}", headers, ~c"application/json", body},
-           [timeout: timeout, connect_timeout: timeout],
-           body_format: :binary
-         ) do
-      {:ok, {{_version, status_code, _status_text}, _headers, body}}
-      when status_code in 200..299 ->
-        {:ok, to_string(body)}
-
-      {:ok, {{_version, status_code, _status_text}, _headers, body}} ->
-        {:error, "HTTP #{status_code}\n\n#{body}"}
-
-      {:error, reason} ->
-        {:error, reason}
-    end
+    make_http_request(server_port, Atom.to_string(method), component, props, timeout)
   end
 
   @impl true
   def terminate(reason, state) do
     Logger.debug("Bun.Server terminating")
-    cleanup(reason, state)
-  end
-
-  defp cleanup(reason, %Runtime{runtime_port: runtime_port} = _state) do
-    case runtime_port |> Port.info(:os_pid) do
-      {:os_pid, pid} ->
-        {_, code} = System.cmd("kill", ["-9", "#{pid}"])
-        code
-
-      _ ->
-        0
-    end
-
-    case reason do
-      :normal -> :normal
-      :shutdown -> :shutdown
-      term -> {:shutdown, term}
-    end
-  end
-
-  defp get_port_os_pid(runtime_port) do
-    case runtime_port |> Port.info(:os_pid) do
-      {:os_pid, pid} -> pid
-      _ -> nil
-    end
+    cleanup_runtime_process(state.runtime_port, reason)
   end
 end

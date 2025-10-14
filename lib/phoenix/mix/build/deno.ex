@@ -26,7 +26,7 @@ defmodule Mix.Tasks.Phx.React.Deno.Bundle do
       if File.dir?(base_dir) do
         find_files(base_dir)
       else
-        throw("component_base dir is not exists: #{base_dir}")
+        raise ArgumentError, "component_base dir does not exist: #{base_dir}"
       end
 
     output = Keyword.get(opts, :output)
@@ -98,10 +98,16 @@ defmodule Mix.Tasks.Phx.React.Deno.Bundle do
     end
   rescue
     error ->
-      IO.inspect(error)
+      Logger.error("Build failed: #{Exception.format(:error, error, __STACKTRACE__)}")
+      reraise error, __STACKTRACE__
   catch
-    error ->
-      IO.inspect(error)
+    :throw, error ->
+      Logger.error("Build failed: #{inspect(error)}")
+      throw(error)
+
+    :exit, error ->
+      Logger.error("Build failed: #{inspect(error)}")
+      exit(error)
   end
 
   def find_files(dir) do

@@ -72,13 +72,9 @@ defmodule Mix.Tasks.Phx.React.Deno.BundleIntegrationTest do
     end
 
     test "bundle task handles invalid arguments" do
-      # Test that the function can be called with invalid arguments
-      # The function handles errors and returns an error message
-      result =
+      assert_raise ArgumentError, ~r/component_base dir does not exist/, fn ->
         Bundle.run(["--component-base", "/non/existent/path", "--output", "/tmp/output.js"])
-
-      assert is_binary(result)
-      assert String.contains?(result, "component_base dir is not exists")
+      end
     end
   end
 end

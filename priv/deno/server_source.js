@@ -3,10 +3,13 @@ import React from "npm:react";
 import { renderToReadableStream, renderToString, renderToStaticMarkup } from "npm:react-dom/server";
 
 const __comMap = {};
-<%= for {{name, file}, idx} <- Enum.with_index(files) do %>
-import { Component as __component_<%= idx %> } from "<%= file %>";
-__comMap["<%= name %>"] = __component_<%= idx %>;
-<% end %>
+
+import { Component as __component_0 } from "./jsx_components/markdown.jsx";
+__comMap["markdown"] = __component_0;
+
+import { Component as __component_1 } from "./jsx_components/tab.jsx";
+__comMap["tab"] = __component_1;
+
 
 const { COMPONENT_BASE, DENO_ENV } = Deno.env.toObject();
 

@@ -1,5 +1,6 @@
 import { serve, readableStreamToJSON, readableStreamToText, escapeHTML } from 'bun';
 import { renderToReadableStream, renderToString, renderToStaticMarkup } from 'react-dom/server';
+import React from 'react';
 
 const __comMap = {};
 <%= for {{name, file}, idx} <- Enum.with_index(files) do %>
@@ -47,7 +48,7 @@ const server = serve({
             },
           });
         }
-        const jsxNode = <Component {...props} />;
+        const jsxNode = React.createElement(Component, props);
         const html = renderToStaticMarkup(jsxNode);
         return new Response(html, {
           headers: {
@@ -60,7 +61,7 @@ const server = serve({
         const props = await readableStreamToJSON(bodyStream);
         const fileName = pathname.replace(/^\/render_to_string\//, '');
         const Component = __comMap[fileName];
-        const jsxNode = <Component {...props} />;
+        const jsxNode = React.createElement(Component, props);
         const html = renderToString(jsxNode);
         return new Response(html, {
           headers: {
@@ -73,7 +74,7 @@ const server = serve({
         const props = await readableStreamToJSON(bodyStream);
         const fileName = pathname.replace(/^\/render_to_readable_stream\//, '');
         const Component = __comMap[fileName];
-        const jsxNode = <Component {...props} />;
+        const jsxNode = React.createElement(Component, props);
         const stream = await renderToReadableStream(jsxNode);
         return new Response(stream, {
           headers: {

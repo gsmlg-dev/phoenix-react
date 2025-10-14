@@ -14,12 +14,15 @@ defmodule Phoenix.React.Runtime.Deno do
     # In prod mode, this need to be precompiled with `mix phx.react.deno.bundle`
     server_js: Path.expand("deno/server.js", :code.priv_dir(:phoenix_react_server)),
     port: 5226,
-    env: :dev
+    env: :dev,
+    # Security: restrict write access to specific directories
+    write_dirs: ["/tmp", "/var/tmp"]
   ```
   """
   require Logger
 
   use Phoenix.React.Runtime
+  import Phoenix.React.Runtime.Common
 
   def start_link(init_arg) do
     GenServer.start_link(__MODULE__, init_arg, name: __MODULE__)
@@ -51,6 +54,8 @@ defmodule Phoenix.React.Runtime.Deno do
       "Deno.Server started on port: #{inspect(port)} and OS pid: #{get_port_os_pid(port)}"
     )
 
+    Phoenix.React.Monitoring.record_runtime_startup("Deno", config()[:port])
+
     Phoenix.React.Server.set_runtime_process(self())
 
     {:noreply, %Runtime{state | runtime_port: port}}
@@ -58,29 +63,37 @@ defmodule Phoenix.React.Runtime.Deno do
 
   @impl true
   def config() do
-    cfg = Application.get_env(:phoenix_react_server, Phoenix.React.Runtime.Deno, [])
-    cmd = cfg[:cmd] || System.find_executable("deno")
+    user_config = Application.get_env(:phoenix_react_server, Phoenix.React.Runtime.Deno, [])
 
-    server_js =
-      cfg[:server_js] || Path.expand("deno/server.js", :code.priv_dir(:phoenix_react_server))
+    # Convert user config to map for new config system
+    user_config_map =
+      user_config
+      |> Enum.into(%{})
+      |> Map.put(:cd, Keyword.get(user_config, :cd, File.cwd!()))
+      |> Map.put(:cmd, Keyword.get(user_config, :cmd, System.find_executable("deno")))
+      |> Map.put(
+        :server_js,
+        Keyword.get(
+          user_config,
+          :server_js,
+          Path.expand("deno/server.js", :code.priv_dir(:phoenix_react_server))
+        )
+      )
 
-    [
-      {:cd, cfg[:cd] || File.cwd!()},
-      {:cmd, cmd},
-      {:server_js, server_js},
-      {:port, cfg[:port] || 5226},
-      {:env, cfg[:env] || :dev}
-    ]
+    case Phoenix.React.Config.runtime_config(:deno, user_config_map) do
+      {:ok, config} -> Phoenix.React.Config.to_keyword_list(config)
+      {:error, reason} -> raise ArgumentError, reason
+    end
   end
 
   @impl true
-  def start(component_base: component_base) do
-    cd = config()[:cd]
-    cmd = config()[:cmd]
-    server_js = config()[:server_js]
-    deno_port = Integer.to_string(config()[:port])
+  def start(component_base: _component_base) do
+    config = config()
+    cmd = config[:cmd]
+    server_js = config[:server_js]
+    deno_port = Integer.to_string(config[:port])
 
-    is_dev = config()[:env] == :dev
+    is_dev = config[:env] == :dev
     deno_env = if(is_dev, do: "development", else: "production")
 
     # In development, use the source file with deno run
@@ -90,15 +103,22 @@ defmodule Phoenix.React.Runtime.Deno do
         # Use source file in development
         source_js = Path.join(Path.dirname(server_js), "server_source.js")
 
-        args = [
-          "run",
-          "--allow-net",
-          "--allow-read",
-          "--allow-env",
-          "--allow-write",
-          "--watch",
-          "--node-modules-dir"
-        ]
+        # Security: restrict write access to specific directories
+        write_dirs = config[:write_dirs] || ["/tmp", "/var/tmp"]
+        write_args = Enum.flat_map(write_dirs, &["--allow-write=#{&1}"])
+
+        args =
+          [
+            "run",
+            "--allow-net",
+            "--allow-read",
+            "--allow-env"
+          ] ++
+            write_args ++
+            [
+              "--watch",
+              "--node-modules-dir"
+            ]
 
         {cmd, args ++ [source_js]}
       else
@@ -106,25 +126,13 @@ defmodule Phoenix.React.Runtime.Deno do
         {server_js, []}
       end
 
-    env = [
-      {~c"PORT", ~c"#{deno_port}"},
-      {~c"DENO_PORT", ~c"#{deno_port}"},
-      {~c"DENO_ENV", ~c"#{deno_env}"},
-      {~c"COMPONENT_BASE", ~c"#{component_base}"}
-    ]
+    env =
+      runtime_env("DENO_PORT", deno_port, "DENO_ENV", deno_env) ++
+        [{~c"PARENT_CHECK_INTERVAL", ~c"#{config[:parent_check_interval] || 5000}"}]
 
     Port.open(
       {:spawn_executable, exec_cmd},
-      [
-        {:args, args},
-        {:cd, cd},
-        {:env, env},
-        :stream,
-        :binary,
-        :exit_status,
-        :use_stdio,
-        :stderr_to_stdout
-      ]
+      port_options(exec_cmd, args, cd: config[:cd], env: env)
     )
   end
 
@@ -132,17 +140,19 @@ defmodule Phoenix.React.Runtime.Deno do
   def start_file_watcher(component_base) do
     Logger.debug("Building server.js bundle")
 
-    # In development, create source file for deno run
-    source_js = Path.join(Path.dirname(config()[:server_js]), "server_source.js")
+    config = config()
+    source_js = Path.join(Path.dirname(config[:server_js]), "server_source.js")
 
-    Mix.Tasks.Phx.React.Deno.Bundle.run([
+    bundle_args = [
       "--component-base",
       component_base,
       "--output",
       source_js,
       "--cd",
-      config()[:cd]
-    ])
+      config[:cd]
+    ]
+
+    Mix.Tasks.Phx.React.Deno.Bundle.run(bundle_args)
 
     Logger.debug("Starting file watcher")
     Runtime.start_file_watcher(ref: self(), path: component_base)
@@ -150,47 +160,43 @@ defmodule Phoenix.React.Runtime.Deno do
 
   @impl true
   def handle_info({:component_base_changed, path}, state) do
-    Task.async(fn ->
-      Logger.debug("component_base changed: #{path}, rebuilding...")
+    source_js = Path.join(Path.dirname(state.server_js), "server_source.js")
 
-      # In development, rebuild source file
-      source_js = Path.join(Path.dirname(state.server_js), "server_source.js")
+    bundle_args = [
+      "--component-base",
+      state.component_base,
+      "--output",
+      source_js,
+      "--cd",
+      state.cd
+    ]
 
-      Mix.Tasks.Phx.React.Deno.Bundle.run([
-        "--component-base",
-        state.component_base,
-        "--output",
-        source_js,
-        "--cd",
-        state.cd
-      ])
-
-      Logger.debug("component_base rebuilt #{path}")
-    end)
-    |> Task.await()
-
+    handle_file_change(path, Mix.Tasks.Phx.React.Deno.Bundle, bundle_args)
     {:noreply, state}
   end
 
+  @impl true
   def handle_info({_ref, :ok}, state) do
     {:noreply, state}
   end
 
+  @impl true
   def handle_info({_port, {:data, msg}}, state) do
     Logger.debug(msg)
     {:noreply, state}
   end
 
+  @impl true
   def handle_info({port, {:exit_status, exit_status}}, state) do
     Logger.warning("Deno#{inspect(port)}: exit_status: #{exit_status}")
     Process.exit(self(), :normal)
     {:noreply, state}
   end
 
-  # handle the trapped exit call
+  @impl true
   def handle_info({:EXIT, _from, reason}, state) do
     Logger.debug("Deno.Server exiting")
-    cleanup(reason, state)
+    cleanup_runtime_process(state.runtime_port, reason)
     {:stop, reason, state}
   end
 
@@ -198,58 +204,29 @@ defmodule Phoenix.React.Runtime.Deno do
   def get_rendered_component(method, component, props, state)
       when method in [:render_to_readable_stream, :render_to_string, :render_to_static_markup] do
     server_port = config()[:port]
-
-    url = ~c"http://localhost:#{server_port}/#{method}/#{component}"
-    headers = [{~c"Content-Type", ~c"application/json"}]
-    body = Jason.encode!(props)
-
     timeout = state.render_timeout
 
-    case :httpc.request(
-           :post,
-           {~c"#{url}", headers, ~c"application/json", body},
-           [timeout: timeout, connect_timeout: timeout],
-           body_format: :binary
-         ) do
-      {:ok, {{_version, status_code, _status_text}, _headers, body}}
-      when status_code in 200..299 ->
-        {:ok, to_string(body)}
+    Phoenix.React.Monitoring.measure(
+      "render_#{method}_#{component}",
+      [:phoenix, :react, :render],
+      fn ->
+        result = make_http_request(server_port, Atom.to_string(method), component, props, timeout)
 
-      {:ok, {{_version, status_code, _status_text}, _headers, body}} ->
-        {:error, "HTTP #{status_code}\n\n#{body}"}
+        # Record the result for monitoring
+        case result do
+          {:ok, _} -> Phoenix.React.Monitoring.record_render(component, method, 0, :ok)
+          {:error, _} -> Phoenix.React.Monitoring.record_render(component, method, 0, :error)
+        end
 
-      {:error, reason} ->
-        {:error, reason}
-    end
+        result
+      end
+    )
   end
 
   @impl true
   def terminate(reason, state) do
     Logger.debug("Deno.Server terminating")
-    cleanup(reason, state)
-  end
-
-  defp cleanup(reason, %Runtime{runtime_port: runtime_port} = _state) do
-    case runtime_port |> Port.info(:os_pid) do
-      {:os_pid, pid} ->
-        {_, code} = System.cmd("kill", ["-9", "#{pid}"])
-        code
-
-      _ ->
-        0
-    end
-
-    case reason do
-      :normal -> :normal
-      :shutdown -> :shutdown
-      term -> {:shutdown, term}
-    end
-  end
-
-  defp get_port_os_pid(runtime_port) do
-    case runtime_port |> Port.info(:os_pid) do
-      {:os_pid, pid} -> pid
-      _ -> nil
-    end
+    Phoenix.React.Monitoring.record_runtime_shutdown("Deno", reason)
+    cleanup_runtime_process(state.runtime_port, reason)
   end
 end
