@@ -82,6 +82,14 @@ defmodule Phoenix.React.RuntimeIntegrationTest do
   describe "Deno Runtime Integration" do
     @describetag :deno_runtime
 
+    setup do
+      if System.find_executable("deno") == nil do
+        {:skip, "Deno not available"}
+      else
+        :ok
+      end
+    end
+
     test "configuration validation" do
       # Test valid configuration
       valid_config = %{
@@ -110,11 +118,9 @@ defmodule Phoenix.React.RuntimeIntegrationTest do
       assert {:error, _} = Config.runtime_config(:deno, invalid_config)
     end
 
+    @tag :skip_if_no_deno
     test "runtime startup and shutdown" do
-      # Skip if deno is not available
-      unless System.find_executable("deno") do
-        :skip
-      end
+      # Skip if deno is not available - this is handled by the setup below
 
       # Configure test environment with unique port
       test_port = 15227 + :rand.uniform(1000)
