@@ -113,7 +113,7 @@ defmodule Phoenix.React.RuntimeIntegrationTest do
     test "runtime startup and shutdown" do
       # Skip if deno is not available
       unless System.find_executable("deno") do
-        flunk("Deno not available for integration testing")
+        :skip
       end
 
       # Configure test environment with unique port

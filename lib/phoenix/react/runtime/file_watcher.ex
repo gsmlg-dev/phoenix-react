@@ -15,14 +15,29 @@ defmodule Phoenix.React.Runtime.FileWatcher do
   @impl true
   def init(args) do
     path = Keyword.fetch!(args, :path)
-    {:ok, watcher_pid} = FileSystem.start_link(dirs: [path])
-    FileSystem.subscribe(watcher_pid)
-    IO.puts("Watching #{path} for changes...")
 
-    {:ok,
-     args
-     |> Keyword.put(:watcher_pid, watcher_pid)
-     |> Keyword.put(:update_time, System.os_time(:second))}
+    case FileSystem.start_link(dirs: [path]) do
+      {:ok, watcher_pid} ->
+        FileSystem.subscribe(watcher_pid)
+        IO.puts("Watching #{path} for changes...")
+
+        {:ok,
+         args
+         |> Keyword.put(:watcher_pid, watcher_pid)
+         |> Keyword.put(:update_time, System.os_time(:second))}
+
+      :ignore ->
+        Logger.warning("File system watcher not available (inotify-tools missing)")
+
+        {:ok,
+         args
+         |> Keyword.put(:watcher_pid, nil)
+         |> Keyword.put(:update_time, System.os_time(:second))}
+
+      {:error, reason} ->
+        Logger.error("Failed to start file system watcher: #{inspect(reason)}")
+        {:stop, reason}
+    end
   end
 
   @impl true
