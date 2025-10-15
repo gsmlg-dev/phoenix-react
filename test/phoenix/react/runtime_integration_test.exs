@@ -81,14 +81,7 @@ defmodule Phoenix.React.RuntimeIntegrationTest do
 
   describe "Deno Runtime Integration" do
     @describetag :deno_runtime
-
-    setup do
-      if System.find_executable("deno") == nil do
-        {:skip, "Deno not available"}
-      else
-        :ok
-      end
-    end
+    @describetag :skip_if_no_deno
 
     test "configuration validation" do
       # Test valid configuration
