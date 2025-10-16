@@ -40,21 +40,27 @@ defmodule Phoenix.React.Runtime.Bun do
   @impl true
   @spec handle_continue(:start_port, Phoenix.React.Runtime.t()) ::
           {:noreply, Phoenix.React.Runtime.t()}
+          | {:stop, reason :: term, Phoenix.React.Runtime.t()}
   def handle_continue(:start_port, %Runtime{component_base: component_base} = state) do
     if config()[:env] == :dev do
       start_file_watcher(component_base)
       Phoenix.React.Runtime.FileWatcher.set_ref(self())
     end
 
-    port = start(component_base: component_base)
+    case start(component_base: component_base) do
+      port when is_port(port) ->
+        Logger.debug(
+          "Bun.Server started on port: #{inspect(port)} and OS pid: #{get_port_os_pid(port)}"
+        )
 
-    Logger.debug(
-      "Bun.Server started on port: #{inspect(port)} and OS pid: #{get_port_os_pid(port)}"
-    )
+        Phoenix.React.Server.set_runtime_process(self())
 
-    Phoenix.React.Server.set_runtime_process(self())
+        {:noreply, %Runtime{state | runtime_port: port}}
 
-    {:noreply, %Runtime{state | runtime_port: port}}
+      {:error, reason} ->
+        Logger.error("Failed to start Bun server: #{inspect(reason)}")
+        {:stop, reason, state}
+    end
   end
 
   @impl true

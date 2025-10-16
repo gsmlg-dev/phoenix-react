@@ -43,7 +43,7 @@ defmodule Mix.Tasks.Phx.React.Bun.Bundle do
         {basename, abs_path}
       end)
 
-    quoted = EEx.compile_file("#{__DIR__}/server.js.eex")
+    quoted = EEx.compile_file("#{__DIR__}/server_bun.eex")
     {result, _bindings} = Code.eval_quoted(quoted, files: files, base_dir: base_dir)
     tmp_file = "#{cd}/server.js"
     File.write!(tmp_file, result)

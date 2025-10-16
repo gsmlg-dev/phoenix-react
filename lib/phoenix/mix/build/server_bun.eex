@@ -8,11 +8,12 @@ import { Component as __component_<%= idx %> } from "<%= file %>";
 __comMap["<%= name %>"] = __component_<%= idx %>;
 <% end %>
 
-const { COMPONENT_BASE, BUN_ENV } = process.env;
+const { COMPONENT_BASE, BUN_ENV, BUN_PORT } = process.env;
 
 const isDev = BUN_ENV === 'development';
 
 const server = serve({
+  port: parseInt(BUN_PORT || "5225"),
   development: isDev,
   async fetch(req) {
     try {

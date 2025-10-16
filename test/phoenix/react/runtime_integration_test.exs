@@ -51,22 +51,41 @@ defmodule Phoenix.React.RuntimeIntegrationTest do
         flunk("Bun not available for integration testing")
       end
 
-      # Configure test environment with unique port
-      test_port = 15225 + :rand.uniform(1000)
+      # Try multiple times to find an available port
+      {_test_port, pid} =
+        Enum.reduce_while(1..5, nil, fn _attempt, _acc ->
+          test_port = 15225 + :rand.uniform(1000)
 
-      Application.put_env(:phoenix_react_server, Bun,
-        cmd: System.find_executable("bun"),
-        port: test_port,
-        env: :dev,
-        cd: File.cwd!()
-      )
+          Application.put_env(:phoenix_react_server, Bun,
+            cmd: System.find_executable("bun"),
+            port: test_port,
+            env: :dev,
+            cd: File.cwd!()
+          )
 
-      # Start the runtime without name registration
-      {:ok, pid} =
-        GenServer.start_link(Bun, component_base: "test/fixtures", render_timeout: 5000)
+          # Start the runtime without name registration
+          case GenServer.start_link(Bun, component_base: "test/fixtures", render_timeout: 5000) do
+            {:ok, pid} ->
+              # Give it time to start
+              Process.sleep(2000)
 
-      # Give it time to start
-      Process.sleep(2000)
+              if Process.alive?(pid) do
+                {:halt, {test_port, pid}}
+              else
+                # Process died, try another port
+                {:cont, nil}
+              end
+
+            {:error, _reason} ->
+              # Failed to start, try another port
+              {:cont, nil}
+          end
+        end)
+
+      # If we couldn't find a working port, fail the test
+      if pid == nil do
+        flunk("Could not start Bun runtime after 5 attempts")
+      end
 
       # Verify it's running
       assert Process.alive?(pid)
